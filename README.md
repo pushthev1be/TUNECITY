@@ -1,6 +1,10 @@
 # TuneCity
 
 A pixel-art browser game where you build, tune, and diagnose cars. No driving — pure constraint-satisfaction puzzle. Spec a build, fire the ignition, and see if your machine holds together.
+<img width="1875" height="929" alt="image" src="https://github.com/user-attachments/assets/a7b93a52-fc2a-4276-8fbb-cc0f74d03ac3" />
+
+
+https://youtu.be/RN81UVjhU4o
 
 ## Stack
 
