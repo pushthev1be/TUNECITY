@@ -1,0 +1,241 @@
+[
+  {
+    "id": "civic_eg_92_project",
+    "name": "1992 Honda Civic EG",
+    "tier": 1,
+    "sprite_garage": "civic_eg_portrait",
+    "sprite_thumb": "civic_eg_thumb",
+    "stock_stats": {
+      "hp": 102,
+      "torque": 98,
+      "weight": 2200,
+      "grip": 0.72,
+      "drag_coefficient": 0.36,
+      "frontal_area": 18.5,
+      "cooling_capacity": 60
+    },
+    "limits": {
+      "chassis_rating": 300,
+      "drivetrain_rating": 250,
+      "max_tire_width": 225,
+      "fender_clearance": 8
+    },
+    "driveline": "FWD",
+    "slots": [
+      "engine", "intake", "forced_induction", "exhaust",
+      "transmission", "differential", "tires", "wheels",
+      "suspension", "ecu", "cooling",
+      "weight_reduction", "nitrous", "engine_internals", "brakes"
+    ],
+    "starting_condition": "project",
+    "cost": 0
+  },
+  {
+    "id": "charger_69_rt",
+    "name": "1969 Dodge Charger R/T",
+    "tier": 2,
+    "sprite_garage": "charger_69_portrait",
+    "sprite_thumb": "charger_69_thumb",
+    "stock_stats": {
+      "hp": 425,
+      "torque": 490,
+      "weight": 3650,
+      "grip": 0.62,
+      "drag_coefficient": 0.51,
+      "frontal_area": 22.5,
+      "cooling_capacity": 80
+    },
+    "limits": {
+      "chassis_rating": 600,
+      "drivetrain_rating": 500,
+      "max_tire_width": 295,
+      "fender_clearance": 11
+    },
+    "driveline": "RWD",
+    "slots": [
+      "engine", "intake", "forced_induction", "exhaust",
+      "transmission", "differential", "tires", "wheels",
+      "suspension", "ecu", "cooling",
+      "weight_reduction", "nitrous", "engine_internals", "brakes"
+    ],
+    "starting_condition": "running",
+    "cost": 8500
+  },
+  {
+    "id": "bmw_m4_comp",
+    "name": "BMW M4 Competition",
+    "tier": 3,
+    "sprite_garage": "m4_portrait",
+    "sprite_thumb": "m4_thumb",
+    "stock_stats": {
+      "hp": 503,
+      "torque": 479,
+      "weight": 3856,
+      "grip": 0.88,
+      "drag_coefficient": 0.33,
+      "frontal_area": 20.4,
+      "cooling_capacity": 110
+    },
+    "limits": {
+      "chassis_rating": 800,
+      "drivetrain_rating": 650,
+      "max_tire_width": 285,
+      "fender_clearance": 10
+    },
+    "driveline": "RWD",
+    "slots": [
+      "engine", "intake", "forced_induction", "exhaust",
+      "transmission", "differential", "tires", "wheels",
+      "suspension", "ecu", "cooling",
+      "weight_reduction", "nitrous", "engine_internals", "brakes"
+    ],
+    "starting_condition": "running",
+    "cost": 28000
+  },
+  {
+    "id": "lamborghini_urus",
+    "name": "Lamborghini Urus",
+    "tier": 4,
+    "sprite_garage": "urus_portrait",
+    "sprite_thumb": "urus_thumb",
+    "stock_stats": {
+      "hp": 650,
+      "torque": 627,
+      "weight": 4850,
+      "grip": 0.85,
+      "drag_coefficient": 0.37,
+      "frontal_area": 28.0,
+      "cooling_capacity": 140
+    },
+    "limits": {
+      "chassis_rating": 1000,
+      "drivetrain_rating": 850,
+      "max_tire_width": 305,
+      "fender_clearance": 12
+    },
+    "driveline": "AWD",
+    "slots": [
+      "engine", "intake", "forced_induction", "exhaust",
+      "transmission", "differential", "tires", "wheels",
+      "suspension", "ecu", "cooling",
+      "weight_reduction", "nitrous", "engine_internals", "brakes"
+    ],
+    "starting_condition": "running",
+    "cost": 65000
+  },
+  {
+    "id": "corvette_c5",
+    "name": "2001 Chevrolet Corvette C5",
+    "tier": 2,
+    "sprite_garage": "vette_portrait",
+    "sprite_thumb": "vette_thumb",
+    "stock_stats": {
+      "hp": 350,
+      "torque": 375,
+      "weight": 3246,
+      "grip": 0.78,
+      "drag_coefficient": 0.29,
+      "frontal_area": 19.8,
+      "cooling_capacity": 90
+    },
+    "limits": {
+      "chassis_rating": 550,
+      "drivetrain_rating": 450,
+      "max_tire_width": 285,
+      "fender_clearance": 11
+    },
+    "driveline": "RWD",
+    "slots": [
+      "engine", "intake", "forced_induction", "exhaust",
+      "transmission", "differential", "tires", "wheels",
+      "suspension", "ecu", "cooling",
+      "weight_reduction", "nitrous", "engine_internals", "brakes"
+    ],
+    "starting_condition": "running",
+    "cost": 12000
+  },
+  {
+    "id": "toyota_camry",
+    "name": "Toyota Camry",
+    "tier": 1,
+    "sprite_garage": "camry",
+    "driveline": "FWD",
+    "slots": ["engine", "intake", "forced_induction", "exhaust", "transmission", "differential", "tires", "wheels", "suspension", "ecu", "cooling", "weight_reduction", "nitrous", "engine_internals", "brakes"],
+    "starting_condition": "running",
+    "cost": 5000,
+    "stock_stats": { "hp": 200, "torque": 180, "weight": 3300, "grip": 0.70, "drag_coefficient": 0.30, "frontal_area": 20, "cooling_capacity": 60 },
+    "limits": { "chassis_rating": 400, "drivetrain_rating": 300, "max_tire_width": 245, "fender_clearance": 8 }
+  },
+  {
+    "id": "dodge_hellcat",
+    "name": "Dodge Hellcat",
+    "tier": 3,
+    "sprite_garage": "hellcat",
+    "driveline": "RWD",
+    "slots": ["engine", "intake", "forced_induction", "exhaust", "transmission", "differential", "tires", "wheels", "suspension", "ecu", "cooling", "weight_reduction", "nitrous", "engine_internals", "brakes"],
+    "starting_condition": "running",
+    "cost": 45000,
+    "stock_stats": { "hp": 707, "torque": 650, "weight": 4448, "grip": 0.80, "drag_coefficient": 0.38, "frontal_area": 24, "cooling_capacity": 100 },
+    "limits": { "chassis_rating": 900, "drivetrain_rating": 800, "max_tire_width": 315, "fender_clearance": 12 }
+  },
+  {
+    "id": "ram_truck",
+    "name": "Ram Truck",
+    "tier": 2,
+    "sprite_garage": "ram_truck",
+    "driveline": "AWD",
+    "slots": ["engine", "intake", "forced_induction", "exhaust", "transmission", "differential", "tires", "wheels", "suspension", "ecu", "cooling", "weight_reduction", "nitrous", "engine_internals", "brakes"],
+    "starting_condition": "running",
+    "cost": 30000,
+    "stock_stats": { "hp": 395, "torque": 410, "weight": 5300, "grip": 0.65, "drag_coefficient": 0.45, "frontal_area": 35, "cooling_capacity": 120 },
+    "limits": { "chassis_rating": 700, "drivetrain_rating": 600, "max_tire_width": 325, "fender_clearance": 14 }
+  },
+  {
+    "id": "subaru_wrx",
+    "name": "Subaru WRX",
+    "tier": 2,
+    "sprite_garage": "subaru",
+    "driveline": "AWD",
+    "slots": ["engine", "intake", "forced_induction", "exhaust", "transmission", "differential", "tires", "wheels", "suspension", "ecu", "cooling", "weight_reduction", "nitrous", "engine_internals", "brakes"],
+    "starting_condition": "running",
+    "cost": 25000,
+    "stock_stats": { "hp": 268, "torque": 258, "weight": 3296, "grip": 0.82, "drag_coefficient": 0.32, "frontal_area": 22, "cooling_capacity": 80 },
+    "limits": { "chassis_rating": 550, "drivetrain_rating": 500, "max_tire_width": 265, "fender_clearance": 10 }
+  },
+  {
+    "id": "mystery_0e",
+    "name": "Mystery Car 1",
+    "tier": 1,
+    "sprite_garage": "mystery_0e",
+    "driveline": "RWD",
+    "slots": ["engine", "intake", "forced_induction", "exhaust", "transmission", "differential", "tires", "wheels", "suspension", "ecu", "cooling", "weight_reduction", "nitrous", "engine_internals", "brakes"],
+    "starting_condition": "project",
+    "cost": 2000,
+    "stock_stats": { "hp": 150, "torque": 150, "weight": 2500, "grip": 0.75, "drag_coefficient": 0.35, "frontal_area": 19, "cooling_capacity": 50 },
+    "limits": { "chassis_rating": 350, "drivetrain_rating": 300, "max_tire_width": 255, "fender_clearance": 9 }
+  },
+  {
+    "id": "mystery_88",
+    "name": "Mystery Car 2",
+    "tier": 1,
+    "sprite_garage": "mystery_88",
+    "driveline": "RWD",
+    "slots": ["engine", "intake", "forced_induction", "exhaust", "transmission", "differential", "tires", "wheels", "suspension", "ecu", "cooling", "weight_reduction", "nitrous", "engine_internals", "brakes"],
+    "starting_condition": "project",
+    "cost": 2000,
+    "stock_stats": { "hp": 150, "torque": 150, "weight": 2500, "grip": 0.75, "drag_coefficient": 0.35, "frontal_area": 19, "cooling_capacity": 50 },
+    "limits": { "chassis_rating": 350, "drivetrain_rating": 300, "max_tire_width": 255, "fender_clearance": 9 }
+  },
+  {
+    "id": "mystery_ae",
+    "name": "Mystery Car 3",
+    "tier": 1,
+    "sprite_garage": "mystery_ae",
+    "driveline": "RWD",
+    "slots": ["engine", "intake", "forced_induction", "exhaust", "transmission", "differential", "tires", "wheels", "suspension", "ecu", "cooling", "weight_reduction", "nitrous", "engine_internals", "brakes"],
+    "starting_condition": "project",
+    "cost": 2000,
+    "stock_stats": { "hp": 150, "torque": 150, "weight": 2500, "grip": 0.75, "drag_coefficient": 0.35, "frontal_area": 19, "cooling_capacity": 50 },
+    "limits": { "chassis_rating": 350, "drivetrain_rating": 300, "max_tire_width": 255, "fender_clearance": 9 }
+  }
+]

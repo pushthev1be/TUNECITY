@@ -1,0 +1,282 @@
+[
+  {
+    "id": "wont_turn_over",
+    "label": "Won't Turn Over",
+    "category": "catastrophic",
+    "severity": "critical",
+    "description": "Missing battery, ignition coil, or engine. Car is a paperweight.",
+    "sub_causes": ["Battery not installed", "Ignition coil missing", "No engine installed"],
+    "consequences": ["No electrical signal to starter", "Engine cranks air only"],
+    "effects": {},
+    "blocks_ignition": true,
+    "ignition_animation": "dead_silence"
+  },
+  {
+    "id": "no_spark",
+    "label": "No Spark",
+    "category": "catastrophic",
+    "severity": "critical",
+    "description": "Ignition coil or spark plugs missing. Fuel, no fire.",
+    "sub_causes": ["Ignition coil not installed", "Spark plugs missing"],
+    "consequences": ["Fuel floods cylinders unburned", "No combustion possible"],
+    "effects": {},
+    "blocks_ignition": true,
+    "ignition_animation": "crank_no_start"
+  },
+  {
+    "id": "no_compression",
+    "label": "No Compression",
+    "category": "catastrophic",
+    "severity": "critical",
+    "description": "Head gasket missing. Combustion chamber can't hold pressure.",
+    "sub_causes": ["Head gasket not installed", "Combustion chamber open to coolant jacket"],
+    "consequences": ["Pressure bleeds into water jacket", "Engine spins freely, no fire"],
+    "effects": {},
+    "blocks_ignition": true,
+    "ignition_animation": "crank_no_start"
+  },
+  {
+    "id": "fuel_starved",
+    "label": "Fuel Starved",
+    "category": "catastrophic",
+    "severity": "severe",
+    "description": "Fuel pump can't keep up with demand. Engine runs lean and dies.",
+    "sub_causes": ["Fuel pump flow rate below 60% of HP demand", "No fuel pump installed"],
+    "consequences": ["Dangerously lean air-fuel ratio", "Engine dies at idle or under load"],
+    "effects": {},
+    "blocks_ignition": true,
+    "ignition_animation": "sputter_die"
+  },
+  {
+    "id": "grenaded",
+    "label": "Grenaded",
+    "category": "catastrophic",
+    "severity": "critical",
+    "description": "HP so far past drivetrain rating the transmission explodes on first rev.",
+    "sub_causes": ["HP exceeds drivetrain rating by 30%+", "Chassis load beyond structural limit"],
+    "consequences": ["Transmission shatters on first rev", "Driveshaft ejection risk"],
+    "effects": {},
+    "blocks_ignition": true,
+    "ignition_animation": "explosion"
+  },
+  {
+    "id": "overheated",
+    "label": "Overheated",
+    "category": "catastrophic",
+    "severity": "severe",
+    "description": "Heat output exceeds cooling capacity by 30%. Engine cooks itself.",
+    "sub_causes": ["Heat output 30%+ above cooling capacity", "Cooling system undersized for build"],
+    "consequences": ["Pistons seize under thermal expansion", "Head warps", "Coolant flash-boils"],
+    "effects": {},
+    "blocks_ignition": true,
+    "ignition_animation": "smoke_billow"
+  },
+  {
+    "id": "hydrolocked",
+    "label": "Hydrolocked",
+    "category": "catastrophic",
+    "severity": "critical",
+    "description": "Water in the intake destroyed pistons and rods.",
+    "sub_causes": ["Water ingested into combustion chamber", "No intake protection"],
+    "consequences": ["Connecting rods bent on hydraulic lock", "Engine total loss"],
+    "effects": {},
+    "blocks_ignition": true,
+    "ignition_animation": "explosion"
+  },
+  {
+    "id": "nos_stress",
+    "label": "NOS Stress",
+    "category": "penalty",
+    "severity": "moderate",
+    "description": "Nitrous is pushing the drivetrain past its comfort zone. Drivetrain life is counting down.",
+    "sub_causes": ["Nitrous drivetrain stress factor above 1.2"],
+    "consequences": ["Accelerated transmission wear", "Differential fatigue under load"],
+    "effects": {
+      "reliability": -12,
+      "heat_output": 20
+    },
+    "blocks_ignition": false
+  },
+  {
+    "id": "blown",
+    "label": "Blown",
+    "category": "penalty",
+    "severity": "moderate",
+    "description": "Drivetrain output exceeds rating. Running near grenade limit.",
+    "sub_causes": ["HP 10–30% above drivetrain rating"],
+    "consequences": ["Transmission lifespan reduced", "Clutch slipping under full load"],
+    "effects": {
+      "reliability": -20,
+      "heat_output": 30
+    },
+    "blocks_ignition": false
+  },
+  {
+    "id": "overheating",
+    "label": "Running Hot",
+    "category": "penalty",
+    "severity": "low",
+    "description": "Heat output moderately exceeds cooling. Reliability suffers.",
+    "sub_causes": ["Heat output 10–30% above cooling capacity"],
+    "consequences": ["Reliability degraded over time", "Oil viscosity breakdown risk"],
+    "effects": {
+      "reliability": -15
+    },
+    "blocks_ignition": false
+  },
+  {
+    "id": "turbo_lag",
+    "label": "Turbo Lag",
+    "category": "penalty",
+    "severity": "low",
+    "description": "High spool time. Power delivery is inconsistent off the line.",
+    "sub_causes": ["Turbo spool time above 0.4s"],
+    "consequences": ["Poor off-the-line acceleration", "Hesitation on initial throttle input"],
+    "effects": {
+      "zero_to_sixty": 0.4,
+      "quarter_mile": 0.3
+    },
+    "blocks_ignition": false
+  },
+  {
+    "id": "bogs_down",
+    "label": "Bogs Down",
+    "category": "penalty",
+    "severity": "low",
+    "description": "Peak power RPM is above the transmission shift point. Power gets cut short.",
+    "sub_causes": ["Peak HP RPM exceeds shift point by 1500+"],
+    "consequences": ["Power band cut short in each gear", "Quarter mile time suffers"],
+    "effects": {
+      "quarter_mile": 0.5
+    },
+    "blocks_ignition": false
+  },
+  {
+    "id": "rubs",
+    "label": "Rubs",
+    "category": "penalty",
+    "severity": "low",
+    "description": "Tires too wide for the fender. Rubbing at full lock.",
+    "sub_causes": ["Tire width exceeds fender clearance"],
+    "consequences": ["Tire wear accelerated at full lock", "Unpredictable handling at limits"],
+    "effects": {
+      "grip": -0.1,
+      "reliability": -5
+    },
+    "blocks_ignition": false
+  },
+  {
+    "id": "scrapes",
+    "label": "Scrapes",
+    "category": "penalty",
+    "severity": "low",
+    "description": "Splitter and low ride height combination scrapes on anything but a billiards table.",
+    "sub_causes": ["Ride height below 4 inches with splitter fitted"],
+    "consequences": ["Undercarriage damage on road imperfections", "Splitter clips curbs"],
+    "effects": {
+      "reliability": -5
+    },
+    "blocks_ignition": false
+  },
+  {
+    "id": "topped_out",
+    "label": "Topped Out",
+    "category": "penalty",
+    "severity": "low",
+    "description": "Diff ratio too tall — car hits its gearing ceiling before aerodynamic top speed.",
+    "sub_causes": ["Differential ratio above 4.5 with sub-150mph top speed"],
+    "consequences": ["Top speed capped by gearing not aerodynamics", "Last gear underutilized"],
+    "effects": {
+      "top_speed": -15
+    },
+    "blocks_ignition": false
+  },
+  {
+    "id": "sleeper",
+    "label": "Sleeper",
+    "category": "positive",
+    "description": "Monster power hiding under a stock exterior. Nobody sees it coming.",
+    "effects": {},
+    "blocks_ignition": false
+  },
+  {
+    "id": "all_motor",
+    "label": "All Motor",
+    "category": "positive",
+    "description": "No forced induction. Pure naturally aspirated muscle.",
+    "effects": {
+      "reliability": 5
+    },
+    "blocks_ignition": false
+  },
+  {
+    "id": "balanced",
+    "label": "Balanced Build",
+    "category": "positive",
+    "description": "HP, grip, and aero in harmony. A well-rounded machine.",
+    "effects": {
+      "reliability": 8
+    },
+    "blocks_ignition": false
+  },
+  {
+    "id": "track_prepped",
+    "label": "Track Prepped",
+    "category": "positive",
+    "description": "Aero, race suspension, light weight. This car was born for a circuit.",
+    "effects": {
+      "grip": 0.05
+    },
+    "blocks_ignition": false
+  },
+  {
+    "id": "oem_spec",
+    "label": "OEM Spec",
+    "category": "positive",
+    "description": "Engine, trans, and diff from the same OEM family. Perfect compatibility.",
+    "effects": {
+      "reliability": 10
+    },
+    "blocks_ignition": false
+  },
+  {
+    "id": "widowmaker",
+    "label": "Widowmaker",
+    "category": "character",
+    "description": "Massive power, sketchy grip, rear-wheel drive. Pray for straight roads.",
+    "effects": {},
+    "blocks_ignition": false
+  },
+  {
+    "id": "garage_queen",
+    "label": "Garage Queen",
+    "category": "character",
+    "description": "Expensive and heavy. More show than go.",
+    "effects": {},
+    "blocks_ignition": false
+  },
+  {
+    "id": "grocery_getter",
+    "label": "Grocery Getter",
+    "category": "character",
+    "description": "All stock parts. Dependable but uninspiring.",
+    "effects": {},
+    "blocks_ignition": false
+  },
+  {
+    "id": "rat_rod",
+    "label": "Rat Rod",
+    "category": "character",
+    "description": "Rough looks, serious power. Character over polish.",
+    "effects": {},
+    "blocks_ignition": false
+  },
+  {
+    "id": "riceburner",
+    "label": "Riceburner",
+    "category": "character",
+    "description": "Huge wing on a tiny engine. Drag without the downforce.",
+    "effects": {},
+    "blocks_ignition": false
+  }
+]

@@ -1,0 +1,1396 @@
+[
+  {
+    "id": "engine_b18_stock",
+    "name": "B18 Stock Engine",
+    "category": "engine",
+    "sprite": "engine_b18",
+    "tier": 1,
+    "cost": 800,
+    "scrap_value": 144,
+    "stats": {
+      "hp_bonus": 102,
+      "torque_bonus": 98,
+      "weight": 280,
+      "heat_output": 60,
+      "cylinder_count": 4,
+      "displacement": 1.8,
+      "peak_hp_rpm": 7600,
+      "oem_family": "honda"
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "The trusty B18. Revs freely, begs to be built."
+  },
+  {
+    "id": "engine_k20_built",
+    "name": "K20 Built Motor",
+    "category": "engine",
+    "sprite": "engine_k20",
+    "tier": 2,
+    "cost": 4500,
+    "scrap_value": 810,
+    "stats": {
+      "hp_bonus": 220,
+      "torque_bonus": 160,
+      "weight": 290,
+      "heat_output": 85,
+      "cylinder_count": 4,
+      "displacement": 2.0,
+      "peak_hp_rpm": 8200,
+      "oem_family": "honda"
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Forged internals, ported head. A K-series war machine."
+  },
+  {
+    "id": "engine_hemi_426_stroker",
+    "name": "426 Hemi Stroker",
+    "category": "engine",
+    "sprite": "engine_hemi",
+    "tier": 3,
+    "cost": 18000,
+    "scrap_value": 3240,
+    "stats": {
+      "hp_bonus": 580,
+      "torque_bonus": 620,
+      "weight": 680,
+      "heat_output": 160,
+      "cylinder_count": 8,
+      "displacement": 7.0,
+      "peak_hp_rpm": 6200,
+      "oem_family": "dodge"
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "The original muscle. 7 litres of American thunder."
+  },
+  {
+    "id": "engine_ls3",
+    "name": "LS3 Crate Motor",
+    "category": "engine",
+    "sprite": "engine_ls3",
+    "tier": 3,
+    "cost": 12000,
+    "scrap_value": 2160,
+    "stats": {
+      "hp_bonus": 430,
+      "torque_bonus": 424,
+      "weight": 460,
+      "heat_output": 130,
+      "cylinder_count": 8,
+      "displacement": 6.2,
+      "peak_hp_rpm": 6200,
+      "oem_family": "gm"
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "LS swap everything. Lightweight, torquey, bulletproof."
+  },
+  {
+    "id": "engine_subaru_ej25",
+    "name": "EJ25 Boxer Engine",
+    "category": "engine",
+    "sprite": "subaru_engine",
+    "tier": 2,
+    "cost": 5500,
+    "scrap_value": 990,
+    "stats": {
+      "hp_bonus": 268,
+      "torque_bonus": 258,
+      "weight": 320,
+      "heat_output": 90,
+      "cylinder_count": 4,
+      "displacement": 2.5,
+      "peak_hp_rpm": 6000,
+      "oem_family": "subaru"
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Flat-four, low centre of gravity, iconic rumble. Begs for a turbo."
+  },
+  {
+    "id": "engine_m4_s55",
+    "name": "S55 Inline-6",
+    "category": "engine",
+    "sprite": "m4_engine",
+    "tier": 3,
+    "cost": 20000,
+    "scrap_value": 3600,
+    "stats": {
+      "hp_bonus": 503,
+      "torque_bonus": 479,
+      "weight": 430,
+      "heat_output": 150,
+      "cylinder_count": 6,
+      "displacement": 3.0,
+      "peak_hp_rpm": 7300,
+      "oem_family": "bmw"
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "BMW's twin-turbocharged war motor. Precision-built German aggression."
+  },
+  {
+    "id": "engine_hellcat_hemi",
+    "name": "6.2L Supercharged Hemi",
+    "category": "engine",
+    "sprite": "hellcat_engine",
+    "tier": 4,
+    "cost": 22000,
+    "scrap_value": 3960,
+    "stats": {
+      "hp_bonus": 707,
+      "torque_bonus": 650,
+      "weight": 510,
+      "heat_output": 200,
+      "cylinder_count": 8,
+      "displacement": 6.2,
+      "peak_hp_rpm": 6200,
+      "oem_family": "dodge"
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "From the factory with a blower bolted on top. 707 horsepower of unapologetic excess."
+  },
+  {
+    "id": "engine_porsche_flat6",
+    "name": "4.0 Flat-Six",
+    "category": "engine",
+    "sprite": "porsche_engine",
+    "tier": 3,
+    "cost": 28000,
+    "scrap_value": 5040,
+    "stats": {
+      "hp_bonus": 502,
+      "torque_bonus": 347,
+      "weight": 420,
+      "heat_output": 140,
+      "cylinder_count": 6,
+      "displacement": 4.0,
+      "peak_hp_rpm": 8400,
+      "oem_family": "porsche"
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Naturally aspirated flat-six. Screams to 8400 RPM. Surgical precision."
+  },
+  {
+    "id": "engine_mercedes_amg_v8",
+    "name": "4.0 AMG Biturbo V8",
+    "category": "engine",
+    "sprite": "mercedes_engine",
+    "tier": 3,
+    "cost": 32000,
+    "scrap_value": 5760,
+    "stats": {
+      "hp_bonus": 577,
+      "torque_bonus": 590,
+      "weight": 490,
+      "heat_output": 170,
+      "cylinder_count": 8,
+      "displacement": 4.0,
+      "peak_hp_rpm": 6500,
+      "oem_family": "mercedes"
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Turbines inside the vee. Violent torque from 1750 RPM."
+  },
+  {
+    "id": "engine_lamborghini_urus_v8",
+    "name": "4.0 Twin-Turbo V8 (Urus)",
+    "category": "engine",
+    "sprite": "lamborghini_urus_engine",
+    "tier": 4,
+    "cost": 45000,
+    "scrap_value": 8100,
+    "stats": {
+      "hp_bonus": 650,
+      "torque_bonus": 627,
+      "weight": 470,
+      "heat_output": 180,
+      "cylinder_count": 8,
+      "displacement": 4.0,
+      "peak_hp_rpm": 6800,
+      "oem_family": "lamborghini"
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Lamborghini's twin-turbocharged V8. Exotic hardware. Exotic price."
+  },
+  {
+    "id": "engine_ram_hemi",
+    "name": "6.4 HEMI V8",
+    "category": "engine",
+    "sprite": "ram_jeep_engine",
+    "tier": 2,
+    "cost": 9500,
+    "scrap_value": 1710,
+    "stats": {
+      "hp_bonus": 395,
+      "torque_bonus": 410,
+      "weight": 520,
+      "heat_output": 130,
+      "cylinder_count": 8,
+      "displacement": 6.4,
+      "peak_hp_rpm": 6000,
+      "oem_family": "dodge"
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "The 392. Torque for days. Needs a bigger chassis underneath it."
+  },
+  {
+    "id": "intake_stock_airbox",
+    "name": "Stock Airbox",
+    "category": "intake",
+    "sprite": "intake_stock",
+    "tier": 1,
+    "cost": 0,
+    "scrap_value": 0,
+    "stats": {
+      "hp_multiplier": 1.0,
+      "weight": 4,
+      "water_safe": true
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Factory intake. Reliable, boring."
+  },
+  {
+    "id": "intake_cone",
+    "name": "Cone Filter Intake",
+    "category": "intake",
+    "sprite": "intake_cone",
+    "tier": 2,
+    "cost": 350,
+    "scrap_value": 63,
+    "stats": {
+      "hp_multiplier": 1.05,
+      "weight": 2,
+      "water_safe": false
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "More airflow, louder induction noise, and it hates puddles."
+  },
+  {
+    "id": "intake_velocity_stacks",
+    "name": "Velocity Stacks",
+    "category": "intake",
+    "sprite": "intake_stacks",
+    "tier": 3,
+    "cost": 2800,
+    "scrap_value": 504,
+    "stats": {
+      "hp_multiplier": 1.12,
+      "cooling_bonus": 8,
+      "weight": 3,
+      "water_safe": false
+    },
+    "requires": [],
+    "conflicts_with": ["turbo_single", "turbo_twin", "supercharger_roots"],
+    "description": "Open trumpets tuned for max volumetric efficiency. NA only."
+  },
+  {
+    "id": "intake_twin_cone",
+    "name": "Twin Cone Filters",
+    "category": "intake",
+    "sprite": "intake_twin_cone",
+    "tier": 2,
+    "cost": 580,
+    "scrap_value": 104,
+    "stats": {
+      "hp_multiplier": 1.07,
+      "weight": 3,
+      "water_safe": false
+    },
+    "requires": [],
+    "conflicts_with": ["intake_velocity_stacks"],
+    "description": "Two parallel cone filters, mounted side by side. More flow than a single, less drama than stacks."
+  },
+  {
+    "id": "intake_carbon_cold_air",
+    "name": "Carbon Fibre Cold Air Intake",
+    "category": "intake",
+    "sprite": "intake_carbon",
+    "tier": 2,
+    "cost": 900,
+    "scrap_value": 162,
+    "stats": {
+      "hp_multiplier": 1.06,
+      "cooling_bonus": 12,
+      "weight": 2,
+      "water_safe": false
+    },
+    "requires": [],
+    "conflicts_with": ["intake_velocity_stacks"],
+    "description": "Carbon tube routes cold air from the bumper. Cooler charge, denser combustion."
+  },
+  {
+    "id": "turbo_single",
+    "name": "Single T3/T4 Turbo",
+    "category": "forced_induction",
+    "sprite": "turbo_single",
+    "tier": 2,
+    "cost": 2200,
+    "scrap_value": 396,
+    "stats": {
+      "hp_bonus": 120,
+      "torque_bonus": 100,
+      "weight": 18,
+      "heat_output": 80,
+      "lag": 0.3,
+      "drivetrain_stress": 1.2
+    },
+    "requires": [],
+    "conflicts_with": ["supercharger_roots", "turbo_twin"],
+    "description": "A modest single. Low lag, modest gains, great streetability."
+  },
+  {
+    "id": "turbo_twin",
+    "name": "Twin T72 Turbos",
+    "category": "forced_induction",
+    "sprite": "turbo_twin",
+    "tier": 3,
+    "cost": 8500,
+    "scrap_value": 1530,
+    "stats": {
+      "hp_bonus": 280,
+      "torque_bonus": 220,
+      "weight": 45,
+      "heat_output": 180,
+      "lag": 0.6,
+      "drivetrain_stress": 1.4
+    },
+    "requires": [{ "stat": "cylinder_count", "op": "gte", "value": 6 }],
+    "conflicts_with": ["supercharger_roots", "turbo_single"],
+    "description": "Big twin snails. Lots of lag, lots of top end."
+  },
+  {
+    "id": "supercharger_roots",
+    "name": "Roots Supercharger",
+    "category": "forced_induction",
+    "sprite": "supercharger_roots",
+    "tier": 3,
+    "cost": 6500,
+    "scrap_value": 1170,
+    "stats": {
+      "hp_bonus": 200,
+      "torque_bonus": 240,
+      "weight": 55,
+      "heat_output": 120,
+      "lag": 0.0,
+      "drivetrain_stress": 1.3
+    },
+    "requires": [],
+    "conflicts_with": ["turbo_single", "turbo_twin"],
+    "description": "Instant torque, belt-driven. Sits on top of the engine like a crown."
+  },
+  {
+    "id": "turbo_sequential",
+    "name": "Sequential Twin Turbo",
+    "category": "forced_induction",
+    "sprite": "turbo_sequential",
+    "tier": 3,
+    "cost": 7500,
+    "scrap_value": 1350,
+    "stats": {
+      "hp_bonus": 200,
+      "torque_bonus": 180,
+      "weight": 38,
+      "heat_output": 140,
+      "lag": 0.35,
+      "drivetrain_stress": 1.35
+    },
+    "requires": [],
+    "conflicts_with": ["turbo_single", "turbo_twin", "supercharger_roots", "turbo_compound", "turbo_hybrid", "turbo_antilag"],
+    "description": "Small primary spools instantly. Large secondary takes over at high RPM. Best of both worlds."
+  },
+  {
+    "id": "turbo_compound",
+    "name": "Compound Turbo Setup",
+    "category": "forced_induction",
+    "sprite": "turbo_compound",
+    "tier": 4,
+    "cost": 18000,
+    "scrap_value": 3240,
+    "stats": {
+      "hp_bonus": 380,
+      "torque_bonus": 300,
+      "weight": 62,
+      "heat_output": 240,
+      "lag": 0.7,
+      "drivetrain_stress": 1.55
+    },
+    "requires": [{ "stat": "cylinder_count", "op": "gte", "value": 6 }],
+    "conflicts_with": ["turbo_single", "turbo_twin", "supercharger_roots", "turbo_sequential", "turbo_hybrid", "turbo_antilag"],
+    "description": "Two turbos in series. Low-pressure feeds the high-pressure. Extreme boost. Extreme consequences."
+  },
+  {
+    "id": "turbo_hybrid",
+    "name": "Hybrid Electric Turbo",
+    "category": "forced_induction",
+    "sprite": "turbo_hybrid",
+    "tier": 3,
+    "cost": 5500,
+    "scrap_value": 990,
+    "stats": {
+      "hp_bonus": 160,
+      "torque_bonus": 140,
+      "weight": 22,
+      "heat_output": 85,
+      "lag": 0.1,
+      "drivetrain_stress": 1.25
+    },
+    "requires": [],
+    "conflicts_with": ["turbo_single", "turbo_twin", "supercharger_roots", "turbo_compound", "turbo_sequential", "turbo_antilag"],
+    "description": "Electric motor spins the compressor at zero RPM. No lag. Whisper-quiet until full boost."
+  },
+  {
+    "id": "turbo_antilag",
+    "name": "Anti-Lag Rally Turbo",
+    "category": "forced_induction",
+    "sprite": "turbo_antilag",
+    "tier": 3,
+    "cost": 4800,
+    "scrap_value": 864,
+    "stats": {
+      "hp_bonus": 140,
+      "torque_bonus": 130,
+      "weight": 20,
+      "heat_output": 130,
+      "lag": 0.05,
+      "drivetrain_stress": 1.3
+    },
+    "requires": [],
+    "conflicts_with": ["turbo_single", "turbo_twin", "supercharger_roots", "turbo_compound", "turbo_sequential", "turbo_hybrid"],
+    "description": "Anti-lag keeps boost live on the overrun. Cracks, pops, and instant response. Eats itself slowly."
+  },
+  {
+    "id": "exhaust_stock",
+    "name": "Stock Exhaust",
+    "category": "exhaust",
+    "sprite": "exhaust_stock",
+    "tier": 1,
+    "cost": 0,
+    "scrap_value": 0,
+    "stats": {
+      "hp_multiplier": 1.0,
+      "weight": 35
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Factory pipes. Quiet and restrictive."
+  },
+  {
+    "id": "exhaust_long_tube_headers",
+    "name": "Long Tube Headers",
+    "category": "exhaust",
+    "sprite": "exhaust_headers",
+    "tier": 2,
+    "cost": 1800,
+    "scrap_value": 324,
+    "stats": {
+      "hp_multiplier": 1.08,
+      "weight": 22
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Equal-length primaries for peak scavenging. Loud. Very loud."
+  },
+  {
+    "id": "exhaust_straight_pipe",
+    "name": "Straight Pipe",
+    "category": "exhaust",
+    "sprite": "exhaust_straight",
+    "tier": 2,
+    "cost": 600,
+    "scrap_value": 108,
+    "stats": {
+      "hp_multiplier": 1.06,
+      "weight": 12
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Zero restriction. Zero sound deadening. Your neighbours will hate you."
+  },
+  {
+    "id": "exhaust_side_exits",
+    "name": "Side Exit Exhaust",
+    "category": "exhaust",
+    "sprite": "side_exits_car_exhaust",
+    "tier": 2,
+    "cost": 900,
+    "scrap_value": 162,
+    "stats": {
+      "hp_multiplier": 1.07,
+      "weight": 8
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Exits through the rockers ahead of the rear wheels. Loud, aggressive, minimal backpressure."
+  },
+  {
+    "id": "trans_stock_auto",
+    "name": "Stock Automatic",
+    "category": "transmission",
+    "sprite": "trans_auto",
+    "tier": 1,
+    "cost": 0,
+    "scrap_value": 0,
+    "stats": {
+      "weight": 160,
+      "shift_rpm": 5500,
+      "drivetrain_rating_bonus": 0,
+      "oem_family": "honda"
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Slushbox. Comfortable, unexciting, handles stock power fine."
+  },
+  {
+    "id": "trans_5spd_stock",
+    "name": "5-Speed Manual",
+    "category": "transmission",
+    "sprite": "trans_5spd",
+    "tier": 1,
+    "cost": 400,
+    "scrap_value": 72,
+    "stats": {
+      "weight": 120,
+      "shift_rpm": 7000,
+      "drivetrain_rating_bonus": 0,
+      "oem_family": "honda"
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Row your own. Stock internals, handles up to ~250hp."
+  },
+  {
+    "id": "trans_race_6spd",
+    "name": "Race 6-Speed Sequential",
+    "category": "transmission",
+    "sprite": "trans_6spd",
+    "tier": 3,
+    "cost": 9500,
+    "scrap_value": 1710,
+    "stats": {
+      "weight": 100,
+      "shift_rpm": 8500,
+      "drivetrain_rating_bonus": 200,
+      "oem_family": null
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Dog-leg sequential. Bulletproof to 700hp+ with the right setup."
+  },
+  {
+    "id": "diff_stock",
+    "name": "Stock Open Diff",
+    "category": "differential",
+    "sprite": "diff_stock",
+    "tier": 1,
+    "cost": 0,
+    "scrap_value": 0,
+    "stats": {
+      "weight": 40,
+      "ratio": 3.9,
+      "oem_family": "honda"
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Open diff. Power goes to the wheel with least resistance — usually the wrong one."
+  },
+  {
+    "id": "diff_lsd",
+    "name": "Torsen LSD",
+    "category": "differential",
+    "sprite": "diff_lsd",
+    "tier": 2,
+    "cost": 1800,
+    "scrap_value": 324,
+    "stats": {
+      "weight": 42,
+      "ratio": 4.1,
+      "grip_bonus": 0.04
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Mechanical LSD. Both wheels pull. Every launch counts."
+  },
+  {
+    "id": "tires_street_basic",
+    "name": "Street Tires",
+    "category": "tires",
+    "sprite": "tires_street",
+    "tier": 1,
+    "cost": 300,
+    "scrap_value": 54,
+    "stats": {
+      "weight": 60,
+      "width": 195,
+      "grip_multiplier": 1.0
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "All-season street rubber. Adequate and honest."
+  },
+  {
+    "id": "tires_performance",
+    "name": "Performance Street Tires",
+    "category": "tires",
+    "sprite": "tires_perf",
+    "tier": 2,
+    "cost": 900,
+    "scrap_value": 162,
+    "stats": {
+      "weight": 68,
+      "width": 245,
+      "grip_multiplier": 1.12
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Summer compound. Grip until it doesn't."
+  },
+  {
+    "id": "tires_305_slick",
+    "name": "305 Drag Slicks",
+    "category": "tires",
+    "sprite": "tires_slick",
+    "tier": 3,
+    "cost": 2200,
+    "scrap_value": 396,
+    "stats": {
+      "weight": 90,
+      "width": 305,
+      "grip_multiplier": 1.35
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Maximum contact patch. Useless in the wet, terrifying in the dry."
+  },
+  {
+    "id": "tires_drift",
+    "name": "Drift Tires",
+    "category": "tires",
+    "sprite": "tires_drift",
+    "tier": 2,
+    "cost": 500,
+    "scrap_value": 90,
+    "stats": {
+      "weight": 65,
+      "width": 235,
+      "grip_multiplier": 0.82
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Hard compound. Designed to break loose and stay there."
+  },
+  {
+    "id": "wheels_steel_15",
+    "name": "Steel Wheels 15\"",
+    "category": "wheels",
+    "sprite": "wheels_steel",
+    "tier": 1,
+    "cost": 0,
+    "scrap_value": 0,
+    "stats": {
+      "weight": 50
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Factory steelies. Heavy. Indestructible."
+  },
+  {
+    "id": "wheels_alloy_enkei",
+    "name": "Enkei Alloys 17\"",
+    "category": "wheels",
+    "sprite": "wheels_enkei",
+    "tier": 2,
+    "cost": 1200,
+    "scrap_value": 216,
+    "stats": {
+      "weight": 28
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Lightweight alloys. Every unsprung gram matters."
+  },
+  {
+    "id": "suspension_stock",
+    "name": "Stock Suspension",
+    "category": "suspension",
+    "sprite": "suspension_stock",
+    "tier": 1,
+    "cost": 0,
+    "scrap_value": 0,
+    "stats": {
+      "weight": 120,
+      "grip_bonus": 0,
+      "ride_height": 6.0
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "OEM springs and dampers. Comfortable and uninspired."
+  },
+  {
+    "id": "suspension_lowered",
+    "name": "Lowering Springs",
+    "category": "suspension",
+    "sprite": "suspension_lowered",
+    "tier": 2,
+    "cost": 600,
+    "scrap_value": 108,
+    "stats": {
+      "weight": 80,
+      "grip_bonus": 0.02,
+      "ride_height": 4.0
+    },
+    "requires": [],
+    "conflicts_with": ["suspension_coilovers"],
+    "description": "Drop it 2 inches, stiffen it up. Looks mean, handles better."
+  },
+  {
+    "id": "suspension_coilovers",
+    "name": "Track Coilovers",
+    "category": "suspension",
+    "sprite": "suspension_coilovers",
+    "tier": 3,
+    "cost": 4500,
+    "scrap_value": 810,
+    "stats": {
+      "weight": 70,
+      "grip_bonus": 0.05,
+      "ride_height": 3.5
+    },
+    "requires": [],
+    "conflicts_with": ["suspension_lowered"],
+    "description": "Adjustable everything. Ride quality: terrible. Lap times: excellent."
+  },
+  {
+    "id": "ecu_stock",
+    "name": "Stock ECU",
+    "category": "ecu",
+    "sprite": "ecu_stock",
+    "tier": 1,
+    "cost": 0,
+    "scrap_value": 0,
+    "stats": {
+      "hp_multiplier": 1.0,
+      "weight": 2,
+      "oem_family": "honda"
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Factory tune. Safe, conservative, leaves HP on the table."
+  },
+  {
+    "id": "ecu_street_tune",
+    "name": "Street ECU Tune",
+    "category": "ecu",
+    "sprite": "ecu_street",
+    "tier": 2,
+    "cost": 1200,
+    "scrap_value": 216,
+    "stats": {
+      "hp_multiplier": 1.08,
+      "weight": 2
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Custom map. More aggressive ignition timing, richer fuelling."
+  },
+  {
+    "id": "ecu_race_tune",
+    "name": "Race ECU",
+    "category": "ecu",
+    "sprite": "ecu_race",
+    "tier": 3,
+    "cost": 4800,
+    "scrap_value": 864,
+    "stats": {
+      "hp_multiplier": 1.15,
+      "weight": 2
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Full standalone. Limits lifted, power on tap. Requires matching fuel pump."
+  },
+  {
+    "id": "cooling_stock",
+    "name": "Stock Radiator",
+    "category": "cooling",
+    "sprite": "cooling_stock",
+    "tier": 1,
+    "cost": 0,
+    "scrap_value": 0,
+    "stats": {
+      "weight": 25,
+      "cooling_bonus": 0
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "OEM aluminum core. Fine for stock power."
+  },
+  {
+    "id": "cooling_race",
+    "name": "Race Aluminum Radiator",
+    "category": "cooling",
+    "sprite": "cooling_race",
+    "tier": 3,
+    "cost": 2800,
+    "scrap_value": 504,
+    "stats": {
+      "weight": 18,
+      "cooling_bonus": 60
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Triple-pass core, 40% more capacity. Keeps the beast cool."
+  },
+  {
+    "id": "battery_basic",
+    "name": "Battery",
+    "category": "battery",
+    "sprite": "battery",
+    "tier": 1,
+    "cost": 120,
+    "scrap_value": 22,
+    "stats": {
+      "weight": 18
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "12V lead-acid. The car needs this to do literally anything."
+  },
+  {
+    "id": "battery_lithium",
+    "name": "Lithium Battery",
+    "category": "battery",
+    "sprite": "electric_battery",
+    "tier": 2,
+    "cost": 480,
+    "scrap_value": 90,
+    "stats": {
+      "weight": 6
+    },
+    "requires": [],
+    "conflicts_with": ["battery_basic"],
+    "description": "Lithium cell. Half the weight of lead-acid, holds a charge under sustained electrical load. Track-standard."
+  },
+  {
+    "id": "ignition_coil_stock",
+    "name": "Ignition Coil",
+    "category": "ignition_coil",
+    "sprite": "ignition_coil",
+    "tier": 1,
+    "cost": 80,
+    "scrap_value": 14,
+    "stats": {
+      "weight": 2
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Sends voltage to the plugs. Unglamorous but essential."
+  },
+  {
+    "id": "spark_plugs_stock",
+    "name": "Spark Plugs",
+    "category": "spark_plugs",
+    "sprite": "spark_plugs",
+    "tier": 1,
+    "cost": 40,
+    "scrap_value": 7,
+    "stats": {
+      "weight": 1
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Standard copper plugs. Change them more often than you think."
+  },
+  {
+    "id": "head_gasket_stock",
+    "name": "Head Gasket",
+    "category": "head_gasket",
+    "sprite": "head_gasket",
+    "tier": 1,
+    "cost": 60,
+    "scrap_value": 11,
+    "stats": {
+      "weight": 1
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Seals the combustion chamber. The most celebrated cause of engine death."
+  },
+  {
+    "id": "fuel_pump_stock",
+    "name": "Stock Fuel Pump",
+    "category": "fuel_pump",
+    "sprite": "fuel_pump",
+    "tier": 1,
+    "cost": 150,
+    "scrap_value": 27,
+    "stats": {
+      "weight": 3,
+      "capacity": 180
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "OEM pump. Good for up to about 180hp before starving."
+  },
+  {
+    "id": "fuel_pump_high_flow",
+    "name": "High-Flow Fuel Pump",
+    "category": "fuel_pump",
+    "sprite": "fuel_pump_hf",
+    "tier": 2,
+    "cost": 450,
+    "scrap_value": 81,
+    "stats": {
+      "weight": 3,
+      "capacity": 600
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Walbro 450. Feeds even a big turbo setup without breaking a sweat."
+  },
+
+  {
+    "id": "cooling_intercooler",
+    "name": "Front-Mount Intercooler",
+    "category": "cooling",
+    "sprite": "icon_intercooler",
+    "tier": 2,
+    "cost": 1200,
+    "scrap_value": 216,
+    "stats": {
+      "weight": 12,
+      "cooling_bonus": 40
+    },
+    "requires": [{ "slot": "forced_induction" }],
+    "conflicts_with": [],
+    "description": "Cools the charge before it hits the engine. Required reading for any turbo build."
+  },
+  {
+    "id": "cooling_street_radiator",
+    "name": "Street Aluminum Radiator",
+    "category": "cooling",
+    "sprite": "cooling_street_radiator",
+    "tier": 1,
+    "cost": 350,
+    "scrap_value": 63,
+    "stats": {
+      "weight": 22,
+      "cooling_bonus": 20
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Direct-fit aluminum core. Runs cooler than stock, bolts in the same afternoon."
+  },
+  {
+    "id": "cooling_oil_cooler",
+    "name": "Engine Oil Cooler",
+    "category": "cooling",
+    "sprite": "cooling_oil_cooler",
+    "tier": 2,
+    "cost": 900,
+    "scrap_value": 162,
+    "stats": {
+      "weight": 8,
+      "cooling_bonus": 25
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Dedicated oil-to-air cooler. Keeps viscosity stable under sustained load."
+  },
+  {
+    "id": "cooling_dual_core",
+    "name": "Dual-Core Radiator",
+    "category": "cooling",
+    "sprite": "cooling_dual_core",
+    "tier": 2,
+    "cost": 2000,
+    "scrap_value": 360,
+    "stats": {
+      "weight": 20,
+      "cooling_bonus": 50
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Two independent cores in parallel. Overkill for stock. Necessary for anything past 400hp."
+  },
+  {
+    "id": "cooling_water_meth",
+    "name": "Water-Meth Injection",
+    "category": "cooling",
+    "sprite": "cooling_water_meth",
+    "tier": 3,
+    "cost": 4500,
+    "scrap_value": 810,
+    "stats": {
+      "weight": 10,
+      "cooling_bonus": 70,
+      "hp_bonus": 18
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Methanol mist into the intake charge. Drops intake temps and adds charge density — a little free power on top."
+  },
+  {
+    "id": "cooling_triple_core",
+    "name": "Triple-Core Race Radiator",
+    "category": "cooling",
+    "sprite": "cooling_triple_core",
+    "tier": 4,
+    "cost": 14000,
+    "scrap_value": 2520,
+    "stats": {
+      "weight": 28,
+      "cooling_bonus": 110
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Three-row billet core, -AN fittings, 1.5\" inlet. Endurance-spec. Nothing runs hot with this installed."
+  },
+
+  {
+    "id": "trans_t56_6spd",
+    "name": "T56 Magnum 6-Speed",
+    "category": "transmission",
+    "sprite": "icon_gearbox",
+    "tier": 2,
+    "cost": 3500,
+    "scrap_value": 630,
+    "stats": {
+      "weight": 108,
+      "shift_rpm": 7800,
+      "drivetrain_rating_bonus": 100,
+      "oem_family": null
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "GM's legendary gear swap. Handles 700 lb-ft comfortably. Short-throw, precise."
+  },
+
+  {
+    "id": "diff_spool",
+    "name": "Drag Spool",
+    "category": "differential",
+    "sprite": "icon_spool",
+    "tier": 3,
+    "cost": 2800,
+    "scrap_value": 504,
+    "stats": {
+      "weight": 35,
+      "ratio": 4.56,
+      "grip_bonus": 0.10
+    },
+    "requires": [],
+    "conflicts_with": ["diff_lsd"],
+    "description": "Both wheels locked together. Zero slip off the line. Zero cornering ability. Pick your poison."
+  },
+
+  {
+    "id": "wheels_work_meister_18",
+    "name": "Work Meister 18\"",
+    "category": "wheels",
+    "sprite": "icon_forged_rims",
+    "tier": 3,
+    "cost": 2800,
+    "scrap_value": 504,
+    "stats": {
+      "weight": 16
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Forged one-piece. 12lbs lighter per corner. Your lap times will notice."
+  },
+
+  {
+    "id": "weight_stripped_interior",
+    "name": "Stripped Interior",
+    "category": "weight_reduction",
+    "sprite": "icon_stripped",
+    "tier": 2,
+    "cost": 600,
+    "scrap_value": 108,
+    "stats": {
+      "weight": -150
+    },
+    "requires": [],
+    "conflicts_with": ["weight_tube_chassis"],
+    "description": "Seats, carpet, door cards, sound deadening — all gone. Loud and ugly. Fast."
+  },
+
+  {
+    "id": "weight_fiberglass_panels",
+    "name": "Fiberglass Body Panels",
+    "category": "weight_reduction",
+    "sprite": "icon_fiberglass",
+    "tier": 2,
+    "cost": 1800,
+    "scrap_value": 324,
+    "stats": {
+      "weight": -100
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Hood, fenders, bumpers in fiberglass. Saves weight, survives nothing."
+  },
+
+  {
+    "id": "weight_tube_chassis",
+    "name": "Tube Chassis Conversion",
+    "category": "weight_reduction",
+    "sprite": "icon_tube_chassis",
+    "tier": 3,
+    "cost": 14000,
+    "scrap_value": 2520,
+    "stats": {
+      "weight": -480,
+      "chassis_rating_bonus": 200
+    },
+    "requires": [],
+    "conflicts_with": ["weight_stripped_interior"],
+    "description": "The whole body goes. Chromoly cage, purpose-built. This isn't a road car anymore."
+  },
+
+  {
+    "id": "pistons_stock",
+    "name": "Stock Pistons",
+    "category": "engine_internals",
+    "sprite": "icon_internals",
+    "tier": 1,
+    "cost": 0,
+    "scrap_value": 0,
+    "stats": {
+      "weight": 8,
+      "hp_multiplier": 1.0,
+      "boost_tolerance": 1.0
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "OEM cast pistons. Fine for stock and mild builds. Respect the boost limit."
+  },
+
+  {
+    "id": "pistons_forged",
+    "name": "Forged Pistons",
+    "category": "engine_internals",
+    "sprite": "icon_internals",
+    "tier": 2,
+    "cost": 2800,
+    "scrap_value": 504,
+    "stats": {
+      "weight": 7,
+      "hp_multiplier": 1.04,
+      "boost_tolerance": 2.0
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Forged aluminum. Handles serious boost pressure without cracking. A prerequisite for any real turbo build."
+  },
+
+  {
+    "id": "pistons_race",
+    "name": "Race Pistons & Rods",
+    "category": "engine_internals",
+    "sprite": "icon_internals",
+    "tier": 3,
+    "cost": 6500,
+    "scrap_value": 1170,
+    "stats": {
+      "weight": 6,
+      "hp_multiplier": 1.08,
+      "boost_tolerance": 3.5,
+      "chassis_rating_bonus": 100
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Full rotating assembly. H-beam rods, race pistons, ARP hardware. The engine will outlast the chassis."
+  },
+
+  {
+    "id": "brakes_stock",
+    "name": "Stock Brakes",
+    "category": "brakes",
+    "sprite": "icon_brakes",
+    "tier": 1,
+    "cost": 0,
+    "scrap_value": 0,
+    "stats": {
+      "weight": 45,
+      "reliability_bonus": 0
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Factory rotors and pads. Adequate until the speed gets serious."
+  },
+
+  {
+    "id": "brakes_big_brake_kit",
+    "name": "Big Brake Kit",
+    "category": "brakes",
+    "sprite": "icon_brakes",
+    "tier": 2,
+    "cost": 2200,
+    "scrap_value": 396,
+    "stats": {
+      "weight": 55,
+      "reliability_bonus": 8
+    },
+    "requires": [],
+    "conflicts_with": ["brakes_carbon_ceramic"],
+    "description": "6-piston Brembo calipers. 380mm rotors. Stops this thing before it stops itself."
+  },
+
+  {
+    "id": "brakes_carbon_ceramic",
+    "name": "Carbon Ceramic Brakes",
+    "category": "brakes",
+    "sprite": "icon_brakes",
+    "tier": 3,
+    "cost": 9500,
+    "scrap_value": 1710,
+    "stats": {
+      "weight": 28,
+      "reliability_bonus": 15
+    },
+    "requires": [],
+    "conflicts_with": ["brakes_big_brake_kit"],
+    "description": "Race-spec carbon ceramics. Bite at any speed, weigh almost nothing, cost a fortune."
+  },
+
+  {
+    "id": "nitrous_single_stage",
+    "name": "Single-Stage Nitrous Kit",
+    "category": "nitrous",
+    "sprite": "icon_nitrous",
+    "tier": 2,
+    "cost": 900,
+    "scrap_value": 162,
+    "stats": {
+      "weight": 22,
+      "hp_bonus": 150,
+      "torque_bonus": 90,
+      "heat_output": 35,
+      "drivetrain_stress": 1.25
+    },
+    "requires": [{ "slot": "fuel_pump", "min_capacity": 300 }],
+    "conflicts_with": [],
+    "description": "NOS. Simple, violent, effective. Bottle runs out eventually — but while it lasts, nothing keeps up."
+  },
+{
+  "id": "battery_basic_used",
+  "name": "Battery (Used)",
+  "category": "battery",
+  "sprite": "battery",
+  "condition": "used",
+  "tier": 1, "cost": 60, "scrap_value": 10,
+  "stats": { "weight": 20 },
+  "requires": [], "conflicts_with": ["battery_lithium"],
+  "description": "Pulled from a scrap yard. Holds a charge — for now."
+},
+{
+  "id": "battery_basic_rebuilt",
+  "name": "Battery (Rebuilt)",
+  "category": "battery",
+  "sprite": "battery",
+  "condition": "rebuilt",
+  "tier": 1, "cost": 90, "scrap_value": 16,
+  "stats": { "weight": 19 },
+  "requires": [], "conflicts_with": ["battery_lithium"],
+  "description": "Recelled and tested. Cheaper than new, better than scrap."
+},
+{
+  "id": "spark_plugs_used",
+  "name": "Spark Plugs (Used)",
+  "category": "spark_plugs",
+  "sprite": "spark_plugs",
+  "condition": "used",
+  "tier": 1, "cost": 18, "scrap_value": 3,
+  "stats": { "weight": 1 },
+  "requires": [], "conflicts_with": [],
+  "description": "Carbon-fouled tips. May misfire under load."
+},
+{
+  "id": "spark_plugs_rebuilt",
+  "name": "Spark Plugs (Regapped)",
+  "category": "spark_plugs",
+  "sprite": "spark_plugs",
+  "condition": "rebuilt",
+  "tier": 1, "cost": 30, "scrap_value": 5,
+  "stats": { "weight": 1 },
+  "requires": [], "conflicts_with": [],
+  "description": "Cleaned and regapped to spec. Not new, but close enough."
+},
+{
+  "id": "ignition_coil_used",
+  "name": "Ignition Coil (Used)",
+  "category": "ignition_coil",
+  "sprite": "ignition_coil",
+  "condition": "used",
+  "tier": 1, "cost": 45, "scrap_value": 8,
+  "stats": { "weight": 2 },
+  "requires": [], "conflicts_with": [],
+  "description": "Tested — fires most of the time. Hope you don't need all the cylinders."
+},
+{
+  "id": "ignition_coil_rebuilt",
+  "name": "Ignition Coil (Rebuilt)",
+  "category": "ignition_coil",
+  "sprite": "ignition_coil",
+  "condition": "rebuilt",
+  "tier": 1, "cost": 65, "scrap_value": 12,
+  "stats": { "weight": 2 },
+  "requires": [], "conflicts_with": [],
+  "description": "Rewound and tested. Fires clean."
+},
+{
+  "id": "head_gasket_used",
+  "name": "Head Gasket (Used)",
+  "category": "head_gasket",
+  "sprite": "head_gasket",
+  "condition": "used",
+  "tier": 1, "cost": 35, "scrap_value": 6,
+  "stats": { "weight": 1 },
+  "requires": [], "conflicts_with": [],
+  "description": "Shows signs of prior sealing. Usable if you're not planning to boost."
+},
+{
+  "id": "head_gasket_rebuilt",
+  "name": "Head Gasket (MLS)",
+  "category": "head_gasket",
+  "sprite": "head_gasket",
+  "condition": "rebuilt",
+  "tier": 1, "cost": 50, "scrap_value": 9,
+  "stats": { "weight": 1 },
+  "requires": [], "conflicts_with": [],
+  "description": "Multi-layer steel. Better sealing than OEM paper at a fraction of the aftermarket price."
+},
+{
+  "id": "fuel_pump_used",
+  "name": "Stock Fuel Pump (Used)",
+  "category": "fuel_pump",
+  "sprite": "fuel_pump",
+  "condition": "used",
+  "tier": 1, "cost": 85, "scrap_value": 15,
+  "stats": { "weight": 3, "capacity": 150 },
+  "requires": [], "conflicts_with": [],
+  "description": "Pulls fuel but pressure is soft. Good for up to 150hp before starving."
+},
+{
+  "id": "fuel_pump_rebuilt",
+  "name": "Stock Fuel Pump (Rebuilt)",
+  "category": "fuel_pump",
+  "sprite": "fuel_pump",
+  "condition": "rebuilt",
+  "tier": 1, "cost": 120, "scrap_value": 22,
+  "stats": { "weight": 3, "capacity": 165 },
+  "requires": [], "conflicts_with": [],
+  "description": "Rebuilt pump internals. Reliable pressure, up to 165hp."
+}
+]

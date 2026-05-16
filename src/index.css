@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+:root {
+  --garage-bg: #1a1a1f;
+  --panel-bg: #22222a;
+  --panel-border: #2e2e3a;
+  --accent-yellow: #f5c842;
+  --accent-red: #d94040;
+  --text-primary: #e8e8ec;
+  --text-muted: #888899;
+  --tag-catastrophic: #d94040;
+  --tag-penalty: #e07820;
+  --tag-positive: #38b86e;
+  --tag-character: #6b7fe0;
+}
+
+body {
+  background-color: var(--garage-bg);
+  color: var(--text-primary);
+  font-family: 'Courier New', 'Courier', monospace;
+  margin: 0;
+  padding: 0;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--panel-bg); }
+::-webkit-scrollbar-thumb { background: var(--panel-border); border-radius: 3px; }
+
+/* Subtle scanline texture for panels */
+.panel-scanline {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(255, 255, 255, 0.013) 3px,
+    rgba(255, 255, 255, 0.013) 4px
+  );
+}

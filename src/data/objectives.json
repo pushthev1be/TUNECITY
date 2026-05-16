@@ -1,0 +1,117 @@
+[
+  {
+    "id": "get_her_running",
+    "name": "Get Her Running",
+    "description": "The Civic has been sitting for years. Install the basics and fire it up for the first time.",
+    "car_id": "civic_eg_92_project",
+    "targets": [
+      { "stat": "hp", "op": "gte", "value": 90 }
+    ],
+    "constraints": [
+      { "type": "no_catastrophic_tag" }
+    ],
+    "rewards": {
+      "currency": 8000,
+      "parts": ["intake_cone", "ecu_street_tune"],
+      "car_added_to_garage": true,
+      "unlocks_mission": "civic_sleeper"
+    },
+    "required_parts_owned": [],
+    "difficulty": 1
+  },
+  {
+    "id": "civic_sleeper",
+    "name": "Sleeper Build",
+    "description": "500hp from a stock-looking hatchback. Nobody should see this coming.",
+    "car_id": "civic_eg_92_project",
+    "targets": [
+      { "stat": "hp", "op": "gte", "value": 500 },
+      { "stat": "reliability", "op": "gte", "value": 60 },
+      { "stat": "zero_to_sixty", "op": "lte", "value": 4.0 }
+    ],
+    "constraints": [
+      { "type": "budget", "max": 25000 },
+      { "type": "no_catastrophic_tag" },
+      { "type": "required_tag", "tag": "sleeper" }
+    ],
+    "rewards": {
+      "currency": 14000,
+      "parts": ["turbo_twin", "cooling_race"],
+      "car_added_to_garage": true,
+      "unlocks_mission": "street_king"
+    },
+    "required_parts_owned": [],
+    "difficulty": 2
+  },
+  {
+    "id": "street_king",
+    "name": "Street King",
+    "description": "Build a daily driver that doesn't get smoked at red lights.",
+    "car_id": "charger_69_rt",
+    "targets": [
+      { "stat": "hp", "op": "gte", "value": 700 },
+      { "stat": "zero_to_sixty", "op": "lte", "value": 3.5 },
+      { "stat": "reliability", "op": "gte", "value": 70 },
+      { "stat": "top_speed", "op": "gte", "value": 165 }
+    ],
+    "constraints": [
+      { "type": "budget", "max": 40000 },
+      { "type": "no_catastrophic_tag" }
+    ],
+    "rewards": {
+      "currency": 22000,
+      "parts": ["ecu_race_tune"],
+      "car_added_to_garage": true,
+      "unlocks_mission": "track_terror"
+    },
+    "required_parts_owned": [],
+    "difficulty": 3
+  },
+  {
+    "id": "track_terror",
+    "name": "Track Terror",
+    "description": "The Corvette wants to run circuit laps. Make it fast enough to embarrass real race cars.",
+    "car_id": "corvette_c5",
+    "targets": [
+      { "stat": "hp", "op": "gte", "value": 600 },
+      { "stat": "quarter_mile", "op": "lte", "value": 11.5 },
+      { "stat": "grip", "op": "gte", "value": 0.95 },
+      { "stat": "reliability", "op": "gte", "value": 75 }
+    ],
+    "constraints": [
+      { "type": "budget", "max": 60000 },
+      { "type": "no_catastrophic_tag" },
+      { "type": "required_tag", "tag": "track_prepped" }
+    ],
+    "rewards": {
+      "currency": 30000,
+      "parts": ["supercharger_roots", "suspension_coilovers"],
+      "car_added_to_garage": true,
+      "unlocks_mission": "garage_queen"
+    },
+    "required_parts_owned": [],
+    "difficulty": 4
+  },
+  {
+    "id": "garage_queen",
+    "name": "Garage Queen",
+    "description": "Money is no object. Build the most expensive, most powerful machine that still turns over.",
+    "car_id": "lamborghini_urus",
+    "targets": [
+      { "stat": "hp", "op": "gte", "value": 1000 },
+      { "stat": "top_speed", "op": "gte", "value": 200 },
+      { "stat": "reliability", "op": "gte", "value": 50 }
+    ],
+    "constraints": [
+      { "type": "no_catastrophic_tag" }
+    ],
+    "rewards": {
+      "currency": 50000,
+      "parts": [],
+      "car_added_to_garage": true,
+      "unlocks_mission": null
+    },
+    "required_parts_owned": [],
+    "difficulty": 5
+  }
+]

@@ -1,0 +1,156 @@
+[
+  {
+    "id": "engine_billet_v8_twin_turbo",
+    "name": "Billet V8 Twin Turbo",
+    "category": "engine",
+    "sprite": "hellcat_engine",
+    "tier": 4,
+    "cost": 85000,
+    "scrap_value": 15300,
+    "stats": {
+      "hp_bonus": 1100,
+      "torque_bonus": 950,
+      "weight": 420,
+      "heat_output": 210,
+      "cylinder_count": 8,
+      "displacement": 6.2,
+      "peak_hp_rpm": 7200,
+      "oem_family": "custom"
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Hand-built from aerospace billet. Came off a boat from Rotterdam. No questions asked.",
+    "black_market_only": true
+  },
+  {
+    "id": "turbo_stage4_race",
+    "name": "Stage 4 Race Turbo",
+    "category": "forced_induction",
+    "sprite": "turbo_compound",
+    "tier": 4,
+    "cost": 42000,
+    "scrap_value": 7560,
+    "stats": {
+      "hp_bonus": 480,
+      "torque_bonus": 380,
+      "heat_output": 95,
+      "lag": 0.55,
+      "drivetrain_stress": 1.6,
+      "boost_psi": 38
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Ported, polished, ceramic-coated. Pulls like a freight train from 4500 RPM.",
+    "black_market_only": true
+  },
+  {
+    "id": "ecu_illegal_tune",
+    "name": "Illegal ECU Remap",
+    "category": "ecu",
+    "sprite": "car_ecu",
+    "tier": 4,
+    "cost": 38000,
+    "scrap_value": 6840,
+    "stats": {
+      "hp_multiplier": 1.42,
+      "reliability_penalty": -20
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Written by a guy who used to work for a certain German manufacturer. Bypasses every safety limit.",
+    "black_market_only": true
+  },
+  {
+    "id": "trans_dogbox_sequential",
+    "name": "Dog-Engagement Sequential",
+    "category": "transmission",
+    "sprite": "icon_gearbox",
+    "tier": 4,
+    "cost": 55000,
+    "scrap_value": 9900,
+    "stats": {
+      "drivetrain_rating_bonus": 450,
+      "shift_rpm": 9500,
+      "oem_family": "custom"
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Bangs gears in 30ms. Sounds like a gunshot every shift. Not street legal in six countries.",
+    "black_market_only": true
+  },
+  {
+    "id": "nitrous_dual_stage",
+    "name": "Dual-Stage Nitrous",
+    "category": "nitrous",
+    "sprite": "icon_nitrous",
+    "tier": 4,
+    "cost": 28000,
+    "scrap_value": 5040,
+    "stats": {
+      "hp_bonus": 350,
+      "torque_bonus": 280,
+      "heat_output": 60,
+      "drivetrain_stress": 2.0,
+      "weight": 18
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Two-shot system. First hit wakes you up. Second hit rearranges your organs.",
+    "black_market_only": true
+  },
+  {
+    "id": "suspension_active_race",
+    "name": "Active Race Suspension",
+    "category": "suspension",
+    "sprite": "4_icon_coilover_Pixel_art_icon_of_a_coilover_suspe",
+    "tier": 4,
+    "cost": 47000,
+    "scrap_value": 8460,
+    "stats": {
+      "grip_bonus": 0.25,
+      "ride_height": 3.2,
+      "weight": -85,
+      "chassis_rating_bonus": 80
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Magneto-rheological fluid dampers. Adjusts 1000 times per second. Stolen from a prototype.",
+    "black_market_only": true
+  },
+  {
+    "id": "diff_torsen_extreme",
+    "name": "Torsen Extreme LSD",
+    "category": "differential",
+    "sprite": "icon_spool",
+    "tier": 4,
+    "cost": 32000,
+    "scrap_value": 5760,
+    "stats": {
+      "grip_bonus": 0.22,
+      "ratio": 3.9,
+      "oem_family": "custom"
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Worm-gear torque-sensing. Instantaneous lock, zero wheelspin. Bite is unreal.",
+    "black_market_only": true
+  },
+  {
+    "id": "tires_semi_slick_r888",
+    "name": "R888 Semi-Slick",
+    "category": "tires",
+    "sprite": "sports_tires",
+    "tier": 4,
+    "cost": 19500,
+    "scrap_value": 3510,
+    "stats": {
+      "grip_multiplier": 1.55,
+      "width": 305,
+      "weight": 28
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "DOT-legal slick. Treadwear rating: 40. Legal on street, violent on track.",
+    "black_market_only": true
+  }
+]
