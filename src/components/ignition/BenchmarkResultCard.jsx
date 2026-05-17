@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useGameStore } from '../../stores/useGameStore.js'
 import { Card } from '../shared/Card.jsx'
 import { Button } from '../shared/Button.jsx'
+import badges01 from '../../assets/ui/badges01.png'
 
 function useCountUp(target, duration = 800) {
   const [value, setValue] = useState(0)
@@ -88,7 +89,7 @@ export function BenchmarkResultCard() {
         <div className="flex justify-center">
           <div style={{
             width: 272, height: 96,
-            backgroundImage: "url('/ui/badges01.png')",
+            backgroundImage: `url(${badges01})`,
             backgroundPosition: outcome === 'catastrophic_failure' ? '0px -192px' : '-272px -192px',
             backgroundSize: '544px 288px',
             backgroundRepeat: 'no-repeat',

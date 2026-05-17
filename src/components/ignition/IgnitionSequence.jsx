@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { useGameStore } from '../../stores/useGameStore.js'
+import spinner03 from '../../assets/ui/spinner03.png'
 
 // 6-phase startup sequence. Each phase shows at the given delay (ms).
 // Labels adapt based on the predicted outcome state.
@@ -71,7 +72,7 @@ export function IgnitionSequence() {
           transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
           style={{
             width: 180, height: 108,
-            backgroundImage: "url('/ui/spinner03.png')",
+            backgroundImage: `url(${spinner03})`,
             backgroundPosition: '0 0',
             backgroundSize: '720px 432px',
             backgroundRepeat: 'no-repeat',
