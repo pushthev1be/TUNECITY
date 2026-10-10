@@ -48,7 +48,7 @@ export function PartsShop({ onClose, filterSlot }) {
         </div>
 
         {/* Category tabs */}
-        <div className="flex flex-wrap gap-2 px-4 py-2">
+        <div className="shrink-0 flex gap-2 px-4 py-2 overflow-x-auto lg:flex-wrap">
           {CATEGORIES.map(cat => (
             <button
               key={cat}

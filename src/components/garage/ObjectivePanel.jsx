@@ -95,7 +95,8 @@ function TuneNotes({ stats, prediction }) {
   )
 }
 
-export function ObjectivePanel() {
+// compact: phone layout — money already shows in the header, keep the pinned ignite bar short
+export function ObjectivePanel({ compact = false }) {
   const computed   = useGameStore(s => s.computed)
   const currency   = useGameStore(s => s.currency)
   const getObj     = useGameStore(s => s.getActiveObjective)
@@ -215,19 +216,23 @@ export function ObjectivePanel() {
       </section>
 
       {/* Spend */}
-      <section className="mt-auto pt-2 border-t border-[var(--panel-border)]">
-        <div className="flex justify-between text-xs mb-2">
-          <span className="text-[var(--text-muted)]">Parts spend</span>
-          <span className="text-[var(--text-primary)] font-mono">${(stats.total_parts_cost ?? 0).toLocaleString()}</span>
-        </div>
-        <div className="flex justify-between items-center text-xs mb-4">
-          <div className="flex items-center gap-1.5">
-            <img src={dollar_stack} alt="" className="w-5 h-5 object-contain pixelated" />
-            <span className="text-[var(--text-muted)]">Available</span>
-          </div>
-          <span className="text-[var(--tag-positive)] font-mono">${currency.toLocaleString()}</span>
-        </div>
-        <IgnitionButton />
+      <section className={`mt-auto sticky -bottom-4 -mx-4 -mb-4 px-4 border-t border-[var(--panel-border)] bg-[var(--panel-bg)] ${compact ? 'py-2' : 'pb-4 pt-2'}`}>
+        {!compact && (
+          <>
+            <div className="flex justify-between text-xs mb-2">
+              <span className="text-[var(--text-muted)]">Parts spend</span>
+              <span className="text-[var(--text-primary)] font-mono">${(stats.total_parts_cost ?? 0).toLocaleString()}</span>
+            </div>
+            <div className="flex justify-between items-center text-xs mb-4">
+              <div className="flex items-center gap-1.5">
+                <img src={dollar_stack} alt="" className="w-5 h-5 object-contain pixelated" />
+                <span className="text-[var(--text-muted)]">Available</span>
+              </div>
+              <span className="text-[var(--tag-positive)] font-mono">${currency.toLocaleString()}</span>
+            </div>
+          </>
+        )}
+        <IgnitionButton compact={compact} />
       </section>
 
     </div>

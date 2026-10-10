@@ -20,6 +20,10 @@ body {
   font-family: 'Courier New', 'Courier', monospace;
   margin: 0;
   padding: 0;
+  /* Feel like an app on phones: no pull-to-refresh bounce, tap flash or double-tap zoom */
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 /* Custom scrollbar */

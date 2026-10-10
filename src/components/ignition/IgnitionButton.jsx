@@ -6,7 +6,7 @@ const FAILING_STATES  = new Set(['dead', 'catastrophic'])
 const RISKY_STATES    = new Set(['detonation_risk', 'unstable', 'rough_idle'])
 const TURBO_TAGS      = new Set(['turbo_surge', 'boost_spike', 'overboost'])
 
-export function IgnitionButton({ onIgnite }) {
+export function IgnitionButton({ onIgnite, compact = false }) {
   const computed        = useGameStore(s => s.computed)
   const ignitionState   = useGameStore(s => s.ignitionState)
   const ignitionResult  = useGameStore(s => s.ignitionResult)
@@ -92,12 +92,12 @@ export function IgnitionButton({ onIgnite }) {
   const statusIcon = willFail ? '⚠' : isRisky ? '⚡' : '✓'
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className={`flex flex-col ${compact ? 'gap-1.5' : 'gap-2'}`}>
       <button
         onClick={handleIgnite}
         disabled={disabled}
         className={`
-          w-full py-4 rounded-lg font-bold text-lg tracking-widest uppercase
+          w-full ${compact ? 'py-2.5 text-base' : 'py-4 text-lg'} rounded-lg font-bold tracking-widest uppercase
           transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed
           ${btnColor}
           ${ignitionState === 'animating' ? 'animate-pulse' : ''}
