@@ -47,3 +47,17 @@ body {
   0%   { transform: translate(0, 0); }
   50%  { transform: translate(0, -0.15%); }
 }
+
+/* Portrait prompt: phone tips onto its side */
+@keyframes rotate-hint {
+  0%, 20%   { transform: rotate(0deg); }
+  50%, 80%  { transform: rotate(-90deg); }
+  100%      { transform: rotate(0deg); }
+}
+
+/* Short landscape phones: menus use the full height with tighter headers */
+@media (max-height: 500px) {
+  .game-modal { padding: 6px !important; }
+  .game-modal-panel { height: 100% !important; max-height: 100% !important; }
+  .game-modal-panel > :first-child { padding-top: 8px !important; padding-bottom: 8px !important; }
+}

@@ -26,8 +26,8 @@ export function PartsShop({ onClose, filterSlot }) {
   }).sort((a, b) => a.tier - b.tier || a.cost - b.cost)
 
   return (
-    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-      <div className="bg-[var(--panel-bg)] border border-[var(--panel-border)] rounded-xl w-full max-w-2xl h-[80vh] flex flex-col">
+    <div className="game-modal fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+      <div className="game-modal-panel bg-[var(--panel-bg)] border border-[var(--panel-border)] rounded-xl w-full max-w-2xl h-[80vh] flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-[var(--panel-border)]">
           <h2 className="text-[var(--accent-yellow)] font-bold uppercase tracking-widest">Parts Shop</h2>

@@ -17,8 +17,8 @@ export function InventoryModal({ onClose }) {
   const totalCount = items.reduce((sum, p) => sum + ownedParts[p.id], 0)
 
   return (
-    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-      <div className="bg-[var(--panel-bg)] border border-[var(--panel-border)] rounded-xl w-full max-w-lg h-[70vh] flex flex-col">
+    <div className="game-modal fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+      <div className="game-modal-panel bg-[var(--panel-bg)] border border-[var(--panel-border)] rounded-xl w-full max-w-lg h-[70vh] flex flex-col">
 
         {/* Header */}
         <div className="shrink-0 flex items-center justify-between px-5 py-4 border-b border-[var(--panel-border)]">

@@ -125,11 +125,11 @@ export function IgnitionButton({ onIgnite, compact = false }) {
         <button
           onClick={handleTestFit}
           disabled={disabled}
-          className="text-[var(--text-muted)] text-xs hover:text-[var(--text-primary)] disabled:opacity-40 transition-colors"
+          className="shrink-0 whitespace-nowrap text-[var(--text-muted)] text-xs hover:text-[var(--text-primary)] disabled:opacity-40 transition-colors"
         >
-          Test Fit (no risk)
+          {compact ? 'Test fit' : 'Test Fit (no risk)'}
         </button>
-        <span className={`text-xs font-bold ${statusColor}`}>
+        <span className={`text-xs font-bold text-right ${statusColor}`}>
           {statusIcon} {prediction.label}
           <span className="text-[var(--text-muted)] font-normal ml-1">({confidencePct}%)</span>
         </span>

@@ -140,83 +140,171 @@ function FullscreenButton({ className = '' }) {
 }
 
 const MOBILE_NAV = [
-  { key: 'missions',    label: 'Missions' },
-  { key: 'inventory',   label: 'Inventory' },
-  { key: 'shop',        label: 'Shop' },
-  { key: 'blackMarket', label: 'Black Mkt', danger: true },
+  { key: 'missions',    label: 'Missions',  icon: 'M3 1v14M3 2h9l-2 3 2 3H3' },
+  { key: 'inventory',   label: 'Inventory', icon: 'M2 5h12v9H2zM5 5V3h6v2M2 9h12' },
+  { key: 'shop',        label: 'Shop',      icon: 'M10 2a3 3 0 00-2.8 4L2 11.2 4.8 14 10 8.8A3 3 0 0014 6l-2 1-2-2 1-2z' },
+  { key: 'blackMarket', label: 'Black Mkt', icon: 'M8 2a5 5 0 00-5 5v3h2v3h6v-3h2V7a5 5 0 00-5-5zM6 7v2M10 7v2', danger: true },
 ]
+
+function NavIcon({ d }) {
+  return (
+    <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" aria-hidden="true">
+      <path d={d} />
+    </svg>
+  )
+}
 
 function MobileGarage({ nav, objective, onSlotClick, overlays }) {
   const [tab, setTab] = useState('mission')
   const currency    = useGameStore(s => s.currency)
   const isLandscape = useMediaQuery('(orientation: landscape)')
 
-  const navButtons = MOBILE_NAV.map(item => (
-    <button
-      key={item.key}
-      onClick={nav[item.key]}
-      className={`py-2 px-2.5 rounded text-[11px] font-bold ${
-        item.danger
-          ? 'bg-[var(--accent-red)] text-white'
-          : 'bg-[var(--panel-border)] text-[var(--text-primary)]'
-      }`}
-    >
-      {item.label}
-    </button>
-  ))
+  const tabs = (
+    <div className="shrink-0 flex items-stretch border-b border-[var(--panel-border)]">
+      {[['mission', objective ? 'Mission' : 'Ignite'], ['build', 'Build']].map(([key, label]) => (
+        <button
+          key={key}
+          onClick={() => setTab(key)}
+          className={`flex-1 py-2.5 text-xs font-bold uppercase tracking-wider border-b-2 ${
+            tab === key
+              ? 'text-[var(--accent-yellow)] border-[var(--accent-yellow)]'
+              : 'text-[var(--text-muted)] border-transparent'
+          }`}
+        >
+          {label}
+        </button>
+      ))}
+      {isLandscape && (
+        <div className="flex items-center px-3 border-l border-[var(--panel-border)]">
+          <Money amount={currency} iconSize={14} className="text-[var(--tag-positive)] text-xs" />
+        </div>
+      )}
+    </div>
+  )
 
   const panel = (
-    <div className="flex-1 min-h-0 flex flex-col bg-[var(--panel-bg)] panel-scanline">
-      <div className="shrink-0 grid grid-cols-2 border-b border-[var(--panel-border)]">
-        {[['mission', objective ? 'Mission' : 'Ignite'], ['build', 'Build']].map(([key, label]) => (
-          <button
-            key={key}
-            onClick={() => setTab(key)}
-            className={`py-2.5 text-xs font-bold uppercase tracking-wider border-b-2 ${
-              tab === key
-                ? 'text-[var(--accent-yellow)] border-[var(--accent-yellow)]'
-                : 'text-[var(--text-muted)] border-transparent'
-            }`}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
+    <div className="flex-1 min-h-0 min-w-0 flex flex-col bg-[var(--panel-bg)] panel-scanline">
+      {tabs}
       <div className="flex-1 min-h-0 overflow-hidden">
         {tab === 'mission'
           ? <ObjectivePanel compact />
-          : <div className="h-full p-4"><DiagnosticPanel onSlotClick={onSlotClick} /></div>}
+          : <div className="h-full p-3"><DiagnosticPanel onSlotClick={onSlotClick} /></div>}
       </div>
     </div>
   )
+
+  // Landscape (preferred on phones): a slim nav rail on the left so the garage
+  // and panel get the full screen height
+  if (isLandscape) {
+    return (
+      <div
+        className="h-dvh flex bg-[var(--garage-bg)] overflow-hidden relative"
+        style={{
+          paddingLeft:  'env(safe-area-inset-left)',
+          paddingRight: 'env(safe-area-inset-right)',
+        }}
+      >
+        <nav className="shrink-0 w-14 flex flex-col items-center gap-1 py-2 border-r border-[var(--panel-border)] bg-[var(--panel-bg)]">
+          <span className="text-[var(--accent-yellow)] font-bold text-sm tracking-widest mb-1" title="TuneCity">TC</span>
+          {MOBILE_NAV.map(item => (
+            <button
+              key={item.key}
+              onClick={nav[item.key]}
+              aria-label={item.label}
+              className={`w-12 py-1.5 rounded flex flex-col items-center gap-0.5 text-[9px] font-bold leading-none ${
+                item.danger
+                  ? 'bg-[var(--accent-red)] text-white'
+                  : 'text-[var(--text-primary)] hover:bg-[var(--panel-border)]'
+              }`}
+            >
+              <NavIcon d={item.icon} />
+              {item.label}
+            </button>
+          ))}
+          <div className="mt-auto flex flex-col items-center gap-1">
+            <SoundButton popoverClassName="left-11 bottom-0" />
+            <FullscreenButton />
+          </div>
+        </nav>
+
+        <div className="relative flex-1 min-w-0 h-full">
+          <GarageBay />
+        </div>
+        <div className="w-[42%] max-w-[420px] h-full flex">
+          {panel}
+        </div>
+
+        {overlays}
+      </div>
+    )
+  }
 
   return (
     <div
       className="h-dvh flex flex-col bg-[var(--garage-bg)] overflow-hidden relative"
       style={{ paddingTop: 'env(safe-area-inset-top)', paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
+      <RotateHint />
       <header className="shrink-0 flex items-center gap-2 px-3 py-1.5 border-b border-[var(--panel-border)]">
         <h1 className="text-[var(--accent-yellow)] font-bold text-base tracking-widest uppercase mr-auto">TuneCity</h1>
-        {isLandscape && navButtons}
         <Money amount={currency} className="text-[var(--tag-positive)] text-sm" />
         <SoundButton />
         <FullscreenButton />
       </header>
 
-      {!isLandscape && (
-        <nav className="shrink-0 grid grid-cols-4 gap-1 px-2 py-1.5 border-b border-[var(--panel-border)]">
-          {navButtons}
-        </nav>
-      )}
+      <nav className="shrink-0 grid grid-cols-4 gap-1 px-2 py-1.5 border-b border-[var(--panel-border)]">
+        {MOBILE_NAV.map(item => (
+          <button
+            key={item.key}
+            onClick={nav[item.key]}
+            className={`py-2 px-2.5 rounded text-[11px] font-bold ${
+              item.danger
+                ? 'bg-[var(--accent-red)] text-white'
+                : 'bg-[var(--panel-border)] text-[var(--text-primary)]'
+            }`}
+          >
+            {item.label}
+          </button>
+        ))}
+      </nav>
 
-      <div className={`flex-1 min-h-0 flex ${isLandscape ? 'flex-row' : 'flex-col'}`}>
-        <div className={`relative shrink-0 ${isLandscape ? 'w-[55%] h-full' : 'h-[42%] w-full'}`}>
+      <div className="flex-1 min-h-0 flex flex-col">
+        <div className="relative shrink-0 h-[42%] w-full">
           <GarageBay />
         </div>
         {panel}
       </div>
 
       {overlays}
+    </div>
+  )
+}
+
+// Portrait phones: suggest rotating; dismissible for the session
+function RotateHint() {
+  const [dismissed, setDismissed] = useState(() => {
+    try { return sessionStorage.getItem('rotate_hint_dismissed') === '1' } catch { return false }
+  })
+  if (dismissed) return null
+
+  function dismiss() {
+    setDismissed(true)
+    try { sessionStorage.setItem('rotate_hint_dismissed', '1') } catch { /* storage blocked */ }
+  }
+
+  return (
+    <div className="fixed inset-0 z-[70] bg-[var(--garage-bg)]/95 flex flex-col items-center justify-center gap-5 p-8 text-center">
+      <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="var(--accent-yellow)" strokeWidth="1.5" aria-hidden="true" className="animate-[rotate-hint_2s_ease-in-out_infinite]">
+        <rect x="7" y="2" width="10" height="20" rx="2" />
+        <path d="M11 18h2" />
+      </svg>
+      <div className="space-y-1">
+        <p className="text-[var(--accent-yellow)] font-bold uppercase tracking-widest">Rotate your phone</p>
+        <p className="text-[var(--text-muted)] text-sm">TuneCity plays best in landscape.</p>
+      </div>
+      <button onClick={dismiss} className="text-[var(--text-muted)] text-xs underline underline-offset-4">
+        Continue in portrait
+      </button>
     </div>
   )
 }

@@ -110,7 +110,7 @@ export function ObjectivePanel({ compact = false }) {
       )}
 
       {/* Mission car preview */}
-      {objective && CAR_ROTATION_KEYS[objective.car_id] && (
+      {!compact && objective && CAR_ROTATION_KEYS[objective.car_id] && (
         <div className="flex justify-center -my-4 border-b border-[var(--panel-border)]">
           <RotatingSprite
             spriteKey={CAR_ROTATION_KEYS[objective.car_id]}

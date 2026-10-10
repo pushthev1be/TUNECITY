@@ -10,8 +10,8 @@ export function MissionSelect({ onClose }) {
   const completedCount     = completedObjectives.filter(id => objectivesData.some(o => o.id === id)).length
 
   return (
-    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-      <div className="bg-[var(--panel-bg)] border border-[var(--panel-border)] rounded-xl w-full max-w-xl max-h-[80vh] flex flex-col">
+    <div className="game-modal fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+      <div className="game-modal-panel bg-[var(--panel-bg)] border border-[var(--panel-border)] rounded-xl w-full max-w-xl max-h-[80vh] flex flex-col">
         <div className="flex items-center justify-between p-4 border-b border-[var(--panel-border)]">
           <h2 className="text-[var(--accent-yellow)] font-bold uppercase tracking-widest">Missions</h2>
           <button onClick={onClose} className="text-[var(--text-muted)] hover:text-[var(--text-primary)] text-xl">✕</button>

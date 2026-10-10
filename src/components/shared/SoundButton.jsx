@@ -19,7 +19,7 @@ function SpeakerIcon({ level }) {
   )
 }
 
-export function SoundButton() {
+export function SoundButton({ popoverClassName = 'right-0 top-11' }) {
   const { volume, muted } = useSyncExternalStore(subscribeSound, getSnapshot)
   const [open, setOpen] = useState(false)
   const ref = useRef(null)
@@ -45,7 +45,7 @@ export function SoundButton() {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-11 z-50 w-56 p-3 rounded-lg border border-[var(--panel-border)] bg-[var(--panel-bg)] shadow-2xl space-y-3">
+        <div className={`absolute ${popoverClassName} z-50 w-56 p-3 rounded-lg border border-[var(--panel-border)] bg-[var(--panel-bg)] shadow-2xl space-y-3`}>
           <div className="flex items-center justify-between text-xs">
             <span className="text-[var(--text-muted)] uppercase tracking-wider">Sound</span>
             <span className="font-mono text-[var(--text-primary)]">{muted ? 'Muted' : `${Math.round(volume * 100)}%`}</span>

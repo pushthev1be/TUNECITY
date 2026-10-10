@@ -21,7 +21,10 @@ export function useFullscreen() {
       (document.exitFullscreen || document.webkitExitFullscreen)?.call(document)
     } else {
       const el = root()
-      ;(el.requestFullscreen || el.webkitRequestFullscreen)?.call(el, { navigationUI: 'hide' })?.catch?.(() => {})
+      Promise.resolve((el.requestFullscreen || el.webkitRequestFullscreen)?.call(el, { navigationUI: 'hide' }))
+        // The game is laid out for landscape; browsers that allow it (Android) lock to it
+        .then(() => screen.orientation?.lock?.('landscape'))
+        .catch(() => {})
     }
   }
 
