@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import blackMarketData from '../../data/blackMarket.json'
-import partsData from '../../data/parts.json'
+import { allParts } from '../../data/allParts.js'
 import { useGameStore } from '../../stores/useGameStore.js'
 import { PART_SPRITES, underground_sign, dollar_stack } from '../../assets/spriteMap.js'
 import { Button } from '../shared/Button.jsx'
@@ -95,9 +94,7 @@ export function BlackMarketShop({ onClose }) {
   const refreshBM   = useGameStore(s => s.refreshBMStock)
 
   // Sellable inventory: all parts with qty > 0
-  const allSellable = partsData
-    .concat(blackMarketData)
-    .filter(p => (ownedParts[p.id] ?? 0) > 0)
+  const allSellable = allParts.filter(p => (ownedParts[p.id] ?? 0) > 0)
 
   return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">

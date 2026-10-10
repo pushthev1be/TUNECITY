@@ -1,4 +1,5 @@
 import partsData from '../data/parts.json'
+import { findPart } from '../data/allParts.js'
 import carsData  from '../data/cars.json'
 
 const STARTING_STATE = {
@@ -59,7 +60,7 @@ export function createInventorySlice(set, get) {
     },
 
     sellPart(partId) {
-      const part = partsData.find(p => p.id === partId)
+      const part = findPart(partId)
       if (!part) return
       const { ownedParts } = get()
       if ((ownedParts[partId] ?? 0) < 1) return
@@ -71,7 +72,7 @@ export function createInventorySlice(set, get) {
     },
 
     scrapPart(partId) {
-      const part = partsData.find(p => p.id === partId)
+      const part = findPart(partId)
       if (!part) return
       const { ownedParts } = get()
       if ((ownedParts[partId] ?? 0) < 1) return

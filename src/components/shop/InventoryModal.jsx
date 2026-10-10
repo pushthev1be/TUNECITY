@@ -1,9 +1,8 @@
 import { useGameStore } from '../../stores/useGameStore.js'
 import { PART_SPRITES } from '../../assets/spriteMap.js'
-import partsData from '../../data/parts.json'
-import blackMarketData from '../../data/blackMarket.json'
+import { allParts } from '../../data/allParts.js'
+import { play } from '../../utils/sfx.js'
 
-const ALL_PARTS = [...partsData, ...blackMarketData]
 const TIER_LABELS = ['', 'Stock', 'Street', 'Perf', 'Legend']
 const TIER_COLORS = ['', 'text-gray-400', 'text-[var(--tag-character)]', 'text-[var(--accent-yellow)]', 'text-[var(--accent-red)]']
 
@@ -11,8 +10,9 @@ export function InventoryModal({ onClose }) {
   const ownedParts = useGameStore(s => s.ownedParts)
   const sellPart   = useGameStore(s => s.sellPart)
   const scrapPart  = useGameStore(s => s.scrapPart)
+  const installPart = useGameStore(s => s.installPart)
 
-  const items = ALL_PARTS.filter(p => (ownedParts[p.id] ?? 0) > 0)
+  const items = allParts.filter(p => (ownedParts[p.id] ?? 0) > 0)
   const totalCount = items.reduce((sum, p) => sum + ownedParts[p.id], 0)
 
   return (
@@ -32,6 +32,7 @@ export function InventoryModal({ onClose }) {
         <div className="shrink-0 flex items-center justify-between px-5 py-2 border-b border-[var(--panel-border)]/50 text-xs text-[var(--text-muted)]">
           <span>Part</span>
           <div className="flex gap-6 pr-1">
+            <span>Install</span>
             <span>Sell (75%)</span>
             <span>Scrap</span>
           </div>
@@ -65,6 +66,12 @@ export function InventoryModal({ onClose }) {
                     <span className="text-[var(--text-muted)] text-xs">×{qty}</span>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
+                    <button
+                      onClick={() => { play('select'); installPart(part.category, part.id) }}
+                      className="text-xs px-2.5 py-1 rounded bg-[var(--accent-yellow)]/20 text-[var(--accent-yellow)] hover:bg-[var(--accent-yellow)]/35 transition-colors"
+                    >
+                      Install
+                    </button>
                     <button
                       onClick={() => sellPart(part.id)}
                       className="text-xs px-2.5 py-1 rounded bg-[var(--tag-positive)]/20 text-[var(--tag-positive)] hover:bg-[var(--tag-positive)]/35 transition-colors font-mono"

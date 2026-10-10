@@ -1,5 +1,6 @@
 import carsData  from '../data/cars.json'
 import partsData from '../data/parts.json'
+import { findPart } from '../data/allParts.js'
 import { computeStats }  from '../engine/diagnostic/computeStats.js'
 import { evaluateTags }  from '../engine/diagnostic/evaluateTags.js'
 import { buildIssues, predictIgnition } from '../engine/diagnostic/buildIssues.js'
@@ -117,21 +118,19 @@ export function createBuildSlice(set, get) {
     },
 
     installPart(slot, partId) {
-      const { activeCar, installedPartsByCar, ownedParts, removePart } = get()
+      const { activeCar, installedPartsByCar, ownedParts } = get()
       const carParts = installedPartsByCar[activeCar] || emptySlots()
 
-      // Uninstall currently slotted part first (put it back in inventory)
+      const partDef = findPart(partId)
+      if (!partDef || partDef.category !== slot) return
+      if ((ownedParts[partId] ?? 0) < 1) return
+
+      // Swap: consume the new part, return the currently slotted one to inventory
+      get().removePart(partId)
       const current = carParts[slot]
       if (current) {
         get().addPart(current.id)
       }
-
-      // Consume one of the target part from inventory
-      const partDef = partsData.find(p => p.id === partId)
-      if (!partDef) return
-      if ((ownedParts[partId] ?? 0) < 1) return
-
-      get().removePart(partId)
 
       const next = { ...carParts, [slot]: partDef }
       const nextByCar = { ...installedPartsByCar, [activeCar]: next }
