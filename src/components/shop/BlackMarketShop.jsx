@@ -3,8 +3,8 @@ import { allParts } from '../../data/allParts.js'
 import { useGameStore } from '../../stores/useGameStore.js'
 import { PART_SPRITES, underground_sign } from '../../assets/spriteMap.js'
 import { Button } from '../shared/Button.jsx'
-
 import { Money, Price } from '../shared/Money.jsx'
+import { play } from '../../utils/sfx.js'
 
 const TIER_COLORS = ['', 'text-gray-400', 'text-[var(--tag-character)]', 'text-[var(--accent-yellow)]', 'text-[var(--accent-red)]']
 const TIER_LABELS = ['', 'Stock', 'Street', 'Performance', 'Legend']
@@ -141,7 +141,7 @@ export function BlackMarketShop({ onClose }) {
               <div className="flex justify-between items-center mb-1">
                 <p className="text-[var(--text-muted)] text-xs">Today's supply — {bmStock.length} item{bmStock.length !== 1 ? 's' : ''} available</p>
                 <button
-                  onClick={refreshBM}
+                  onClick={() => { play('cursor'); refreshBM() }}
                   className="text-xs text-[var(--text-muted)] hover:text-[var(--accent-yellow)] transition-colors"
                 >
                   Refresh stock ↻
@@ -156,7 +156,7 @@ export function BlackMarketShop({ onClose }) {
                     part={part}
                     canAfford={currency >= part.cost}
                     owned={ownedParts[part.id] ?? 0}
-                    onBuy={() => buyBMPart(part.id)}
+                    onBuy={() => { play('buy'); buyBMPart(part.id) }}
                   />
                 ))
               )}
@@ -176,8 +176,8 @@ export function BlackMarketShop({ onClose }) {
                     key={part.id}
                     part={part}
                     qty={ownedParts[part.id]}
-                    onSell={() => sellPart(part.id)}
-                    onScrap={() => scrapPart(part.id)}
+                    onSell={() => { play('cash'); sellPart(part.id) }}
+                    onScrap={() => { play('cash'); scrapPart(part.id) }}
                   />
                 ))
               )}

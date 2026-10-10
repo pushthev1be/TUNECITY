@@ -68,19 +68,19 @@ export function InventoryModal({ onClose }) {
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
                     <button
-                      onClick={() => { play('select'); installPart(part.category, part.id) }}
+                      onClick={() => { play('install'); installPart(part.category, part.id) }}
                       className="text-xs px-2.5 py-1 rounded bg-[var(--accent-yellow)]/20 text-[var(--accent-yellow)] hover:bg-[var(--accent-yellow)]/35 transition-colors"
                     >
                       Install
                     </button>
                     <button
-                      onClick={() => sellPart(part.id)}
+                      onClick={() => { play('cash'); sellPart(part.id) }}
                       className="text-xs px-2.5 py-1 rounded bg-[var(--tag-positive)]/20 text-[var(--tag-positive)] hover:bg-[var(--tag-positive)]/35 transition-colors font-mono"
                     >
                       <Price amount={salePrice} iconSize={12} />
                     </button>
                     <button
-                      onClick={() => scrapPart(part.id)}
+                      onClick={() => { play('cash'); scrapPart(part.id) }}
                       title={`Scrap for $${scrapVal.toLocaleString()}`}
                       className="text-xs px-2 py-1 rounded bg-[var(--text-muted)]/15 text-[var(--text-muted)] hover:bg-[var(--text-muted)]/30 transition-colors"
                     >

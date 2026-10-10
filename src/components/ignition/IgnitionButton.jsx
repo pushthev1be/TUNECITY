@@ -31,7 +31,7 @@ export function IgnitionButton({ onIgnite, compact = false }) {
 
   function handleIgnite() {
     if (ignitionState !== 'idle') return
-    play('select')
+    play('ignite')
     startAnimation()
 
     setTimeout(() => {
@@ -48,6 +48,7 @@ export function IgnitionButton({ onIgnite, compact = false }) {
         destroyParts(result.destroyed_slots)
       } else if (result.outcome === 'success' && result.objective_met && activeObjId) {
         play('car_start')
+        setTimeout(() => play('mission_complete'), 900)
         completeObj(activeObjId)
         showComplete({ objective, result })
       } else if (result.outcome === 'success') {

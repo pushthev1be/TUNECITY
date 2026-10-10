@@ -53,7 +53,7 @@ export function ShopItemCard({ part }) {
             {owned > 0 && (
               <Button
                 variant="primary"
-                onClick={() => { play('select'); installPart(part.category, part.id) }}
+                onClick={() => { play('install'); installPart(part.category, part.id) }}
                 className="text-xs py-1 px-3 bg-[var(--tag-positive)] text-black border-none hover:opacity-90"
               >
                 Install

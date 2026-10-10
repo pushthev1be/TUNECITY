@@ -15,6 +15,8 @@ import { Button } from '../shared/Button.jsx'
 import { useMediaQuery, MOBILE_QUERY } from '../../hooks/useMediaQuery.js'
 import { useFullscreen } from '../../hooks/useFullscreen.js'
 import { Money } from '../shared/Money.jsx'
+import { play } from '../../utils/sfx.js'
+import { SoundButton } from '../shared/SoundButton.jsx'
 
 export function GarageScreen() {
   const [shopOpen, setShopOpen]       = useState(false)
@@ -29,16 +31,19 @@ export function GarageScreen() {
   const objective       = getObjective()
 
   function handleSlotClick(slot) {
+    play('popup_open')
     setShopSlot(slot)
     setShopOpen(true)
   }
 
   const isMobile = useMediaQuery(MOBILE_QUERY)
+  const opener = set => () => { play('popup_open'); set(true) }
+  const closer = set => () => { play('popup_close'); set(false) }
   const nav = {
-    missions:    () => setMissions(true),
-    inventory:   () => setInventory(true),
-    shop:        () => setShopOpen(true),
-    blackMarket: () => setBlackMarket(true),
+    missions:    opener(setMissions),
+    inventory:   opener(setInventory),
+    shop:        opener(setShopOpen),
+    blackMarket: opener(setBlackMarket),
   }
 
   // Overlays are scoped to the workspace on desktop so diagnostics stay visible
@@ -49,12 +54,12 @@ export function GarageScreen() {
       {shopOpen && (
         <PartsShop
           filterSlot={shopSlot}
-          onClose={() => { setShopOpen(false); setShopSlot(null) }}
+          onClose={() => { play('popup_close'); setShopOpen(false); setShopSlot(null) }}
         />
       )}
-      {missionsOpen      && <MissionSelect onClose={() => setMissions(false)} />}
-      {inventoryOpen     && <InventoryModal onClose={() => setInventory(false)} />}
-      {blackMarketOpen   && <BlackMarketShop onClose={() => setBlackMarket(false)} />}
+      {missionsOpen      && <MissionSelect onClose={closer(setMissions)} />}
+      {inventoryOpen     && <InventoryModal onClose={closer(setInventory)} />}
+      {blackMarketOpen   && <BlackMarketShop onClose={closer(setBlackMarket)} />}
       {missionComplete   && <MissionCompleteCard />}
     </>
   )
@@ -81,6 +86,7 @@ export function GarageScreen() {
           <Button variant="ghost" onClick={nav.inventory} className="text-xs">Inventory</Button>
           <Button variant="ghost" onClick={nav.shop} className="text-xs">Parts Shop</Button>
           <Button variant="danger" onClick={nav.blackMarket} className="text-xs border border-[var(--accent-red)]/50">Black Market</Button>
+          <SoundButton />
           <FullscreenButton />
         </div>
       </header>
@@ -193,6 +199,7 @@ function MobileGarage({ nav, objective, onSlotClick, overlays }) {
         <h1 className="text-[var(--accent-yellow)] font-bold text-base tracking-widest uppercase mr-auto">TuneCity</h1>
         {isLandscape && navButtons}
         <Money amount={currency} className="text-[var(--tag-positive)] text-sm" />
+        <SoundButton />
         <FullscreenButton />
       </header>
 
