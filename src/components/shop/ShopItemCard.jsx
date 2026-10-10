@@ -4,6 +4,7 @@ import { Card } from '../shared/Card.jsx'
 import { Button } from '../shared/Button.jsx'
 import { RotatingSprite } from '../shared/RotatingSprite.jsx'
 import { ROTATION_KEYS } from '../../assets/spriteMap.js'
+import { Price } from '../shared/Money.jsx'
 
 const TIER_LABELS = ['', 'Stock', 'Street', 'Race', 'Exotic']
 const TIER_COLORS = ['', 'text-gray-400', 'text-[var(--tag-character)]', 'text-[var(--accent-yellow)]', 'text-[var(--accent-red)]']
@@ -46,7 +47,7 @@ export function ShopItemCard({ part }) {
 
         <div className="flex items-center justify-between pt-1">
           <span className="text-[var(--accent-yellow)] font-bold text-sm">
-            {part.cost === 0 ? 'Free' : `$${part.cost.toLocaleString()}`}
+            {part.cost === 0 ? 'Free' : <Price amount={part.cost} />}
           </span>
           <div className="flex gap-2">
             {owned > 0 && (

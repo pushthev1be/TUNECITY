@@ -14,7 +14,7 @@ import { MissionCompleteCard } from '../mission/MissionCompleteCard.jsx'
 import { Button } from '../shared/Button.jsx'
 import { useMediaQuery, MOBILE_QUERY } from '../../hooks/useMediaQuery.js'
 import { useFullscreen } from '../../hooks/useFullscreen.js'
-import { dollar_stack } from '../../assets/spriteMap.js'
+import { Money } from '../shared/Money.jsx'
 
 export function GarageScreen() {
   const [shopOpen, setShopOpen]       = useState(false)
@@ -192,10 +192,7 @@ function MobileGarage({ nav, objective, onSlotClick, overlays }) {
       <header className="shrink-0 flex items-center gap-2 px-3 py-1.5 border-b border-[var(--panel-border)]">
         <h1 className="text-[var(--accent-yellow)] font-bold text-base tracking-widest uppercase mr-auto">TuneCity</h1>
         {isLandscape && navButtons}
-        <span className="flex items-center gap-1 text-[var(--tag-positive)] font-mono font-bold text-sm">
-          <img src={dollar_stack} alt="" className="w-5 h-5 object-contain pixelated" />
-          ${currency.toLocaleString()}
-        </span>
+        <Money amount={currency} className="text-[var(--tag-positive)] text-sm" />
         <FullscreenButton />
       </header>
 

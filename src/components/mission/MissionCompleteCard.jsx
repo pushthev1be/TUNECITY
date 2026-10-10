@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { useGameStore } from '../../stores/useGameStore.js'
+import { Price } from '../shared/Money.jsx'
 
 function deriveNickname(activeTags = []) {
   const tagId = activeTags.find(t => t.category === 'character')?.id
@@ -76,8 +77,8 @@ export function MissionCompleteCard() {
         <div className="text-left space-y-1">
           <p className="text-[var(--text-muted)] text-xs uppercase">Rewards</p>
           {objective?.rewards.currency > 0 && (
-            <p className="text-[var(--tag-positive)] text-sm font-bold">
-              +${objective.rewards.currency.toLocaleString()}
+            <p className="text-[var(--tag-positive)] text-sm font-bold flex items-center gap-1">
+              +<Price amount={objective.rewards.currency} iconSize={16} />
             </p>
           )}
           {objective?.rewards.parts?.map(pid => (

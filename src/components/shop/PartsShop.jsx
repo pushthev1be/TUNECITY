@@ -2,6 +2,7 @@ import { useState } from 'react'
 import partsData from '../../data/parts.json'
 import { ShopItemCard } from './ShopItemCard.jsx'
 import { useGameStore } from '../../stores/useGameStore.js'
+import { Money } from '../shared/Money.jsx'
 
 const CATEGORIES = [
   'All', 'engine', 'intake', 'forced_induction', 'exhaust',
@@ -31,7 +32,7 @@ export function PartsShop({ onClose, filterSlot }) {
         <div className="flex items-center justify-between p-4 border-b border-[var(--panel-border)]">
           <h2 className="text-[var(--accent-yellow)] font-bold uppercase tracking-widest">Parts Shop</h2>
           <div className="flex items-center gap-4">
-            <span className="text-[var(--tag-positive)] font-bold">${currency.toLocaleString()}</span>
+            <Money amount={currency} iconSize={18} className="text-[var(--tag-positive)]" />
             <button onClick={onClose} className="text-[var(--text-muted)] hover:text-[var(--text-primary)] text-xl">✕</button>
           </div>
         </div>

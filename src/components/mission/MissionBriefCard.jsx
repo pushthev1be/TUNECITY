@@ -1,5 +1,6 @@
 import carsData from '../../data/cars.json'
 import { Card } from '../shared/Card.jsx'
+import { Price } from '../shared/Money.jsx'
 
 const OP_LABELS = { gte: '≥', lte: '≤', eq: '=' }
 const DIFF_STARS = (d) => '★'.repeat(d) + '☆'.repeat(5 - d)
@@ -45,7 +46,7 @@ export function MissionBriefCard({ objective, isUnlocked, isCompleted, isActive,
       </div>
 
       <div className="flex items-center justify-between text-xs text-[var(--text-muted)]">
-        <span>Reward: <span className="text-[var(--tag-positive)]">${objective.rewards.currency?.toLocaleString()}</span></span>
+        <span className="inline-flex items-center gap-1">Reward: <Price amount={objective.rewards.currency ?? 0} iconSize={12} className="text-[var(--tag-positive)]" /></span>
         {objective.constraints.find(c => c.type === 'budget') && (
           <span>Budget: ${objective.constraints.find(c => c.type === 'budget').max.toLocaleString()}</span>
         )}

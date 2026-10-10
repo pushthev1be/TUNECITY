@@ -7,6 +7,7 @@ import { ContributionBreakdown } from './ContributionBreakdown.jsx'
 import { RotatingSprite } from '../shared/RotatingSprite.jsx'
 import { CAR_ROTATION_KEYS } from '../../assets/spriteMap.js'
 import carsData from '../../data/cars.json'
+import { Money } from '../shared/Money.jsx'
 
 const SMOKE_LABEL = {
   white: { text: 'White Smoke',  sub: 'Coolant burning — overheating',  color: 'text-gray-200' },
@@ -61,9 +62,7 @@ export function DiagnosticPanel({ onSlotClick }) {
         <h2 className="text-[var(--accent-yellow)] font-bold tracking-widest uppercase text-sm">
           Diagnostic
         </h2>
-        <span className="text-[var(--tag-positive)] font-bold text-sm">
-          ${currency.toLocaleString()}
-        </span>
+        <Money amount={currency} className="text-[var(--tag-positive)] text-sm" />
       </div>
 
       {/* Ignition prediction */}

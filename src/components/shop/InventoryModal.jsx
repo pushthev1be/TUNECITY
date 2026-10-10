@@ -2,6 +2,7 @@ import { useGameStore } from '../../stores/useGameStore.js'
 import { PART_SPRITES } from '../../assets/spriteMap.js'
 import { allParts } from '../../data/allParts.js'
 import { play } from '../../utils/sfx.js'
+import { Price } from '../shared/Money.jsx'
 
 const TIER_LABELS = ['', 'Stock', 'Street', 'Perf', 'Legend']
 const TIER_COLORS = ['', 'text-gray-400', 'text-[var(--tag-character)]', 'text-[var(--accent-yellow)]', 'text-[var(--accent-red)]']
@@ -76,7 +77,7 @@ export function InventoryModal({ onClose }) {
                       onClick={() => sellPart(part.id)}
                       className="text-xs px-2.5 py-1 rounded bg-[var(--tag-positive)]/20 text-[var(--tag-positive)] hover:bg-[var(--tag-positive)]/35 transition-colors font-mono"
                     >
-                      ${salePrice.toLocaleString()}
+                      <Price amount={salePrice} iconSize={12} />
                     </button>
                     <button
                       onClick={() => scrapPart(part.id)}

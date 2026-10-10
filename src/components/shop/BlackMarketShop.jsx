@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { allParts } from '../../data/allParts.js'
 import { useGameStore } from '../../stores/useGameStore.js'
-import { PART_SPRITES, underground_sign, dollar_stack } from '../../assets/spriteMap.js'
+import { PART_SPRITES, underground_sign } from '../../assets/spriteMap.js'
 import { Button } from '../shared/Button.jsx'
+
+import { Money, Price } from '../shared/Money.jsx'
 
 const TIER_COLORS = ['', 'text-gray-400', 'text-[var(--tag-character)]', 'text-[var(--accent-yellow)]', 'text-[var(--accent-red)]']
 const TIER_LABELS = ['', 'Stock', 'Street', 'Performance', 'Legend']
@@ -37,7 +39,7 @@ function BMPartCard({ part, canAfford, owned, onBuy }) {
         </div>
       </div>
       <div className="shrink-0 flex flex-col items-end gap-2">
-        <span className="text-[var(--accent-yellow)] font-mono text-sm font-bold">${part.cost.toLocaleString()}</span>
+        <Price amount={part.cost} className="text-[var(--accent-yellow)] text-sm font-bold" />
         {owned > 0 && (
           <span className="text-[var(--tag-positive)] text-xs">Owned: {owned}</span>
         )}
@@ -110,8 +112,7 @@ export function BlackMarketShop({ onClose }) {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <img src={dollar_stack} alt="" className="w-8 h-8 object-contain pixelated" />
-            <span className="text-[var(--accent-yellow)] font-mono text-sm">${currency.toLocaleString()}</span>
+            <Money amount={currency} iconSize={18} className="text-[var(--accent-yellow)] text-sm" />
             <button onClick={onClose} className="text-[var(--text-muted)] hover:text-[var(--text-primary)] text-xl leading-none">✕</button>
           </div>
         </div>

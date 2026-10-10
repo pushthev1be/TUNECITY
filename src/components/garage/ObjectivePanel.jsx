@@ -2,8 +2,9 @@ import { useGameStore } from '../../stores/useGameStore.js'
 import { IgnitionButton } from '../ignition/IgnitionButton.jsx'
 import { barSpriteStyle } from '../../utils/barSprite.js'
 import { RotatingSprite } from '../shared/RotatingSprite.jsx'
-import { CAR_ROTATION_KEYS, dollar_stack } from '../../assets/spriteMap.js'
+import { CAR_ROTATION_KEYS } from '../../assets/spriteMap.js'
 import { meetsConstraint } from '../../engine/economy/missionRewards.js'
+import { Money } from '../shared/Money.jsx'
 
 const DIFF_STARS = ['', '★', '★★', '★★★', '★★★★', '★★★★★']
 
@@ -224,11 +225,8 @@ export function ObjectivePanel({ compact = false }) {
               <span className="text-[var(--text-primary)] font-mono">${(stats.total_parts_cost ?? 0).toLocaleString()}</span>
             </div>
             <div className="flex justify-between items-center text-xs mb-4">
-              <div className="flex items-center gap-1.5">
-                <img src={dollar_stack} alt="" className="w-5 h-5 object-contain pixelated" />
-                <span className="text-[var(--text-muted)]">Available</span>
-              </div>
-              <span className="text-[var(--tag-positive)] font-mono">${currency.toLocaleString()}</span>
+              <span className="text-[var(--text-muted)]">Available</span>
+              <Money amount={currency} iconSize={14} className="text-[var(--tag-positive)] font-normal" />
             </div>
           </>
         )}
