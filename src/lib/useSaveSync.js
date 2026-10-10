@@ -1,22 +1,6 @@
 import { useEffect, useRef } from 'react'
-import { useGameStore } from '../stores/useGameStore.js'
+import { useGameStore, pickSaveFields } from '../stores/useGameStore.js'
 import { ensureSession, loadRemoteSave, upsertRemoteSave } from './saveSync.js'
-
-// Fields we persist to Supabase — same set as the Zustand partialize
-function extractSave(state) {
-  return {
-    currency:            state.currency,
-    ownedParts:          state.ownedParts,
-    ownedCars:           state.ownedCars,
-    activeCar:           state.activeCar,
-    installedParts:      state.installedParts,
-    installedPartsByCar: state.installedPartsByCar,
-    completedObjectives: state.completedObjectives,
-    activeObjectiveId:   state.activeObjectiveId,
-    bmUnlocked:          state.bmUnlocked,
-    bmListings:          state.bmListings,
-  }
-}
 
 export function useSaveSync() {
   const hydrated   = useRef(false)
@@ -30,7 +14,7 @@ export function useSaveSync() {
         await ensureSession()
         const remote = await loadRemoteSave()
         if (remote) {
-          useGameStore.setState(remote)
+          useGameStore.setState(pickSaveFields(remote))
         }
       } catch (err) {
         // Anonymous auth not yet enabled — silently fall back to localStorage
@@ -49,7 +33,7 @@ export function useSaveSync() {
       if (!syncActive.current) return
       clearTimeout(saveTimer.current)
       saveTimer.current = setTimeout(() => {
-        upsertRemoteSave(extractSave(state))
+        upsertRemoteSave(pickSaveFields(state))
       }, 2000)  // 2s debounce — saves 2 seconds after last change
     })
     return () => {

@@ -6,6 +6,23 @@ import { createProgressSlice } from './progressSlice.js'
 import { createUiSlice } from './uiSlice.js'
 import { createBlackMarketSlice } from './blackMarketSlice.js'
 
+export const SAVE_FIELDS = [
+  'currency',
+  'ownedParts',
+  'ownedCars',
+  'activeCar',
+  'installedParts',
+  'installedPartsByCar',
+  'completedObjectives',
+  'activeObjectiveId',
+  'bmUnlocked',
+  'bmListings',
+]
+
+export function pickSaveFields(state) {
+  return Object.fromEntries(SAVE_FIELDS.filter(k => k in state).map(k => [k, state[k]]))
+}
+
 export const useGameStore = create(
   persist(
     (...args) => ({
@@ -18,19 +35,9 @@ export const useGameStore = create(
     {
       name: 'tunecity-save',
       version: 3,
-      migrate: () => ({}),
-      partialize: (state) => ({
-        currency: state.currency,
-        ownedParts: state.ownedParts,
-        ownedCars: state.ownedCars,
-        activeCar: state.activeCar,
-        installedParts: state.installedParts,
-        installedPartsByCar: state.installedPartsByCar,
-        completedObjectives: state.completedObjectives,
-        activeObjectiveId: state.activeObjectiveId,
-        bmUnlocked: state.bmUnlocked,
-        bmListings: state.bmListings,
-      }),
+      // Keep known fields from older saves; anything missing falls back to slice defaults.
+      migrate: (persisted) => pickSaveFields(persisted ?? {}),
+      partialize: pickSaveFields,
     }
   )
 )

@@ -3,6 +3,7 @@ import { IgnitionButton } from '../ignition/IgnitionButton.jsx'
 import { barSpriteStyle } from '../../utils/barSprite.js'
 import { RotatingSprite } from '../shared/RotatingSprite.jsx'
 import { CAR_ROTATION_KEYS, dollar_stack } from '../../assets/spriteMap.js'
+import { meetsConstraint } from '../../engine/economy/missionRewards.js'
 
 const DIFF_STARS = ['', '★', '★★', '★★★', '★★★★', '★★★★★']
 
@@ -30,19 +31,6 @@ function meetsTarget(stat, op, target, stats) {
   if (op === 'gte') return val >= target
   if (op === 'lte') return val <= target
   return false
-}
-
-function meetsConstraint(constraint, computed, currency) {
-  if (constraint.type === 'no_catastrophic_tag') {
-    return !(computed?.activeTags ?? []).some(t => t.category === 'catastrophic')
-  }
-  if (constraint.type === 'budget') {
-    return (computed?.stats?.total_parts_cost ?? 0) <= constraint.max
-  }
-  if (constraint.type === 'required_tag') {
-    return (computed?.activeTags ?? []).some(t => t.id === constraint.tag)
-  }
-  return true
 }
 
 function constraintLabel(c) {
@@ -174,7 +162,7 @@ export function ObjectivePanel() {
           <p className="text-[var(--text-muted)] text-xs uppercase mb-2">Constraints</p>
           <div className="space-y-1">
             {objective.constraints.map((c, i) => {
-              const met = meetsConstraint(c, computed, currency)
+              const met = meetsConstraint(c, computed?.stats, computed?.activeTags ?? [])
               return (
                 <div key={i} className="flex items-center justify-between gap-2">
                   <span className={`text-xs ${met ? 'text-[var(--tag-positive)]' : 'text-[var(--text-muted)]'}`}>

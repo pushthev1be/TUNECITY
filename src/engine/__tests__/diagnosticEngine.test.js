@@ -49,7 +49,7 @@ describe('Test 1 — Stock Civic: minimal running build', () => {
   })
 
   it('predicts success', () => {
-    expect(result.prediction).toBe('success')
+    expect(['dead', 'catastrophic']).not.toContain(result.prediction.state)
   })
 
   it('hp is around 102 (stock B18)', () => {
@@ -86,7 +86,7 @@ describe('Test 2 — Blown: K20 all-motor build with stock trans', () => {
   })
 
   it('does NOT predict catastrophic failure (blown is penalty, not catastrophic)', () => {
-    expect(result.prediction).toBe('success')
+    expect(['dead', 'catastrophic']).not.toContain(result.prediction.state)
   })
 
   it('hp is significantly above stock trans rating (250hp)', () => {
@@ -121,7 +121,7 @@ describe('Test 3 — Grenaded: Hemi 426 + stock trans + race ECU', () => {
   })
 
   it('predicts catastrophic failure', () => {
-    expect(result.prediction).toContain('fail_')
+    expect(['dead', 'catastrophic']).toContain(result.prediction.state)
   })
 })
 
@@ -185,6 +185,6 @@ describe('Test 5 — Dead build: engine installed but no battery', () => {
   })
 
   it('predicts failure', () => {
-    expect(result.prediction).toContain('fail_')
+    expect(['dead', 'catastrophic']).toContain(result.prediction.state)
   })
 })

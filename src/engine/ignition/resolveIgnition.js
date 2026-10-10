@@ -64,7 +64,7 @@ export function resolveIgnition(build, car, activeObjective) {
   const benchmark_results = simulateBenchmarks(stats, car, penalties)
 
   const objective_met = activeObjective
-    ? checkObjective(benchmark_results, stats, activeObjective)
+    ? checkObjective(benchmark_results, stats, activeObjective, activeTags)
     : false
 
   const wear_report = computeWearReport(penalties, stats)
