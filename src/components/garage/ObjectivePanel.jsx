@@ -124,10 +124,10 @@ export function ObjectivePanel({ compact = false }) {
 
       {/* Mission car preview */}
       {objective && CAR_ROTATION_KEYS[objective.car_id] && (
-        <div className="flex justify-center py-1 border-b border-[var(--panel-border)]">
+        <div className="flex justify-center -my-4 border-b border-[var(--panel-border)]">
           <RotatingSprite
             spriteKey={CAR_ROTATION_KEYS[objective.car_id]}
-            size={72}
+            size={132}
             fps={4}
           />
         </div>

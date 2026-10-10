@@ -31,7 +31,7 @@ const LONG_FRAMES = Object.keys(LONG_RAW)
 const ORANGE_FILTER = 'sepia(1) saturate(6) hue-rotate(-10deg) brightness(1.4)'
 
 // Cycling flash_side frames = animated exhaust cone
-function ExhaustCone({ size, flip = false }) {
+function ExhaustCone({ flip = false }) {
   const [frame, setFrame] = useState(0)
 
   useEffect(() => {
@@ -47,8 +47,8 @@ function ExhaustCone({ size, flip = false }) {
       src={SIDE_FRAMES[frame]}
       alt=""
       style={{
-        width:          size,
-        height:         size,
+        width:          '100%',
+        aspectRatio:    '1',
         objectFit:      'cover',
         // origin of flash_side is left-center; rotate so it shoots upward
         // flip mirrors for right-side exhaust (shoots up-left instead of up-right)
@@ -63,27 +63,34 @@ function ExhaustCone({ size, flip = false }) {
 }
 
 // Per-car exhaust plume configs
-// x/y = % in the 1:1 inner garage container, anchor = bottom-center of plume
-// size = px width of the effect image (controls how far flame reaches)
+// x/y/size = % of the 256×256 garage stage (same grid as the car sprites);
+// anchor = bottom-center of plume, size controls how far the flame reaches
 // flip = mirror the cone (for right-side exhaust tip)
 const EXHAUST_CONFIGS = {
-  civic_eg_92_project: [{ x: 50,  y: 46, size: 55 }],
-  charger_69_rt:       [{ x: 42,  y: 44, size: 68 }, { x: 58, y: 44, size: 68, flip: true }],
-  bmw_m4_comp:         [{ x: 43,  y: 45, size: 60 }, { x: 57, y: 45, size: 60, flip: true }],
-  lamborghini_urus:    [{ x: 40,  y: 43, size: 72 }, { x: 60, y: 43, size: 72, flip: true }],
-  corvette_c5:         [{ x: 42,  y: 44, size: 65 }, { x: 58, y: 44, size: 65, flip: true }],
-  toyota_camry:        [{ x: 50,  y: 46, size: 50 }],
-  dodge_hellcat:       [{ x: 41,  y: 43, size: 75 }, { x: 59, y: 43, size: 75, flip: true }],
-  ram_truck:           [{ x: 40,  y: 42, size: 78 }, { x: 60, y: 42, size: 78, flip: true }],
-  subaru_wrx:          [{ x: 50,  y: 44, size: 60 }],
-  mystery_0e:          [{ x: 41,  y: 43, size: 70 }, { x: 59, y: 43, size: 70, flip: true }],
-  mystery_88:          [{ x: 43,  y: 45, size: 60 }, { x: 57, y: 45, size: 60, flip: true }],
-  mystery_ae:          [{ x: 43,  y: 44, size: 65 }, { x: 57, y: 44, size: 65, flip: true }],
+  civic_eg_92_project: [{ x: 50, y: 32.1, size: 6.9 }],
+  charger_69_rt:       [{ x: 40.4, y: 35, size: 8.5 }, { x: 59.6, y: 35, size: 8.5, flip: true }],
+  bmw_m4_comp:         [{ x: 41.6, y: 33.6, size: 7.5 }, { x: 58.4, y: 33.6, size: 7.5, flip: true }],
+  lamborghini_urus:    [{ x: 38, y: 33.4, size: 9 }, { x: 62, y: 33.4, size: 9, flip: true }],
+  corvette_c5:         [{ x: 40.4, y: 33.8, size: 8.1 }, { x: 59.6, y: 33.8, size: 8.1, flip: true }],
+  toyota_camry:        [{ x: 50, y: 37.3, size: 6.2 }],
+  dodge_hellcat:       [{ x: 39.2, y: 32.9, size: 9.4 }, { x: 60.8, y: 32.9, size: 9.4, flip: true }],
+  ram_truck:           [{ x: 38, y: 34.9, size: 9.8 }, { x: 62, y: 34.9, size: 9.8, flip: true }],
+  subaru_wrx:          [{ x: 50, y: 32.3, size: 7.5 }],
+  mystery_0e:          [{ x: 39.2, y: 33.5, size: 8.8 }, { x: 60.8, y: 33.5, size: 8.8, flip: true }],
+  mystery_88:          [{ x: 41.6, y: 37.9, size: 7.5 }, { x: 58.4, y: 37.9, size: 7.5, flip: true }],
+  mystery_ae:          [{ x: 41.6, y: 37.1, size: 8.1 }, { x: 58.4, y: 37.1, size: 8.1, flip: true }],
 }
-const DEFAULT_CONFIG = [{ x: 44, y: 44, size: 62 }, { x: 56, y: 44, size: 62, flip: true }]
+const DEFAULT_CONFIG = [{ x: 42.8, y: 33, size: 7.8 }, { x: 57.2, y: 33, size: 7.8, flip: true }]
 
-export function ExhaustFlames({ active, carId }) {
-  const config = EXHAUST_CONFIGS[carId] ?? DEFAULT_CONFIG
+// scale/origin: the car layer is drawn scaled about origin (in stage %), so plumes
+// defined in sprite coordinates are mapped the same way to stay on the car
+export function ExhaustFlames({ active, carId, scale = 1, origin = { x: 50, y: 50 } }) {
+  const config = (EXHAUST_CONFIGS[carId] ?? DEFAULT_CONFIG).map(p => ({
+    ...p,
+    x:    origin.x + (p.x - origin.x) * scale,
+    y:    origin.y + (p.y - origin.y) * scale,
+    size: p.size * scale,
+  }))
 
   return (
     <AnimatePresence>
@@ -99,14 +106,16 @@ export function ExhaustFlames({ active, carId }) {
             left:           `${plume.x}%`,
             top:            `${plume.y}%`,
             // anchor: bottom-center of this div = exhaust tip
+            width:          `${plume.size}%`,
             transform:      'translate(-50%, -100%)',
             zIndex:         6,
             pointerEvents:  'none',
-            // isolate stacking context so mix-blend-mode works against the garage bg
-            isolation:      'auto',
+            // z-index makes this div its own stacking context, so the blend has to
+            // live here (not on the img) to reach the garage behind it
+            mixBlendMode:   'screen',
           }}
         >
-          <ExhaustCone size={plume.size} flip={plume.flip} />
+          <ExhaustCone flip={plume.flip} />
         </motion.div>
       ))}
     </AnimatePresence>

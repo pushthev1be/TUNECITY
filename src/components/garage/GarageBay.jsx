@@ -6,11 +6,16 @@ import { CAR_SPRITES, CAR_ROTATION_KEYS, garage_bg } from '../../assets/spriteMa
 import { ExhaustFlames } from '../effects/ExhaustFlames.jsx'
 import { IgnitionFlash } from '../effects/IgnitionFlash.jsx'
 
-// Measured from the 256×256 garage_bg.png:
-// Yellow lift-mat border: X 86–169 (center 127.5px), Y 109–173 (bottom 173px)
-const CAR_X_PCT = 50.0
-const CAR_Y_PCT = 89
-const CAR_W_PCT = 46
+// garage_bg.png and every car sprite share the same 256×256 pixel grid; each car
+// is drawn parked on the lift mat (center X 127.5, bottom Y 173). The room itself
+// only covers pixels 65–190, so the stage is sized to fit the room's width and the
+// car-and-lift band (Y 60–180) into the bay; a blurred backdrop fills any spare edge.
+const STAGE_SIZE = 'min(100cqw * 2.05, 100cqh * 2.13)'
+
+// Cars are drawn a bit smaller than the art grid so they sit inside the lift mat
+// with room around them, scaled about the mat's bottom-center so wheels stay put.
+const CAR_SCALE  = 0.6
+const CAR_ORIGIN = { x: 49.8, y: 67.6 }
 
 export function GarageBay() {
   const activeCar      = useGameStore(s => s.activeCar)
@@ -47,11 +52,8 @@ export function GarageBay() {
     setActiveCar(browsableCars[idx].id)
   }
 
-  const CAR_W_OVERRIDE = { ram_truck: 58, mystery_0e: 50, mystery_88: 50, mystery_ae: 50 }
-  const carWidth = CAR_W_OVERRIDE[activeCar] ?? CAR_W_PCT
-
   return (
-    <div className="absolute inset-0 bg-black overflow-hidden">
+    <div className="absolute inset-0 bg-black overflow-hidden" style={{ containerType: 'size' }}>
 
       {/* Navigation arrows — always visible since all cars are browsable */}
       <button
@@ -63,90 +65,75 @@ export function GarageBay() {
         className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 text-[var(--accent-yellow)] hover:bg-black/80 hover:scale-110 rounded-full flex items-center justify-center text-xl z-20 transition-all cursor-pointer border border-[var(--panel-border)]"
       >▶</button>
 
-      {/* 
-          Senior Game Engineer "Overscan" Fix:
-          1. The Background Layer fills the workspace and is scaled up (1.8x) 
-             to guarantee it overflows and eliminates any black bars.
-          2. The Interaction Layer is scaled by the EXACT same factor.
-          3. This creates a "Stage" that is larger than the viewport, 
-             providing a perfect immersive bleed while keeping alignment.
-      */}
-      <div className="absolute inset-0 bg-black overflow-hidden pointer-events-none">
-        
-        {/* Layer 1: The World (Background) */}
+      {/* Backdrop: blurred garage so wide or tall bays never show black bars */}
+      <img
+        src={garage_bg}
+        alt=""
+        className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+        style={{ transform: 'scale(2.2)', filter: 'blur(8px) brightness(0.45)' }}
+      />
+
+      {/* Stage: square, centered on the car-and-lift band, shared by background, car and effects */}
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          width:  STAGE_SIZE,
+          height: STAGE_SIZE,
+          left:   '50%',
+          top:    '50%',
+          transform: 'translate(-50%, -47%)',
+        }}
+      >
         <img
           src={garage_bg}
           alt=""
-          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-          style={{ 
-            imageRendering: 'pixelated', 
-            transform: 'scale(1.8)', // Forces the 1:1 art to cover widescreen
-            objectPosition: 'center 55%' 
-          }}
+          className="absolute inset-0 w-full h-full"
+          style={{ imageRendering: 'pixelated' }}
         />
 
-        {/* Layer 2: The Stage (Car & Effects) */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div 
-            className="relative w-full h-full" 
-            style={{ transform: 'scale(1.8)' }} // Matches background scale exactly
-          >
-            {/* Exhaust flames — positioned using the same % coordinates */}
-            <ExhaustFlames active={showFlames} carId={activeCar} />
+        {/* Flames stay outside the scaled car layer so their screen blend reaches the garage */}
+        <ExhaustFlames active={showFlames} carId={activeCar} scale={CAR_SCALE} origin={CAR_ORIGIN} />
 
-            {/* Car sprite */}
-            {sprite && (
-              <div
-                style={{
-                  position: 'absolute',
-                  left:     `${CAR_X_PCT}%`,
-                  top:      `${CAR_Y_PCT}%`,
-                  width:    `${carWidth}%`,
-                  height:   'auto',
-                  transform:'translate(-50%, -100%)',
-                  zIndex:   10
-                }}
-              >
-                <img
-                  src={sprite}
-                  alt={car?.name ?? ''}
-                  style={{
-                    width:          '100%',
-                    height:         'auto',
-                    imageRendering: 'pixelated',
-                    display:        'block',
-                    filter:         isLocked
-                      ? 'grayscale(100%) brightness(0.35) drop-shadow(0 8px 20px rgba(0,0,0,0.8))'
-                      : showFlames
-                        ? 'drop-shadow(0 0 12px rgba(255,140,0,0.6)) drop-shadow(0 8px 20px rgba(0,0,0,0.8))'
-                        : 'drop-shadow(0 8px 20px rgba(0,0,0,0.8))',
-                    transition:     'filter 0.4s ease',
-                  }}
-                />
-                {isLocked && (
-                  <div style={{
-                    position:       'absolute',
-                    inset:          0,
-                    display:        'flex',
-                    alignItems:     'center',
-                    justifyContent: 'center',
-                  }}>
-                    <span style={{ fontSize: '2.5rem', filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.9))' }}>🔒</span>
-                  </div>
-                )}
-              </div>
-            )}
+        <div
+          className="absolute inset-0"
+          style={{ transform: `scale(${CAR_SCALE})`, transformOrigin: `${CAR_ORIGIN.x}% ${CAR_ORIGIN.y}%`, zIndex: 10 }}
+        >
 
-          {/* Ignition flash */}
-          {ignitionSuccess && (
-            <IgnitionFlash
-              active={!flashDone && ignitionSuccess}
-              onDone={() => setFlashDone(true)}
-            />
-          )}
+        {sprite && (
+          <img
+            src={sprite}
+            alt={car?.name ?? ''}
+            className="absolute inset-0 w-full h-full"
+            style={{
+              imageRendering: 'pixelated',
+              zIndex:         10,
+              filter:         isLocked
+                ? 'grayscale(100%) brightness(0.35) drop-shadow(0 1.5cqh 2cqh rgba(0,0,0,0.8))'
+                : showFlames
+                  ? 'drop-shadow(0 0 1.5cqh rgba(255,140,0,0.6)) drop-shadow(0 1.5cqh 2cqh rgba(0,0,0,0.8))'
+                  : 'drop-shadow(0 1.5cqh 2cqh rgba(0,0,0,0.8))',
+              transition:     'filter 0.4s ease',
+            }}
+          />
+        )}
+
+        {sprite && isLocked && (
+          <span
+            className="absolute"
+            style={{
+              left: '50%', top: '48%', transform: 'translate(-50%, -50%)', zIndex: 11,
+              fontSize: '6cqh', filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.9))',
+            }}
+          >🔒</span>
+        )}
         </div>
-      </div>
 
+        {ignitionSuccess && (
+          <IgnitionFlash
+            active={!flashDone && ignitionSuccess}
+            onDone={() => setFlashDone(true)}
+          />
+        )}
       </div>
 
       {/* Car label */}

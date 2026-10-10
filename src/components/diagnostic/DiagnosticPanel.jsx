@@ -40,10 +40,10 @@ export function DiagnosticPanel({ onSlotClick }) {
       {/* Active Vehicle card */}
       {car && (
         <div className="flex items-center gap-3 px-2 py-2 rounded bg-[var(--garage-bg)] border border-[var(--panel-border)]">
-          <div className="shrink-0">
+          <div className="shrink-0 -my-3">
             {CAR_ROTATION_KEYS[activeCar]
-              ? <RotatingSprite spriteKey={CAR_ROTATION_KEYS[activeCar]} size={52} fps={4} />
-              : <div className="w-[52px] h-[52px] bg-[var(--panel-border)] rounded opacity-30" />
+              ? <RotatingSprite spriteKey={CAR_ROTATION_KEYS[activeCar]} size={76} fps={4} />
+              : <div className="w-[76px] h-[76px] bg-[var(--panel-border)] rounded opacity-30" />
             }
           </div>
           <div className="min-w-0 flex-1">
