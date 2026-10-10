@@ -60,21 +60,22 @@ export function IgnitionSequence() {
     : 'text-[var(--accent-yellow)]'
 
   return (
-    <div className="absolute inset-0 bg-black/80 flex items-center justify-center z-40">
+    // Docked low with a fade so the car stays visible (and shaking) while it cranks
+    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex items-end justify-center pb-6 z-40 pointer-events-none">
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="text-center space-y-5 px-6 max-w-xs w-full"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-center space-y-3 px-6 max-w-xs w-full"
       >
-        {/* Spinner — spinner03.png: top-left frame (x=0, y=0, 60×36px), rendered at 3x */}
+        {/* Spinner — spinner03.png: top-left frame (x=0, y=0, 60×36px), rendered at 1.5x */}
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
           style={{
-            width: 180, height: 108,
+            width: 90, height: 54,
             backgroundImage: `url(${spinner03})`,
             backgroundPosition: '0 0',
-            backgroundSize: '720px 432px',
+            backgroundSize: '360px 216px',
             backgroundRepeat: 'no-repeat',
             imageRendering: 'pixelated',
             margin: '0 auto',

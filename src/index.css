@@ -41,3 +41,9 @@ body {
     rgba(255, 255, 255, 0.013) 4px
   );
 }
+
+/* Engine idle: the car body shivers a pixel while it runs */
+@keyframes idle-rumble {
+  0%   { transform: translate(0, 0); }
+  50%  { transform: translate(0, -0.15%); }
+}

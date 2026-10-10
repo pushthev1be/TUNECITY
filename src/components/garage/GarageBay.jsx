@@ -5,6 +5,8 @@ import carsData from '../../data/cars.json'
 import { CAR_SPRITES, CAR_ROTATION_KEYS, garage_bg } from '../../assets/spriteMap.js'
 import { ExhaustFlames } from '../effects/ExhaustFlames.jsx'
 import { IgnitionFlash } from '../effects/IgnitionFlash.jsx'
+import { FailureEffects } from '../effects/FailureEffects.jsx'
+import { motion } from 'framer-motion'
 
 // garage_bg.png and every car sprite share the same 256×256 pixel grid; each car
 // is drawn parked on the lift mat (center X 127.5, bottom Y 173). The room itself
@@ -17,11 +19,22 @@ const STAGE_SIZE = 'min(100cqw * 2.05, 100cqh * 2.13)'
 const CAR_SCALE  = 0.6
 const CAR_ORIGIN = { x: 49.8, y: 67.6 }
 
+const SHAKES = {
+  still:  { animate: { x: 0, y: 0 }, transition: { duration: 0 } },
+  crank:  { animate: { x: [0, -2, 2, -1, 1, 0], y: [0, 1, -1, 0] }, transition: { duration: 0.22, repeat: Infinity } },
+  catch:  { animate: { y: [0, -7, 4, -2, 1, 0] }, transition: { duration: 0.45, ease: 'easeOut' } },
+  blowup: { animate: { x: [0, -14, 12, -10, 8, -5, 3, 0], y: [0, 8, -6, 5, -3, 2, 0] }, transition: { duration: 0.7, ease: 'easeOut' } },
+}
+
+// Failures that end in flames rather than just smoke
+const FIRE_TAGS = new Set(['grenaded', 'overheated', 'hydrolocked'])
+
 export function GarageBay() {
   const activeCar      = useGameStore(s => s.activeCar)
   const setActiveCar   = useGameStore(s => s.setActiveCar)
   const ignitionResult = useGameStore(s => s.ignitionResult)
   const engineRunning  = useGameStore(s => s.engineRunning)
+  const ignitionState  = useGameStore(s => s.ignitionState)
   const ownedCars      = useGameStore(s => s.ownedCars)
   const ownedCarIds    = ownedCars.map(c => c.car_id)
 
@@ -35,6 +48,11 @@ export function GarageBay() {
   const ignitionSuccess = ignitionResult?.outcome !== 'catastrophic_failure' && !!ignitionResult
   const showFlames      = ignitionSuccess || engineRunning
   const [flashDone, setFlashDone] = useState(false)
+  const blewUp = ignitionResult?.outcome === 'catastrophic_failure' && !ignitionResult.isTestFit
+  const shake  = ignitionState === 'animating' ? 'crank'
+    : blewUp ? 'blowup'
+    : ignitionSuccess && !ignitionResult.isTestFit ? 'catch'
+    : 'still'
 
   useEffect(() => {
     if (!ignitionResult) return
@@ -73,6 +91,13 @@ export function GarageBay() {
         style={{ transform: 'scale(2.2)', filter: 'blur(8px) brightness(0.45)' }}
       />
 
+      {/* Camera shake wraps the stage: rumble while cranking, jolt on start, heavy hit on blowup */}
+      <motion.div
+        key={shake}
+        className="absolute inset-0 pointer-events-none"
+        animate={SHAKES[shake].animate}
+        transition={SHAKES[shake].transition}
+      >
       {/* Stage: square, centered on the car-and-lift band, shared by background, car and effects */}
       <div
         className="absolute pointer-events-none"
@@ -113,6 +138,7 @@ export function GarageBay() {
                   ? 'drop-shadow(0 0 1.5cqh rgba(255,140,0,0.6)) drop-shadow(0 1.5cqh 2cqh rgba(0,0,0,0.8))'
                   : 'drop-shadow(0 1.5cqh 2cqh rgba(0,0,0,0.8))',
               transition:     'filter 0.4s ease',
+              animation:      engineRunning ? 'idle-rumble 0.12s steps(1) infinite' : 'none',
             }}
           />
         )}
@@ -134,7 +160,10 @@ export function GarageBay() {
             onDone={() => setFlashDone(true)}
           />
         )}
+
+        {blewUp && <FailureEffects fire={FIRE_TAGS.has(ignitionResult.tag)} />}
       </div>
+      </motion.div>
 
       {/* Car label */}
       {car && (

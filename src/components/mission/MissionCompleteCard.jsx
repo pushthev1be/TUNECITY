@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion'
 import { useGameStore } from '../../stores/useGameStore.js'
 import { Price } from '../shared/Money.jsx'
+import { Confetti } from '../effects/Confetti.jsx'
+import { findPart } from '../../data/allParts.js'
 
 function deriveNickname(activeTags = []) {
   const tagId = activeTags.find(t => t.category === 'character')?.id
@@ -35,6 +37,7 @@ export function MissionCompleteCard() {
 
   return (
     <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4">
+      <Confetti />
       <motion.div
         initial={{ opacity: 0, scale: 0.8, y: 40 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -82,7 +85,7 @@ export function MissionCompleteCard() {
             </p>
           )}
           {objective?.rewards.parts?.map(pid => (
-            <p key={pid} className="text-[var(--tag-character)] text-xs">+ {pid.replace(/_/g, ' ')}</p>
+            <p key={pid} className="text-[var(--tag-character)] text-xs">+ {findPart(pid)?.name ?? pid.replace(/_/g, ' ')}</p>
           ))}
           {objective?.rewards.car_added_to_garage && (
             <p className="text-[var(--tag-positive)] text-xs">Car added to garage</p>
