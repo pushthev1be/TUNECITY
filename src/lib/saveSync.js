@@ -11,15 +11,15 @@ export async function ensureSession() {
 export async function loadRemoteSave() {
   const { data, error } = await supabase
     .from('game_saves')
-    .select('save')
+    .select('save, saved_at')
     .single()
   if (error || !data) return null
-  return data.save
+  return { save: data.save, savedAt: Date.parse(data.saved_at) || 0 }
 }
 
-export async function upsertRemoteSave(save) {
+export async function upsertRemoteSave(save, savedAt) {
   const { error } = await supabase
     .from('game_saves')
-    .upsert({ save, saved_at: new Date().toISOString() })
+    .upsert({ save, saved_at: new Date(savedAt).toISOString() })
   if (error) console.warn('[saveSync] upsert failed:', error.message)
 }
