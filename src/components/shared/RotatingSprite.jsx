@@ -32,7 +32,7 @@ export function RotatingSprite({ spriteKey, size = 64, fps = 8, className = '', 
   const [frame, setFrame] = useState(0)
 
   useEffect(() => {
-    if (frames.length <= 1) return
+    if (frames.length <= 1 || !fps) return // fps 0 = still frame
     const id = setInterval(() => setFrame(f => (f + 1) % frames.length), 1000 / fps)
     return () => clearInterval(id)
   }, [frames.length, fps])

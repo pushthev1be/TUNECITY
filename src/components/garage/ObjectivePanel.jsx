@@ -5,26 +5,10 @@ import { RotatingSprite } from '../shared/RotatingSprite.jsx'
 import { CAR_ROTATION_KEYS } from '../../assets/spriteMap.js'
 import { meetsConstraint } from '../../engine/economy/missionRewards.js'
 import { Money } from '../shared/Money.jsx'
+import { statLabel, statUnit } from '../../data/statLabels.js'
+import objectivesData from '../../data/objectives.json'
 
 const DIFF_STARS = ['', '★', '★★', '★★★', '★★★★', '★★★★★']
-
-function statLabel(stat) {
-  const MAP = {
-    hp: 'HP', torque: 'Torque', reliability: 'Reliability',
-    zero_to_sixty: '0–60', top_speed: 'Top Speed', quarter_mile: '¼ Mile',
-    grip: 'Grip', heat_output: 'Heat',
-  }
-  return MAP[stat] ?? stat
-}
-
-function statUnit(stat) {
-  const MAP = {
-    hp: 'hp', torque: 'lb-ft', reliability: '%',
-    zero_to_sixty: 's', top_speed: 'mph', quarter_mile: 's',
-    grip: 'g', heat_output: '',
-  }
-  return MAP[stat] ?? ''
-}
 
 function meetsTarget(stat, op, target, stats) {
   const val = stats?.[stat]
@@ -113,7 +97,9 @@ export function ObjectivePanel({ compact = false }) {
       {objective ? (
         <section>
           <div className="flex items-start justify-between mb-1">
-            <p className="text-[var(--text-muted)] text-xs uppercase tracking-wider">Active Mission</p>
+            <p className="text-[var(--text-muted)] text-xs uppercase tracking-wider">
+              Mission {objectivesData.findIndex(o => o.id === objective.id) + 1} of {objectivesData.length}
+            </p>
             <span className="text-[var(--accent-yellow)] text-xs">{DIFF_STARS[objective.difficulty]}</span>
           </div>
           <p className="text-[var(--text-primary)] font-bold text-sm leading-tight">{objective.name}</p>

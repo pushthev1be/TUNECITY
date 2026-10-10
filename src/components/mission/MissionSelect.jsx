@@ -7,6 +7,7 @@ export function MissionSelect({ onClose }) {
   const completedObjectives = useGameStore(s => s.completedObjectives)
   const isUnlocked         = useGameStore(s => s.isObjectiveUnlocked)
   const setActive          = useGameStore(s => s.setActiveObjective)
+  const completedCount     = completedObjectives.filter(id => objectivesData.some(o => o.id === id)).length
 
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
@@ -14,6 +15,20 @@ export function MissionSelect({ onClose }) {
         <div className="flex items-center justify-between p-4 border-b border-[var(--panel-border)]">
           <h2 className="text-[var(--accent-yellow)] font-bold uppercase tracking-widest">Missions</h2>
           <button onClick={onClose} className="text-[var(--text-muted)] hover:text-[var(--text-primary)] text-xl">✕</button>
+        </div>
+
+        {/* Campaign progress */}
+        <div className="px-4 pt-3 space-y-1.5">
+          <div className="flex justify-between text-xs">
+            <span className="text-[var(--text-muted)] uppercase tracking-wider">Campaign</span>
+            <span className="text-[var(--text-primary)] font-mono">{completedCount} / {objectivesData.length} complete</span>
+          </div>
+          <div className="h-2 rounded-full bg-[var(--garage-bg)] overflow-hidden">
+            <div
+              className="h-full bg-[var(--accent-yellow)] transition-all duration-500"
+              style={{ width: `${(completedCount / objectivesData.length) * 100}%` }}
+            />
+          </div>
         </div>
 
         <div className="flex-1 overflow-y-auto p-4 space-y-3">
@@ -24,6 +39,7 @@ export function MissionSelect({ onClose }) {
               isUnlocked={isUnlocked(obj.id)}
               isCompleted={completedObjectives.includes(obj.id)}
               isActive={obj.id === activeObjectiveId}
+              unlockedBy={objectivesData.find(o => o.rewards.unlocks_mission === obj.id)}
               onClick={() => {
                 setActive(obj.id)
                 onClose()
