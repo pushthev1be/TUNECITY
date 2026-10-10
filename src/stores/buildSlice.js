@@ -1,6 +1,6 @@
 import carsData  from '../data/cars.json'
 import partsData from '../data/parts.json'
-import { findPart } from '../data/allParts.js'
+import { findPart, allParts } from '../data/allParts.js'
 import { computeStats }  from '../engine/diagnostic/computeStats.js'
 import { evaluateTags }  from '../engine/diagnostic/evaluateTags.js'
 import { buildIssues, predictIgnition } from '../engine/diagnostic/buildIssues.js'
@@ -89,6 +89,12 @@ function defaultInstalled(car) {
   }
 }
 
+// Trade-ins are worth more than selling (75%), but never give change back
+export const TRADE_IN_RATE = 0.9
+function tradeInCredit(oldPart, newPart) {
+  return Math.min(newPart.cost, Math.floor(oldPart.cost * TRADE_IN_RATE))
+}
+
 export function createBuildSlice(set, get) {
   const _civicCar = carsData.find(c => c.id === 'civic_eg_92_project')
   const _civicDefaults = _civicCar ? defaultInstalled(_civicCar) : emptySlots()
@@ -140,6 +146,51 @@ export function createBuildSlice(set, get) {
         installedParts: next,
         computed: recompute(activeCar, next) 
       })
+    },
+
+    // Trade-in source for buying partId: the part in that slot on the active car,
+    // else the most valuable spare of the same category in inventory
+    getTradeIn(partId) {
+      const partDef = findPart(partId)
+      if (!partDef) return null
+      const { installedParts, ownedParts } = get()
+      const slotted = installedParts[partDef.category]
+      if (slotted && slotted.id !== partId && slotted.cost > 0) {
+        return { part: slotted, installed: true, credit: tradeInCredit(slotted, partDef) }
+      }
+      const spare = allParts
+        .filter(p => p.category === partDef.category && p.id !== partId && p.cost > 0 && (ownedParts[p.id] ?? 0) > 0)
+        .sort((a, b) => b.cost - a.cost)[0]
+      return spare ? { part: spare, installed: false, credit: tradeInCredit(spare, partDef) } : null
+    },
+
+    // Buy partId with a trade-in toward its price, then install it
+    upgradePart(partId) {
+      const partDef = findPart(partId)
+      const tradeIn = get().getTradeIn(partId)
+      if (!partDef || !tradeIn) return false
+      const price = partDef.cost - tradeIn.credit
+      if (get().currency < price) return false
+
+      const { activeCar, installedPartsByCar, ownedParts } = get()
+      const slot = partDef.category
+      const nextOwned = { ...ownedParts }
+      if (!tradeIn.installed) nextOwned[tradeIn.part.id] -= 1
+
+      const carParts = installedPartsByCar[activeCar] || emptySlots()
+      // A spare trade-in leaves the slotted part in place; swap it back to inventory
+      const displaced = !tradeIn.installed ? carParts[slot] : null
+      if (displaced) nextOwned[displaced.id] = (nextOwned[displaced.id] ?? 0) + 1
+
+      const next = { ...carParts, [slot]: partDef }
+      set({
+        currency:            get().currency - price,
+        ownedParts:          nextOwned,
+        installedPartsByCar: { ...installedPartsByCar, [activeCar]: next },
+        installedParts:      next,
+        computed:            recompute(activeCar, next),
+      })
+      return true
     },
 
     uninstallPart(slot) {

@@ -57,3 +57,36 @@ describe('Black Market parts', () => {
     expect(useGameStore.getState().currency).toBe(cash + Math.floor(42000 * 0.75))
   })
 })
+
+describe('trade-in upgrades', () => {
+  beforeEach(() => useGameStore.setState(initial, true))
+
+  it('trades the installed part toward the new one and installs it', () => {
+    const store = useGameStore.getState()
+    store.addPart('engine_k20_built')
+    store.installPart('engine', 'engine_k20_built') // $4,500, B18 goes back to inventory
+    const cash = useGameStore.getState().currency
+    const b18Spares = useGameStore.getState().ownedParts.engine_b18_stock
+
+    const tradeIn = useGameStore.getState().getTradeIn('engine_ls3')
+    expect(tradeIn.part.id).toBe('engine_k20_built')
+    expect(tradeIn.credit).toBe(Math.floor(4500 * 0.9))
+
+    expect(useGameStore.getState().upgradePart('engine_ls3')).toBe(true)
+    const state = useGameStore.getState()
+    expect(state.installedParts.engine.id).toBe('engine_ls3')
+    expect(state.currency).toBe(cash - (12000 - tradeIn.credit))
+    expect(state.ownedParts.engine_k20_built).toBe(0)
+    expect(state.ownedParts.engine_b18_stock).toBe(b18Spares)
+  })
+
+  it('never gives change when the trade-in is worth more than the new part', () => {
+    const store = useGameStore.getState()
+    store.addPart('engine_ls3')
+    store.installPart('engine', 'engine_ls3')
+    const cash = useGameStore.getState().currency
+    expect(useGameStore.getState().getTradeIn('engine_k20_built').credit).toBe(4500)
+    useGameStore.getState().upgradePart('engine_k20_built')
+    expect(useGameStore.getState().currency).toBe(cash)
+  })
+})

@@ -14,9 +14,13 @@ export function ShopItemCard({ part }) {
   const ownedParts  = useGameStore(s => s.ownedParts)
   const buyPart     = useGameStore(s => s.buyPart)
   const installPart = useGameStore(s => s.installPart)
+  const upgradePart = useGameStore(s => s.upgradePart)
+  useGameStore(s => s.installedParts) // re-render when the slotted part changes
 
   const owned      = ownedParts[part.id] ?? 0
   const canBuy     = currency >= part.cost && part.cost > 0
+  const tradeIn    = owned === 0 && part.cost > 0 ? useGameStore.getState().getTradeIn(part.id) : null
+  const upgradeCost = tradeIn ? part.cost - tradeIn.credit : 0
   const spriteKey  = ROTATION_KEYS[part.id] ?? ROTATION_KEYS[part.category] ?? null
 
   return (
@@ -45,6 +49,14 @@ export function ShopItemCard({ part }) {
 
         <p className="text-[var(--text-muted)] text-xs leading-tight">{part.description}</p>
 
+        {tradeIn && (
+          <p className="text-[var(--text-muted)] text-[11px] leading-tight">
+            Trade in <span className="text-[var(--text-primary)]">{tradeIn.part.name}</span>
+            {tradeIn.installed ? ' (installed)' : ''} for{' '}
+            <span className="text-[var(--tag-positive)]">−${tradeIn.credit.toLocaleString()}</span>
+          </p>
+        )}
+
         <div className="flex items-center justify-between pt-1">
           <span className="text-[var(--accent-yellow)] font-bold text-sm">
             {part.cost === 0 ? 'Free' : <Price amount={part.cost} />}
@@ -59,9 +71,19 @@ export function ShopItemCard({ part }) {
                 Install
               </Button>
             )}
+            {tradeIn && (
+              <Button
+                variant="primary"
+                disabled={currency < upgradeCost}
+                onClick={() => { if (upgradePart(part.id)) play('install') }}
+                className="text-xs py-1 px-3 whitespace-nowrap"
+              >
+                Upgrade ${upgradeCost.toLocaleString()}
+              </Button>
+            )}
             {part.cost > 0 && (
               <Button
-                variant={canBuy ? (owned > 0 ? 'default' : 'primary') : 'default'}
+                variant={canBuy && !tradeIn ? (owned > 0 ? 'default' : 'primary') : 'default'}
                 disabled={!canBuy}
                 onClick={() => { play('buy'); buyPart(part.id) }}
                 className="text-xs py-1 px-3"
