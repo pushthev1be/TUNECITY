@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { play } from '../../utils/sfx.js'
+import { play, startLoop, stopLoop } from '../../utils/sfx.js'
 import { useGameStore } from '../../stores/useGameStore.js'
 import carsData from '../../data/cars.json'
 import { CAR_SPRITES, CAR_ROTATION_KEYS, garage_bg } from '../../assets/spriteMap.js'
@@ -53,6 +53,13 @@ export function GarageBay() {
     : blewUp ? 'blowup'
     : ignitionSuccess && !ignitionResult.isTestFit ? 'catch'
     : 'still'
+
+  // Idle loop while the engine runs; starts once the start-up clip has settled
+  useEffect(() => {
+    if (!engineRunning) return
+    const t = setTimeout(() => startLoop('idle', { fadeIn: 0.6 }), 1400)
+    return () => { clearTimeout(t); stopLoop('idle') }
+  }, [engineRunning])
 
   useEffect(() => {
     if (!ignitionResult) return

@@ -1,10 +1,11 @@
 import { useGameStore } from '../../stores/useGameStore.js'
 import { resolveIgnition } from '../../engine/ignition/resolveIgnition.js'
-import { play } from '../../utils/sfx.js'
+import { play, startLoop, stopLoop } from '../../utils/sfx.js'
 
 const FAILING_STATES  = new Set(['dead', 'catastrophic'])
 const RISKY_STATES    = new Set(['detonation_risk', 'unstable', 'rough_idle'])
 const TURBO_TAGS      = new Set(['turbo_surge', 'boost_spike', 'overboost'])
+const NO_START_TAGS   = new Set(['wont_turn_over', 'no_spark', 'no_compression', 'fuel_starved'])
 
 export function IgnitionButton({ onIgnite, compact = false }) {
   const computed        = useGameStore(s => s.computed)
@@ -32,6 +33,7 @@ export function IgnitionButton({ onIgnite, compact = false }) {
   function handleIgnite() {
     if (ignitionState !== 'idle') return
     play('ignite')
+    startLoop('crank')
     startAnimation()
 
     setTimeout(() => {
@@ -43,8 +45,11 @@ export function IgnitionButton({ onIgnite, compact = false }) {
       const activeTags = computed?.activeTags ?? []
       const hasTurbo   = activeTags.some(t => TURBO_TAGS.has(t.id))
 
+      stopLoop('crank', { fadeOut: 0.05 })
       if (result.outcome === 'catastrophic_failure') {
-        play(hasTurbo ? 'turbo_fail' : 'engine_fail')
+        // No-start failures: the starter winds down; mechanical ones blow up
+        play(NO_START_TAGS.has(result.tag) ? 'ignition_fail' : hasTurbo ? 'turbo_fail' : 'engine_fail',
+          NO_START_TAGS.has(result.tag) ? { offset: 1.0 } : undefined)
         destroyParts(result.destroyed_slots)
       } else if (result.outcome === 'success' && result.objective_met && activeObjId) {
         play('car_start')
