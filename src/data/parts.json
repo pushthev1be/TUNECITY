@@ -957,6 +957,22 @@
     "conflicts_with": [],
     "description": "Walbro 450. Feeds even a big turbo setup without breaking a sweat."
   },
+  {
+    "id": "fuel_pump_race",
+    "name": "Race Fuel Pump",
+    "category": "fuel_pump",
+    "sprite": "fuel_pump_hf",
+    "tier": 3,
+    "cost": 1800,
+    "scrap_value": 324,
+    "stats": {
+      "weight": 4,
+      "capacity": 1100
+    },
+    "requires": [],
+    "conflicts_with": [],
+    "description": "Twin-pump surge tank setup. Feeds four-digit horsepower without going lean."
+  },
 
   {
     "id": "cooling_intercooler",

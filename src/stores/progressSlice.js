@@ -12,10 +12,12 @@ export function createProgressSlice(set, get) {
 
     setActiveObjective(objectiveId) {
       const objective = objectivesData.find(o => o.id === objectiveId)
-      if (!objective) return
-      
-      // Auto-switch to the car required by this objective if it's different
-      const { activeCar, setActiveCar } = get()
+      if (!objective || !get().isObjectiveUnlocked(objectiveId)) return
+
+      // Make sure the mission's car is in the garage (saves from before a mission
+      // was added never received it), then switch to it
+      const { activeCar, setActiveCar, addCar } = get()
+      if (objective.car_id) addCar(objective.car_id)
       if (objective.car_id && objective.car_id !== activeCar) {
         setActiveCar(objective.car_id)
       }

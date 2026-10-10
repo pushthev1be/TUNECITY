@@ -30,7 +30,7 @@
       { "stat": "zero_to_sixty", "op": "lte", "value": 4.0 }
     ],
     "constraints": [
-      { "type": "budget", "max": 25000 },
+      { "type": "budget", "max": 35000 },
       { "type": "no_catastrophic_tag" },
       { "type": "required_tag", "tag": "sleeper" }
     ],
@@ -107,6 +107,120 @@
     ],
     "rewards": {
       "currency": 50000,
+      "parts": [],
+      "car_added_to_garage": true,
+      "unlocks_mission": "camry_commuter"
+    },
+    "required_parts_owned": [],
+    "difficulty": 5
+  },
+  {
+    "id": "camry_commuter",
+    "name": "Commuter Special",
+    "description": "Your neighbor wants a Camry that still gets him to work every day, just a lot faster.",
+    "car_id": "toyota_camry",
+    "targets": [
+      { "stat": "hp", "op": "gte", "value": 400 },
+      { "stat": "zero_to_sixty", "op": "lte", "value": 4.5 },
+      { "stat": "reliability", "op": "gte", "value": 80 }
+    ],
+    "constraints": [
+      { "type": "budget", "max": 30000 },
+      { "type": "no_catastrophic_tag" }
+    ],
+    "rewards": {
+      "currency": 20000,
+      "parts": ["cooling_dual_core"],
+      "car_added_to_garage": true,
+      "unlocks_mission": "ram_tow_rig"
+    },
+    "required_parts_owned": [],
+    "difficulty": 3
+  },
+  {
+    "id": "ram_tow_rig",
+    "name": "Tow Rig",
+    "description": "A contractor needs a truck that pulls like a locomotive and never breaks down on the job site.",
+    "car_id": "ram_truck",
+    "targets": [
+      { "stat": "torque", "op": "gte", "value": 650 },
+      { "stat": "reliability", "op": "gte", "value": 85 },
+      { "stat": "top_speed", "op": "gte", "value": 150 }
+    ],
+    "constraints": [
+      { "type": "budget", "max": 40000 },
+      { "type": "no_catastrophic_tag" }
+    ],
+    "rewards": {
+      "currency": 25000,
+      "parts": ["fuel_pump_race"],
+      "car_added_to_garage": true,
+      "unlocks_mission": "wrx_rally"
+    },
+    "required_parts_owned": [],
+    "difficulty": 3
+  },
+  {
+    "id": "wrx_rally",
+    "name": "Rally Stage",
+    "description": "Gravel, hairpins, no second chances. Power and grip have to be in perfect balance.",
+    "car_id": "subaru_wrx",
+    "targets": [
+      { "stat": "zero_to_sixty", "op": "lte", "value": 3.1 },
+      { "stat": "grip", "op": "gte", "value": 1.0 },
+      { "stat": "reliability", "op": "gte", "value": 75 }
+    ],
+    "constraints": [
+      { "type": "budget", "max": 45000 },
+      { "type": "no_catastrophic_tag" },
+      { "type": "required_tag", "tag": "balanced" }
+    ],
+    "rewards": {
+      "currency": 35000,
+      "parts": ["tires_305_slick"],
+      "car_added_to_garage": true,
+      "unlocks_mission": "m4_autobahn"
+    },
+    "required_parts_owned": [],
+    "difficulty": 4
+  },
+  {
+    "id": "m4_autobahn",
+    "name": "Autobahn Run",
+    "description": "No speed limit, no excuses. Push the M4 past 230 mph and keep it in one piece.",
+    "car_id": "bmw_m4_comp",
+    "targets": [
+      { "stat": "top_speed", "op": "gte", "value": 230 },
+      { "stat": "reliability", "op": "gte", "value": 70 }
+    ],
+    "constraints": [
+      { "type": "budget", "max": 60000 },
+      { "type": "no_catastrophic_tag" }
+    ],
+    "rewards": {
+      "currency": 45000,
+      "parts": ["cooling_triple_core"],
+      "car_added_to_garage": true,
+      "unlocks_mission": "hellcat_demon"
+    },
+    "required_parts_owned": [],
+    "difficulty": 4
+  },
+  {
+    "id": "hellcat_demon",
+    "name": "Demon Slayer",
+    "description": "The final boss of the strip. Build a Hellcat that runs single-digit quarters and survives the launch.",
+    "car_id": "dodge_hellcat",
+    "targets": [
+      { "stat": "quarter_mile", "op": "lte", "value": 9.8 },
+      { "stat": "zero_to_sixty", "op": "lte", "value": 2.6 },
+      { "stat": "reliability", "op": "gte", "value": 60 }
+    ],
+    "constraints": [
+      { "type": "no_catastrophic_tag" }
+    ],
+    "rewards": {
+      "currency": 75000,
       "parts": [],
       "car_added_to_garage": true,
       "unlocks_mission": null

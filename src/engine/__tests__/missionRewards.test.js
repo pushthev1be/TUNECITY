@@ -12,7 +12,7 @@ describe('checkObjective — constraints', () => {
   })
 
   it('fails when over budget', () => {
-    const stats = { ...passingStats, total_parts_cost: 30000 }
+    const stats = { ...passingStats, total_parts_cost: sleeper.constraints.find(c => c.type === 'budget').max + 1 }
     expect(checkObjective({}, stats, sleeper, [sleeperTag])).toBe(false)
   })
 

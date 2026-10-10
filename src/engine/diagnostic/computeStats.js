@@ -83,20 +83,24 @@ export function computeStats(build, car) {
     (transmission?.stats.drivetrain_rating_bonus ?? 0)
 
   // ── 0–60 ──────────────────────────────────────────────────────────────────
-  const power_to_weight = hp / weight
+  // Power-law fit to real cars (lb/hp → seconds), scaled by launch traction.
+  // A 0.8g RWD car at 6.3 lb/hp (Hellcat) runs ~3.6s; floor is the traction limit.
+  const weight_per_hp = weight / Math.max(1, hp)
   const launch_traction = grip * (car.driveline === 'AWD' ? 1.15 : 1.0)
-  const zero_to_sixty = Math.min(15.0, Math.max(1.2,
-    8.5 / (power_to_weight * 100 * launch_traction)
+  const zero_to_sixty = Math.min(15.0, Math.max(2.0,
+    1.094 * Math.pow(weight_per_hp, 0.647) * Math.sqrt(0.8 / Math.max(0.1, launch_traction))
   ))
 
   // ── Top speed ─────────────────────────────────────────────────────────────
+  // Aero drag power scales with v³, so top speed ∝ cube root of hp / (Cd·A).
   const top_speed = Math.min(300, Math.max(50,
-    Math.sqrt(hp / (drag_coefficient * car.stock_stats.frontal_area)) * 11
+    46.7 * Math.cbrt(hp / (drag_coefficient * car.stock_stats.frontal_area))
   ))
 
   // ── Quarter mile ──────────────────────────────────────────────────────────
+  // Hale formula: ET = 5.825 · (lb/hp)^(1/3)
   const quarter_mile = Math.min(20, Math.max(8,
-    4.2 * Math.pow(weight / hp, 0.34)
+    5.825 * Math.cbrt(weight_per_hp)
   ))
 
   // ── Reliability (pre-tag) ─────────────────────────────────────────────────

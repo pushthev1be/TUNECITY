@@ -109,10 +109,12 @@ function checkAllTags(build, car, stats) {
     active.push(getTag('balanced'))
   }
 
+  // Part weights stack on top of the stock curb weight, so "light" means a
+  // weight-reduction part is fitted rather than an absolute weight threshold.
   const hasRaceSuspension = p.suspension?.tier >= 3
   const hasPerformanceTires = (p.tires?.tier ?? 0) >= 2
-  const targetWeight = car.stock_stats.weight * 0.95
-  if (hasRaceSuspension && hasPerformanceTires && s.weight < targetWeight) {
+  const hasWeightReduction = (p.weightReduction?.stats?.weight ?? 0) < 0
+  if (hasRaceSuspension && hasPerformanceTires && hasWeightReduction) {
     active.push(getTag('track_prepped'))
   }
 

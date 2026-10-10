@@ -46,7 +46,7 @@ npm run build     # production build
 | Starting currency | $100,000 |
 | Sell part | 75% of cost |
 | Scrap part | 18% of cost |
-| Mission rewards | $8k – $50k |
+| Mission rewards | $8k – $75k |
 
 ## Project Structure
 
