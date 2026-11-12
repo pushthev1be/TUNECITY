@@ -6,7 +6,10 @@ import { CAR_SPRITES, CAR_ROTATION_KEYS, garage_bg } from '../../assets/spriteMa
 import { ExhaustFlames } from '../effects/ExhaustFlames.jsx'
 import { IgnitionFlash } from '../effects/IgnitionFlash.jsx'
 import { FailureEffects } from '../effects/FailureEffects.jsx'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
+import { statePack, lidName } from '../../assets/carStates.js'
+import { CarStage, SpinViewer } from './CarStage.jsx'
+import { StorageHall } from './StorageHall.jsx'
 
 // garage_bg.png and every car sprite share the same 256×256 pixel grid; each car
 // is drawn parked on the lift mat (center X 127.5, bottom Y 173). The room itself
@@ -48,6 +51,13 @@ export function GarageBay() {
   const ignitionSuccess = ignitionResult?.outcome !== 'catastrophic_failure' && !!ignitionResult
   const showFlames      = ignitionSuccess || engineRunning
   const [flashDone, setFlashDone] = useState(false)
+  // Cars rendered from Blender as layered states get the dyno stage and its controls
+  const pack = statePack(activeCar)
+  const [hoodOpen, setHoodOpen]   = useState(false)
+  const [lightsPref, setLights]   = useState(null)   // null = follow the engine
+  const [spinOpen, setSpinOpen]   = useState(false)
+  const [storageOpen, setStorage] = useState(false)
+  useEffect(() => { setHoodOpen(false); setLights(null) }, [activeCar])
   const blewUp = ignitionResult?.outcome === 'catastrophic_failure' && !ignitionResult.isTestFit
   const shake  = ignitionState === 'animating' ? 'crank'
     : blewUp ? 'blowup'
@@ -105,7 +115,10 @@ export function GarageBay() {
         animate={SHAKES[shake].animate}
         transition={SHAKES[shake].transition}
       >
-      {/* Stage: square, centered on the car-and-lift band, shared by background, car and effects */}
+      {pack ? (
+        <CarStage pack={pack} hoodOpen={hoodOpen} lightsOn={lightsPref ?? undefined} locked={isLocked} />
+      ) : (
+      /* Stage: square, centered on the car-and-lift band, shared by background, car and effects */
       <div
         className="absolute pointer-events-none"
         style={{
@@ -170,7 +183,38 @@ export function GarageBay() {
 
         {blewUp && <FailureEffects fire={FIRE_TAGS.has(ignitionResult.tag)} />}
       </div>
+      )}
+      {pack && ignitionSuccess && (
+        <IgnitionFlash active={!flashDone && ignitionSuccess} onDone={() => setFlashDone(true)} />
+      )}
       </motion.div>
+
+      <button onClick={() => { play('cursor'); setStorage(true) }}
+        className="absolute bottom-4 left-4 z-20 px-3 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase border cursor-pointer bg-black/60 text-[var(--accent-yellow)] border-[var(--panel-border)] hover:bg-black/80">
+        Storage
+      </button>
+
+      {/* State-pack controls: hood, lights, 360 view */}
+      {pack && !isLocked && (
+        <div className="absolute top-4 right-4 z-20 flex flex-col gap-2">
+          {[
+            { label: `${hoodOpen ? 'Close' : 'Open'} ${lidName(pack)}`, on: hoodOpen, act: () => setHoodOpen(v => !v) },
+            { label: 'Lights', on: lightsPref ?? engineRunning, act: () => setLights(v => !(v ?? engineRunning)) },
+            { label: '360°', on: false, act: () => setSpinOpen(true) },
+          ].map(b => (
+            <button key={b.label} onClick={() => { play('cursor'); b.act() }}
+              className={`px-3 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase border transition-all cursor-pointer ${
+                b.on ? 'bg-[var(--accent-yellow)] text-black border-[var(--accent-yellow)]'
+                     : 'bg-black/60 text-[var(--accent-yellow)] border-[var(--panel-border)] hover:bg-black/80'}`}>
+              {b.label}
+            </button>
+          ))}
+        </div>
+      )}
+      <AnimatePresence>
+        {pack && spinOpen && <SpinViewer pack={pack} onClose={() => setSpinOpen(false)} />}
+        {storageOpen && <StorageHall onClose={() => setStorage(false)} />}
+      </AnimatePresence>
 
       {/* Car label */}
       {car && (

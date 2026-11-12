@@ -1,0 +1,160 @@
+{
+ "car": "ram_trx",
+ "drive": "A",
+ "engine_at": "front",
+ "game_id": "ram_truck",
+ "views": {
+  "dyno": {
+   "h": 256,
+   "layers": {
+    "body": {
+     "body_closed": 4,
+     "body_fg_closed": 4,
+     "body_fg_open": 4,
+     "body_open": 4
+    },
+    "brakes": {
+     "big_kit": 1,
+     "carbon": 1,
+     "stock": 1
+    },
+    "engine": {
+     "flat_porsche": 4,
+     "flat_subaru": 4,
+     "i4_honda": 4,
+     "i6_bmw": 4,
+     "v8_blower": 4,
+     "v8_hemi": 4,
+     "v8_ls": 4,
+     "v8_twin_turbo": 4
+    },
+    "exhaust": {
+     "side": 4,
+     "stock": 4,
+     "straight": 4
+    },
+    "fi": {
+     "supercharger": 4,
+     "turbo_antilag": 4,
+     "turbo_compound": 4,
+     "turbo_hybrid": 4,
+     "turbo_sequential": 4,
+     "turbo_single": 4,
+     "turbo_stage4": 4,
+     "turbo_twin": 4
+    },
+    "fmic": {
+     "base": 4
+    },
+    "fumes": {
+     "rear": 16,
+     "side": 16
+    },
+    "garage": {
+     "base": 1
+    },
+    "headers": {
+     "base": 4
+    },
+    "intake": {
+     "carbon": 4,
+     "cone": 4,
+     "stacks": 4,
+     "stock": 4,
+     "twin_cone": 4
+    },
+    "lights": {
+     "base": 4
+    },
+    "rims": {
+     "enkei_17": 8,
+     "steel_15": 8,
+     "work_18": 8
+    },
+    "rollers": {
+     "base": 8
+    },
+    "shadow": {
+     "base": 1
+    },
+    "smoke_exhaust": {
+     "rear": 16,
+     "side": 16
+    },
+    "smoke_hood": {
+     "base": 16
+    },
+    "start_puff": {
+     "rear": 10,
+     "side": 10
+    },
+    "tires": {
+     "drift_r15": 8,
+     "drift_r17": 8,
+     "drift_r18": 8,
+     "performance_r15": 8,
+     "performance_r17": 8,
+     "performance_r18": 8,
+     "r888_r15": 8,
+     "r888_r17": 8,
+     "r888_r18": 8,
+     "slick_r15": 8,
+     "slick_r17": 8,
+     "slick_r18": 8,
+     "street_r15": 8,
+     "street_r17": 8,
+     "street_r18": 8
+    }
+   },
+   "w": 384
+  },
+  "spin": {
+   "h": 256,
+   "layers": {
+    "body": {
+     "body": 16,
+     "body_fg": 16
+    },
+    "brakes": {
+     "big_kit": 16,
+     "carbon": 16,
+     "stock": 16
+    },
+    "exhaust": {
+     "side": 16,
+     "stock": 16,
+     "straight": 16
+    },
+    "fmic": {
+     "base": 16
+    },
+    "rims": {
+     "enkei_17": 16,
+     "steel_15": 16,
+     "work_18": 16
+    },
+    "shadow": {
+     "base": 16
+    },
+    "tires": {
+     "drift_r15": 16,
+     "drift_r17": 16,
+     "drift_r18": 16,
+     "performance_r15": 16,
+     "performance_r17": 16,
+     "performance_r18": 16,
+     "r888_r15": 16,
+     "r888_r17": 16,
+     "r888_r18": 16,
+     "slick_r15": 16,
+     "slick_r17": 16,
+     "slick_r18": 16,
+     "street_r15": 16,
+     "street_r17": 16,
+     "street_r18": 16
+    }
+   },
+   "w": 256
+  }
+ }
+}

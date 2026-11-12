@@ -21,6 +21,7 @@ export function IgnitionButton({ onIgnite, compact = false }) {
   const showComplete    = useGameStore(s => s.showMissionComplete)
   const activeObjId     = useGameStore(s => s.activeObjectiveId)
   const installedParts  = useGameStore(s => s.installedParts)
+  const rev             = useGameStore(s => s.rev)
 
   const prediction    = computed?.prediction ?? { state: 'dead', label: "No Build", confidence: 0, color: '#6b7280' }
   const willFail      = FAILING_STATES.has(prediction.state)
@@ -79,6 +80,7 @@ export function IgnitionButton({ onIgnite, compact = false }) {
 
   function handleRev() {
     play('rev')
+    rev()
   }
 
   const disabled = ignitionState !== 'idle'
