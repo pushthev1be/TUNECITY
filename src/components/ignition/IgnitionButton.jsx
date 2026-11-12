@@ -33,6 +33,14 @@ export function IgnitionButton({ onIgnite, compact = false }) {
 
   function handleIgnite() {
     if (ignitionState !== 'idle') return
+    // No power (no battery, dead electrics): the key clicks and nothing turns.
+    if ((computed?.activeTags ?? []).some(t => t.id === 'wont_turn_over')) {
+      play('cursor')
+      const car = getActiveCar()
+      const build = { car_id: car?.id, installed_parts: installedParts, computed }
+      setResult({ ...resolveIgnition(build, car, getObjective()), noPower: true })
+      return
+    }
     play('ignite')
     startLoop('crank')
     startAnimation()
@@ -51,7 +59,7 @@ export function IgnitionButton({ onIgnite, compact = false }) {
         // No-start failures: the starter winds down; mechanical ones blow up
         play(NO_START_TAGS.has(result.tag) ? 'ignition_fail' : hasTurbo ? 'turbo_fail' : 'engine_fail',
           NO_START_TAGS.has(result.tag) ? { offset: 1.0 } : undefined)
-        destroyParts(result.destroyed_slots)
+        destroyParts(result.destroyed_slots, { tag: result.tag, label: result.tag_label })
       } else if (result.outcome === 'success' && result.objective_met && activeObjId) {
         play('car_start')
         setTimeout(() => play('mission_complete'), 900)

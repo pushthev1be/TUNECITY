@@ -102,6 +102,9 @@ export function createBuildSlice(set, get) {
   return {
     activeCar: 'civic_eg_92_project',
     installedPartsByCar: { 'civic_eg_92_project': _civicDefaults },
+    // A mechanical failure leaves the car damaged (hood smoking) until every
+    // part it destroyed has been replaced: { [carId]: { tag, label, slots } }
+    damageByCar: {},
     installedParts: _civicDefaults,
     computed: recompute('civic_eg_92_project', _civicDefaults),
 
@@ -140,6 +143,7 @@ export function createBuildSlice(set, get) {
 
       const next = { ...carParts, [slot]: partDef }
       const nextByCar = { ...installedPartsByCar, [activeCar]: next }
+      get().repairSlot?.(activeCar, slot)
       
       set({ 
         installedPartsByCar: nextByCar, 
@@ -183,6 +187,7 @@ export function createBuildSlice(set, get) {
       if (displaced) nextOwned[displaced.id] = (nextOwned[displaced.id] ?? 0) + 1
 
       const next = { ...carParts, [slot]: partDef }
+      get().repairSlot?.(activeCar, slot)
       set({
         currency:            get().currency - price,
         ownedParts:          nextOwned,
@@ -212,8 +217,11 @@ export function createBuildSlice(set, get) {
       })
     },
 
-    destroyParts(slots) {
-      const { activeCar, installedPartsByCar } = get()
+    destroyParts(slots, failure = null) {
+      const { activeCar, installedPartsByCar, damageByCar } = get()
+      if (failure && slots.length) {
+        set({ damageByCar: { ...damageByCar, [activeCar]: { ...failure, slots: [...slots] } } })
+      }
       const carParts = installedPartsByCar[activeCar] || emptySlots()
       
       const next = { ...carParts }
@@ -228,6 +236,17 @@ export function createBuildSlice(set, get) {
         installedParts: next,
         computed: recompute(activeCar, next) 
       })
+    },
+
+    // A replacement part went into `slot`: cross it off the car's damage
+    repairSlot(carId, slot) {
+      const dmg = get().damageByCar[carId]
+      if (!dmg) return
+      const slots = dmg.slots.filter(s => s !== slot)
+      const next = { ...get().damageByCar }
+      if (slots.length) next[carId] = { ...dmg, slots }
+      else delete next[carId]
+      set({ damageByCar: next })
     },
 
     getActiveCar() {

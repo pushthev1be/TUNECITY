@@ -70,6 +70,7 @@ export function CarStage({ pack, hoodOpen, lightsOn, locked }) {
   const ignitionResult = useGameStore(s => s.ignitionResult)
   const computed       = useGameStore(s => s.computed)
   const revCount       = useGameStore(s => s.revCount)
+  const damage         = useGameStore(s => s.damageByCar?.[s.activeCar])
 
   const look = buildLook(installed)
   const { w, h } = viewSize(pack, 'dyno')
@@ -79,7 +80,13 @@ export function CarStage({ pack, hoodOpen, lightsOn, locked }) {
   const real     = ignitionResult && !ignitionResult.isTestFit
   const failed   = real && ignitionResult.outcome === 'catastrophic_failure'
   const blewUp   = failed && !NO_START.has(ignitionResult.tag)
-  const smokeTint = engineRunning
+  // No battery / dead electrics: no lights, no crank flicker, nothing turns
+  const hasPower = !(computed?.activeTags ?? []).some(t => t.id === 'wont_turn_over')
+  // A mechanical failure smokes until every destroyed part is replaced, not just
+  // until the result goes away. Overheating vents white steam; the rest is black.
+  const smoking  = !!damage?.slots?.length && !NO_START.has(damage.tag)
+  const steam    = damage?.tag === 'overheated'
+  const smokeTint = engineRunning && look.exhaust
     ? (computed?.smokeColor ?? (ROUGH.has(computed?.prediction?.state) ? 'black' : null))
     : null
 
@@ -88,6 +95,7 @@ export function CarStage({ pack, hoodOpen, lightsOn, locked }) {
   const [puffing, setPuffing] = useState(false)
   useEffect(() => {
     if (!real) return
+    if (ignitionResult.noPower || !look.exhaust) return
     if (ignitionResult.outcome === 'success' || NO_START.has(ignitionResult.tag)) {
       setPuffKey(k => k + 1); setPuffing(true)
       const t = setTimeout(() => setPuffing(false), PUFF_MS)
@@ -105,14 +113,22 @@ export function CarStage({ pack, hoodOpen, lightsOn, locked }) {
     return () => clearTimeout(t)
   }, [revCount, engineRunning])
 
+  const [burning, setBurning] = useState(false)
+  useEffect(() => {
+    if (!blewUp || !FIRE_TAGS.has(ignitionResult?.tag)) { setBurning(false); return }
+    setBurning(true)
+    const t = setTimeout(() => setBurning(false), 4500)
+    return () => clearTimeout(t)
+  }, [blewUp, ignitionResult])
+
   const idle  = useTicker(cranking ? 22 : 14, engineRunning || cranking)
   const wheel = useTicker(30, dyno)
-  const smoke = useTicker(12, !!smokeTint || blewUp)
-  const fume  = useTicker(10, engineRunning)
+  const smoke = useTicker(12, !!smokeTint || smoking)
+  const fume  = useTicker(10, engineRunning && !!look.exhaust)
   // Cranking: the lights stutter with the battery sag before the engine catches
-  const flick = useTicker(9, cranking)
+  const flick = useTicker(9, cranking && hasPower)
   const idleFrame = engineRunning || cranking ? idle : 0
-  const lit = cranking || (lightsOn ?? engineRunning)
+  const lit = hasPower && (cranking || (lightsOn ?? engineRunning))
   const FLICKER = [0, 0.85, 0.15, 1, 0.4, 0, 0.9, 0.25, 0.7, 0.05, 1, 0.5]
   const lightOpacity = cranking ? FLICKER[flick % FLICKER.length] : 1
 
@@ -140,7 +156,7 @@ export function CarStage({ pack, hoodOpen, lightsOn, locked }) {
           <Layer s={L('rims', look.rims)} frame={dyno ? wheel : 0} />
           <Sprung dropPx={look.dropPx} h={h}>
             <Layer s={L('body', `${look.body}_${hoodOpen ? 'open' : 'closed'}`)} frame={idleFrame} />
-            <Layer s={L('exhaust', look.exhaust)} frame={idleFrame} />
+            {look.exhaust && <Layer s={L('exhaust', look.exhaust)} frame={idleFrame} />}
             {look.fmic && <Layer s={L('fmic', 'base')} frame={idleFrame} />}
             {hoodOpen && (
               <>
@@ -152,17 +168,17 @@ export function CarStage({ pack, hoodOpen, lightsOn, locked }) {
             )}
             {lit && <Layer s={L('lights', 'base')} frame={idleFrame} style={{ opacity: lightOpacity }} />}
             {/* running: thin white vapour, the sign it is alive */}
-            {engineRunning && <Layer s={L('fumes', look.smokeFrom)} frame={fume} style={{ opacity: 0.7 }} />}
+            {engineRunning && look.exhaust && <Layer s={L('fumes', look.smokeFrom)} frame={fume} style={{ opacity: 0.7 }} />}
             {smokeTint && (
               <Layer s={L('smoke_exhaust', look.smokeFrom)} frame={smoke} style={{ filter: SMOKE_TINT[smokeTint] }} />
             )}
-            {blewUp && !hoodOpen && <Layer s={L('smoke_hood', 'base')} frame={smoke} />}
+            {smoking && <Layer s={L('smoke_hood', 'base')} frame={smoke} style={{ filter: steam ? SMOKE_TINT.white : 'none', opacity: steam ? 0.85 : 1 }} />}
             {puffing && (
               <Layer key={puffKey} s={L('start_puff', look.smokeFrom)} frame={Math.min(puffFrame, 9)}
                 style={{ filter: failed ? 'brightness(0.6)' : 'none' }} />
             )}
           </Sprung>
-          {blewUp && FIRE_TAGS.has(ignitionResult.tag) && (
+          {burning && (
             <>
               <FireColumn x={62} y={66} width={6} />
               <FireColumn x={68} y={65} width={7} delay={150} />
@@ -218,7 +234,7 @@ export function SpinViewer({ pack, onClose }) {
         <Layer s={S('rims', look.rims)} frame={a} />
         <Sprung dropPx={look.dropPx} h={h}>
           <Layer s={S('body', look.body)} frame={a} />
-          <Layer s={S('exhaust', look.exhaust)} frame={a} />
+          {look.exhaust && <Layer s={S('exhaust', look.exhaust)} frame={a} />}
           {look.fmic && <Layer s={S('fmic', 'base')} frame={a} />}
         </Sprung>
       </div>

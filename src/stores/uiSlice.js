@@ -2,7 +2,7 @@ export function createUiSlice(set, get) {
   return {
     screen: 'garage',          // 'garage' | 'shop' | 'missions'
     shopOpen: false,
-    ignitionState: 'idle',     // 'idle' | 'animating' | 'result'
+    ignitionState: 'idle',     // 'idle' | 'animating' (the result shows on the dyno monitor)
     ignitionResult: null,      // last resolveIgnition() return value
     missionCompleteData: null, // set when a mission is completed
     engineRunning: false,      // true after a successful ignition (until next ignite attempt)
@@ -22,7 +22,7 @@ export function createUiSlice(set, get) {
 
     setIgnitionResult(result) {
       const ran = result?.outcome !== 'catastrophic_failure' && result?.outcome != null
-      set({ ignitionState: 'result', ignitionResult: result, engineRunning: ran })
+      set({ ignitionState: 'idle', ignitionResult: result, engineRunning: ran })
     },
 
     rev() {

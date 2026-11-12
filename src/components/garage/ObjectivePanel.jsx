@@ -2,6 +2,7 @@ import { useGameStore } from '../../stores/useGameStore.js'
 import { IgnitionButton } from '../ignition/IgnitionButton.jsx'
 import { Section } from '../shared/Section.jsx'
 import { Gauge } from '../gauges/Gauge.jsx'
+import { DynoMonitor } from '../gauges/DynoMonitor.jsx'
 import { meetsConstraint } from '../../engine/economy/missionRewards.js'
 import { Money } from '../shared/Money.jsx'
 import { statLabel, statUnit } from '../../data/statLabels.js'
@@ -170,6 +171,9 @@ export function ObjectivePanel({ compact = false }) {
       <Section title="Advice" accent="var(--tag-character)">
         <TuneNotes stats={stats} prediction={prediction} />
       </Section>
+
+      {/* The dyno computer: start-up log, results and failures print here, never over the car */}
+      <DynoMonitor />
 
       {/* Budget and the button, pinned to the bottom */}
       <section className={`mt-auto sticky -bottom-3 -mx-3 -mb-3 px-3 border-t border-[var(--panel-border)] bg-[var(--panel-bg)] ${compact ? 'py-2' : 'pb-3 pt-2.5'}`}>

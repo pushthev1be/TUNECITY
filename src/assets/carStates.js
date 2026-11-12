@@ -80,7 +80,7 @@ export function buildLook(installed = {}) {
     intake:   INTAKE[id('intake')] ?? null,
     fi:       FORCED[id('forced_induction')] ?? null,
     headers:  exhaust === 'exhaust_long_tube_headers',
-    exhaust:  exhaust === 'exhaust_straight_pipe' ? 'straight' : exhaust === 'exhaust_side_exits' ? 'side' : 'stock',
+    exhaust:  !exhaust ? null : exhaust === 'exhaust_straight_pipe' ? 'straight' : exhaust === 'exhaust_side_exits' ? 'side' : 'stock',
     smokeFrom: exhaust === 'exhaust_side_exits' ? 'side' : 'rear',
     tires:    `${TIRES[id('tires')] ?? 'street'}_${RIM_SIZE[wheels]}`,
     rims:     wheels,

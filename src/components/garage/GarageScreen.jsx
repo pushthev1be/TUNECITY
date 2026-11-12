@@ -4,8 +4,6 @@ import { DiagnosticPanel } from '../diagnostic/DiagnosticPanel.jsx'
 import { GarageBay } from './GarageBay.jsx'
 import { ObjectivePanel } from './ObjectivePanel.jsx'
 import { IgnitionButton } from '../ignition/IgnitionButton.jsx'
-import { IgnitionSequence } from '../ignition/IgnitionSequence.jsx'
-import { BenchmarkResultCard } from '../ignition/BenchmarkResultCard.jsx'
 import { PartsShop } from '../shop/PartsShop.jsx'
 import { BlackMarketShop } from '../shop/BlackMarketShop.jsx'
 import { InventoryModal } from '../shop/InventoryModal.jsx'
@@ -25,7 +23,6 @@ export function GarageScreen() {
   const [inventoryOpen, setInventory]     = useState(false)
   const [blackMarketOpen, setBlackMarket] = useState(false)
 
-  const ignitionResult  = useGameStore(s => s.ignitionResult)
   const missionComplete = useGameStore(s => s.missionCompleteData)
   const getObjective    = useGameStore(s => s.getActiveObjective)
   const objective       = getObjective()
@@ -49,8 +46,6 @@ export function GarageScreen() {
   // Overlays are scoped to the workspace on desktop so diagnostics stay visible
   const overlays = (
     <>
-      <IgnitionSequence />
-      {ignitionResult  && <BenchmarkResultCard />}
       {shopOpen && (
         <PartsShop
           filterSlot={shopSlot}

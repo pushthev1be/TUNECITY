@@ -44,7 +44,7 @@ function ParkedCar({ car, bay, scale, owned, active, onPick }) {
         <Layer s={S('rims', look.rims)} frame={f} />
         <div className="absolute inset-0" style={{ transform: `translateY(${(look.dropPx / 256) * 100}%)` }}>
           <Layer s={S('body', look.body)} frame={f} />
-          <Layer s={S('exhaust', look.exhaust)} frame={f} />
+          {look.exhaust && <Layer s={S('exhaust', look.exhaust)} frame={f} />}
           {look.fmic && <Layer s={S('fmic', 'base')} frame={f} />}
         </div>
       </div>

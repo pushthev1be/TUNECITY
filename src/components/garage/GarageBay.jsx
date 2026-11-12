@@ -53,12 +53,16 @@ export function GarageBay() {
   const [flashDone, setFlashDone] = useState(false)
   // Cars rendered from Blender as layered states get the dyno stage and its controls
   const pack = statePack(activeCar)
-  const [hoodOpen, setHoodOpen]   = useState(false)
+  const [hoodOpen, setHoodOpen]   = useState(true)    // open by default: the engine is the point
   const [lightsPref, setLights]   = useState(null)   // null = follow the engine
   const [spinOpen, setSpinOpen]   = useState(false)
   const [storageOpen, setStorage] = useState(false)
-  useEffect(() => { setHoodOpen(false); setLights(null) }, [activeCar])
+  useEffect(() => { setHoodOpen(true); setLights(null) }, [activeCar])
+  const computed = useGameStore(s => s.computed)
+  const hasPower = !(computed?.activeTags ?? []).some(t => t.id === 'wont_turn_over')
+  useEffect(() => { if (!hasPower) setLights(null) }, [hasPower])
   const blewUp = ignitionResult?.outcome === 'catastrophic_failure' && !ignitionResult.isTestFit
+    && !ignitionResult.noPower && !['wont_turn_over', 'no_spark', 'no_compression', 'fuel_starved'].includes(ignitionResult.tag)
   const shake  = ignitionState === 'animating' ? 'crank'
     : blewUp ? 'blowup'
     : ignitionSuccess && !ignitionResult.isTestFit ? 'catch'
@@ -207,17 +211,21 @@ export function GarageBay() {
           className="px-3 h-8 rounded-full text-[11px] font-bold tracking-widest uppercase border cursor-pointer bg-black/40 text-[var(--accent-yellow)] border-[var(--panel-border)] hover:bg-[var(--panel-border)]">
           ▦ Storage
         </button>
-        <EngineChip state={ignitionState} running={engineRunning} failed={blewUp || (ignitionResult?.outcome === 'catastrophic_failure' && !ignitionResult?.isTestFit)} />
+        <EngineChip state={ignitionState} running={engineRunning} noPower={!hasPower}
+          failed={ignitionResult?.outcome === 'catastrophic_failure' && !ignitionResult?.isTestFit} />
         {pack && !isLocked && (
           <div className="ml-auto flex rounded-full border border-[var(--panel-border)] overflow-hidden">
             {[
               { label: lidName(pack) === 'hood' ? 'Hood' : 'Engine lid', on: hoodOpen, act: () => setHoodOpen(v => !v) },
-              { label: 'Lights', on: lightsPref ?? engineRunning, act: () => setLights(v => !(v ?? engineRunning)) },
+              { label: 'Lights', on: hasPower && (lightsPref ?? engineRunning), act: () => setLights(v => !(v ?? engineRunning)),
+                disabled: !hasPower, why: 'No power: fit a battery first' },
               { label: '360°', on: false, act: () => setSpinOpen(true) },
             ].map((b, i) => (
-              <button key={b.label} onClick={() => { play('cursor'); b.act() }} aria-pressed={b.on}
+              <button key={b.label} onClick={() => { if (b.disabled) return; play('cursor'); b.act() }} aria-pressed={b.on}
+                disabled={b.disabled} title={b.disabled ? b.why : undefined}
                 className={`px-3 h-8 text-[11px] font-bold tracking-widest uppercase cursor-pointer transition-colors ${i ? 'border-l border-[var(--panel-border)]' : ''} ${
-                  b.on ? 'bg-[var(--accent-yellow)] text-black' : 'bg-black/40 text-[var(--accent-yellow)] hover:bg-[var(--panel-border)]'}`}>
+                  b.disabled ? 'bg-black/40 text-[var(--text-muted)] opacity-40 cursor-not-allowed line-through'
+                  : b.on ? 'bg-[var(--accent-yellow)] text-black' : 'bg-black/40 text-[var(--accent-yellow)] hover:bg-[var(--panel-border)]'}`}>
                 {b.label}
               </button>
             ))}
@@ -235,8 +243,9 @@ export function GarageBay() {
 }
 
 // What the engine is doing, in one word, beside the controls
-function EngineChip({ state, running, failed }) {
+function EngineChip({ state, running, failed, noPower }) {
   const [label, color] = state === 'animating' ? ['Cranking', '#ffb020']
+    : noPower && !running ? ['No power', '#ff3b30']
     : failed ? ['Failed', '#ff3b30']
     : running ? ['Running', '#34c759']
     : ['Engine off', '#8e8e93']
