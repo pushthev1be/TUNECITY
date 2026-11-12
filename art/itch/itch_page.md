@@ -54,7 +54,7 @@ Made by **Simon Olawuyi** · simonolawuyi.com
 
 **Suggested tags (itch allows 10):** 3d, low-poly, cars, vehicles, game-assets, blender, godot, unity, stylized, racing
 **Classification:** Assets → 3D models
-**Cover image:** lineup.png (crop to 630×500 for the itch cover)
+**Cover image:** cover_630x500.png (or cover_1260x1000.png, same 63:50 shape, sharper on high-DPI screens), made by make_cover.py
 
 ---
 
