@@ -102,7 +102,7 @@ export function GarageBay() {
           <p className="text-[var(--text-primary)] font-bold text-sm leading-tight truncate">{car?.name}</p>
           <p className="text-[var(--text-muted)] text-[11px] leading-tight truncate">
             {isLocked
-              ? '🔒 Locked — clear missions to unlock'
+              ? (car?.black_market_price ? '🔒 Sold on the Black Market' : '🔒 Locked — clear missions to unlock')
               : `${car?.driveline} · Tier ${car?.tier} · ${car?.starting_condition}`}
             <span className="ml-2 opacity-70">{currentIndex + 1}/{browsableCars.length}</span>
           </p>

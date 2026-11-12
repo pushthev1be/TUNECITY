@@ -211,6 +211,7 @@
     "slots": ["engine", "intake", "forced_induction", "exhaust", "transmission", "differential", "tires", "wheels", "suspension", "ecu", "cooling", "weight_reduction", "nitrous", "engine_internals", "brakes"],
     "starting_condition": "project",
     "cost": 2000,
+    "black_market_price": 55000,
     "stock_stats": { "hp": 150, "torque": 150, "weight": 2500, "grip": 0.75, "drag_coefficient": 0.35, "frontal_area": 19, "cooling_capacity": 50 },
     "limits": { "chassis_rating": 350, "drivetrain_rating": 300, "max_tire_width": 255, "fender_clearance": 9 }
   },
@@ -223,6 +224,7 @@
     "slots": ["engine", "intake", "forced_induction", "exhaust", "transmission", "differential", "tires", "wheels", "suspension", "ecu", "cooling", "weight_reduction", "nitrous", "engine_internals", "brakes"],
     "starting_condition": "project",
     "cost": 2000,
+    "black_market_price": 40000,
     "stock_stats": { "hp": 150, "torque": 150, "weight": 2500, "grip": 0.75, "drag_coefficient": 0.35, "frontal_area": 19, "cooling_capacity": 50 },
     "limits": { "chassis_rating": 350, "drivetrain_rating": 300, "max_tire_width": 255, "fender_clearance": 9 }
   },
@@ -235,6 +237,7 @@
     "slots": ["engine", "intake", "forced_induction", "exhaust", "transmission", "differential", "tires", "wheels", "suspension", "ecu", "cooling", "weight_reduction", "nitrous", "engine_internals", "brakes"],
     "starting_condition": "project",
     "cost": 2000,
+    "black_market_price": 95000,
     "stock_stats": { "hp": 150, "torque": 150, "weight": 2500, "grip": 0.75, "drag_coefficient": 0.35, "frontal_area": 19, "cooling_capacity": 50 },
     "limits": { "chassis_rating": 350, "drivetrain_rating": 300, "max_tire_width": 255, "fender_clearance": 9 }
   }
