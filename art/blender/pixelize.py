@@ -95,8 +95,32 @@ def glow(im):
     core = rgb.copy(); core.putalpha(lens); return Image.alpha_composite(out, core)
 
 
-def process(view, layer, variant, files):
+def shifted(im, dx, dy):
+    out = Image.new('RGBA', im.size); out.paste(im, (dx, dy)); return out
+
+
+def spin_offsets(raw_view):
+    """
+    Per-angle shift that puts the car's visible middle (body + wheels) on one spot.
+
+    The turntable turns about the car's origin, which is not its visual centre: seen
+    from behind, the car sat ~14 px lower than from the front and bobbed as it spun.
+    """
+    body = sorted(glob.glob(os.path.join(raw_view, 'body', 'body', '*.png')))
+    tires = sorted(glob.glob(os.path.join(raw_view, 'tires', 'street_r15', '*.png')))
+    out = []
+    for bf, tf in zip(body, tires):
+        a = Image.open(bf).convert('RGBA').split()[3]; t = Image.open(tf).convert('RGBA').split()[3]
+        bb = ImageChops.lighter(a, t).getbbox()
+        cx, cy = (bb[0] + bb[2]) / 2, (bb[1] + bb[3]) / 2
+        out.append((int(round(128 - cx)), int(round(140 - cy))))
+    return out
+
+
+def process(view, layer, variant, files, offsets=None):
     frames = [Image.open(f).convert('RGBA') for f in files]
+    if offsets:
+        frames = [shifted(f, *offsets[i]) for i, f in enumerate(frames)]
     w = frames[0].width
     kind = KIND.get(layer, 'solid')
     if kind == 'lights':
@@ -130,16 +154,19 @@ if __name__ == '__main__':
     total = 0
     for view, cfg in views.items():
         layers = {}
+        offsets = spin_offsets(os.path.join(RAW, view)) if view == 'spin' else None
         for layer_dir in sorted(glob.glob(os.path.join(RAW, view, '*'))):
             layer = os.path.basename(layer_dir)
             for var_dir in sorted(glob.glob(os.path.join(layer_dir, '*'))):
                 variant = os.path.basename(var_dir)
                 files = sorted(glob.glob(os.path.join(var_dir, '*.png')))
                 if not files: continue
-                n = process(view, layer, variant, files)
+                n = process(view, layer, variant, files, offsets)
                 layers.setdefault(layer, {})[variant] = n
                 total += n
         manifest['views'][view] = {'w': cfg['w'], 'h': cfg['h'], 'layers': layers}
+        if offsets:
+            manifest['views'][view]['offsets'] = offsets   # the game moves storage cars by these too
     with open(os.path.join(OUT, 'manifest.json'), 'w') as fh:
         json.dump(manifest, fh, indent=1, sort_keys=True)
     print(f'{total} frames -> {os.path.relpath(OUT)}')

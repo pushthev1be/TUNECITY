@@ -95,7 +95,7 @@ export function GarageScreen() {
       <div className="flex-1 flex overflow-hidden min-h-0">
 
         {/* Left — Diagnostic panel (never covered by overlays) */}
-        <aside className="w-[18vw] min-w-[256px] shrink-0 border-r border-[var(--panel-border)] overflow-y-auto p-4 bg-[var(--panel-bg)]/80 backdrop-blur-sm z-10 panel-scanline">
+        <aside className="w-[22vw] min-w-[280px] max-w-[340px] shrink-0 border-r border-[var(--panel-border)] overflow-hidden p-3 bg-[var(--panel-bg)]/80 backdrop-blur-sm z-10 panel-scanline">
           <DiagnosticPanel onSlotClick={handleSlotClick} />
         </aside>
 
@@ -108,7 +108,7 @@ export function GarageScreen() {
           </div>
 
           {/* Right — Objective & stats panel */}
-          <aside className="w-[20vw] min-w-[272px] shrink-0 border-l border-[var(--panel-border)] bg-[var(--panel-bg)]/80 backdrop-blur-sm overflow-hidden panel-scanline">
+          <aside className="w-[22vw] min-w-[290px] max-w-[340px] shrink-0 border-l border-[var(--panel-border)] bg-[var(--panel-bg)]/80 backdrop-blur-sm overflow-hidden panel-scanline">
             <ObjectivePanel />
           </aside>
 

@@ -20,6 +20,8 @@ function ParkedCar({ car, bay, scale, owned, active, onPick }) {
   if (!pack || !origin) return null
   const look = buildLook(installed ?? {})
   const f = storage.park_frame
+  // the 360 frames are re-centred per angle; move the parked car by the same amount
+  const [dx, dy] = pack.manifest.views.spin.offsets?.[f] ?? [0, 0]
   const S = (layer, variant) => sheet(pack, 'spin', layer, variant)
   const size = 256 * scale
   return (
@@ -27,7 +29,7 @@ function ParkedCar({ car, bay, scale, owned, active, onPick }) {
       onClick={() => onPick(car)}
       className="absolute cursor-pointer group"
       style={{
-        left: (bay.x - origin.ox) * scale, top: (bay.y - origin.oy) * scale,
+        left: (bay.x - origin.ox - dx) * scale, top: (bay.y - origin.oy - dy) * scale,
         width: size, height: size,
         filter: owned ? 'none' : 'grayscale(1) brightness(0.35)',
         // only the car itself takes clicks, not the empty corners of its sprite

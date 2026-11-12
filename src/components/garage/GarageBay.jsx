@@ -88,17 +88,27 @@ export function GarageBay() {
   }
 
   return (
-    <div className="absolute inset-0 bg-black overflow-hidden" style={{ containerType: 'size' }}>
+    <div className="absolute inset-0 bg-black overflow-hidden flex flex-col">
 
-      {/* Navigation arrows — always visible since all cars are browsable */}
-      <button
-        onClick={handlePrev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 text-[var(--accent-yellow)] hover:bg-black/80 hover:scale-110 rounded-full flex items-center justify-center text-xl z-20 transition-all cursor-pointer border border-[var(--panel-border)]"
-      >◀</button>
-      <button
-        onClick={handleNext}
-        className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 text-[var(--accent-yellow)] hover:bg-black/80 hover:scale-110 rounded-full flex items-center justify-center text-xl z-20 transition-all cursor-pointer border border-[var(--panel-border)]"
-      >▶</button>
+      {/* Top bar: which car, and switching between them. Nothing sits on the car itself. */}
+      <div className="shrink-0 flex items-center gap-2 px-2 py-1.5 bg-[var(--panel-bg)] border-b border-[var(--panel-border)] z-20">
+        <button onClick={handlePrev} aria-label="Previous car"
+          className="w-8 h-8 shrink-0 rounded-full border border-[var(--panel-border)] text-[var(--accent-yellow)] hover:bg-[var(--panel-border)] cursor-pointer">◀</button>
+        <div className="flex-1 min-w-0 text-center">
+          <p className="text-[var(--text-primary)] font-bold text-sm leading-tight truncate">{car?.name}</p>
+          <p className="text-[var(--text-muted)] text-[11px] leading-tight truncate">
+            {isLocked
+              ? '🔒 Locked — clear missions to unlock'
+              : `${car?.driveline} · Tier ${car?.tier} · ${car?.starting_condition}`}
+            <span className="ml-2 opacity-70">{currentIndex + 1}/{browsableCars.length}</span>
+          </p>
+        </div>
+        <button onClick={handleNext} aria-label="Next car"
+          className="w-8 h-8 shrink-0 rounded-full border border-[var(--panel-border)] text-[var(--accent-yellow)] hover:bg-[var(--panel-border)] cursor-pointer">▶</button>
+      </div>
+
+      {/* The scene */}
+      <div className="relative flex-1 min-h-0 overflow-hidden" style={{ containerType: 'size' }}>
 
       {/* Backdrop: blurred garage so wide or tall bays never show black bars */}
       <img
@@ -189,46 +199,51 @@ export function GarageBay() {
       )}
       </motion.div>
 
-      <button onClick={() => { play('cursor'); setStorage(true) }}
-        className="absolute bottom-4 left-4 z-20 px-3 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase border cursor-pointer bg-black/60 text-[var(--accent-yellow)] border-[var(--panel-border)] hover:bg-black/80">
-        Storage
-      </button>
+      </div>
 
-      {/* State-pack controls: hood, lights, 360 view */}
-      {pack && !isLocked && (
-        <div className="absolute top-4 right-4 z-20 flex flex-col gap-2">
-          {[
-            { label: `${hoodOpen ? 'Close' : 'Open'} ${lidName(pack)}`, on: hoodOpen, act: () => setHoodOpen(v => !v) },
-            { label: 'Lights', on: lightsPref ?? engineRunning, act: () => setLights(v => !(v ?? engineRunning)) },
-            { label: '360°', on: false, act: () => setSpinOpen(true) },
-          ].map(b => (
-            <button key={b.label} onClick={() => { play('cursor'); b.act() }}
-              className={`px-3 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase border transition-all cursor-pointer ${
-                b.on ? 'bg-[var(--accent-yellow)] text-black border-[var(--accent-yellow)]'
-                     : 'bg-black/60 text-[var(--accent-yellow)] border-[var(--panel-border)] hover:bg-black/80'}`}>
-              {b.label}
-            </button>
-          ))}
-        </div>
-      )}
+      {/* Bottom bar: storage, the view controls, and what the engine is doing */}
+      <div className="shrink-0 flex items-center gap-1.5 px-2 py-1.5 bg-[var(--panel-bg)] border-t border-[var(--panel-border)] z-20">
+        <button onClick={() => { play('cursor'); setStorage(true) }}
+          className="px-3 h-8 rounded-full text-[11px] font-bold tracking-widest uppercase border cursor-pointer bg-black/40 text-[var(--accent-yellow)] border-[var(--panel-border)] hover:bg-[var(--panel-border)]">
+          ▦ Storage
+        </button>
+        <EngineChip state={ignitionState} running={engineRunning} failed={blewUp || (ignitionResult?.outcome === 'catastrophic_failure' && !ignitionResult?.isTestFit)} />
+        {pack && !isLocked && (
+          <div className="ml-auto flex rounded-full border border-[var(--panel-border)] overflow-hidden">
+            {[
+              { label: lidName(pack) === 'hood' ? 'Hood' : 'Engine lid', on: hoodOpen, act: () => setHoodOpen(v => !v) },
+              { label: 'Lights', on: lightsPref ?? engineRunning, act: () => setLights(v => !(v ?? engineRunning)) },
+              { label: '360°', on: false, act: () => setSpinOpen(true) },
+            ].map((b, i) => (
+              <button key={b.label} onClick={() => { play('cursor'); b.act() }} aria-pressed={b.on}
+                className={`px-3 h-8 text-[11px] font-bold tracking-widest uppercase cursor-pointer transition-colors ${i ? 'border-l border-[var(--panel-border)]' : ''} ${
+                  b.on ? 'bg-[var(--accent-yellow)] text-black' : 'bg-black/40 text-[var(--accent-yellow)] hover:bg-[var(--panel-border)]'}`}>
+                {b.label}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
       <AnimatePresence>
         {pack && spinOpen && <SpinViewer pack={pack} onClose={() => setSpinOpen(false)} />}
         {storageOpen && <StorageHall onClose={() => setStorage(false)} />}
       </AnimatePresence>
 
-      {/* Car label */}
-      {car && (
-        <div className="absolute top-4 left-4 z-10">
-          <p className="text-[var(--text-primary)] font-bold text-base tracking-wide drop-shadow-lg">
-            {car.name}
-          </p>
-          <p className="text-[var(--text-muted)] text-sm drop-shadow-lg">
-            {isLocked
-              ? '🔒 Locked — complete prior missions to unlock'
-              : `${car.driveline} · Tier ${car.tier} · ${car.starting_condition}`}
-          </p>
-        </div>
-      )}
     </div>
+  )
+}
+
+// What the engine is doing, in one word, beside the controls
+function EngineChip({ state, running, failed }) {
+  const [label, color] = state === 'animating' ? ['Cranking', '#ffb020']
+    : failed ? ['Failed', '#ff3b30']
+    : running ? ['Running', '#34c759']
+    : ['Engine off', '#8e8e93']
+  return (
+    <span className="flex items-center gap-1.5 px-2.5 h-8 rounded-full bg-black/40 border border-[var(--panel-border)] text-[11px] font-bold uppercase tracking-widest" style={{ color }}>
+      <span className="w-2 h-2 rounded-full" style={{ background: color, boxShadow: running || state === 'animating' ? `0 0 6px ${color}` : 'none' }} />
+      {label}
+    </span>
   )
 }
