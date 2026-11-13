@@ -2,10 +2,23 @@
 
 A pixel-art browser game where you build, tune, and diagnose cars. No driving — pure constraint-satisfaction puzzle. Spec a build, fire the ignition, and see if your machine holds together.
 
-
-<img width="1875" height="929" alt="image" src="https://github.com/user-attachments/assets/a7b93a52-fc2a-4276-8fbb-cc0f74d03ac3" />
+![The garage: diagnostics, the dyno bay with the hood open, and the mission card](docs/screenshots/garage.jpg)
 
 https://youtu.be/RN81UVjhU4o
+
+## Screenshots
+
+**12 cars, each built in Blender and rendered as layered pixel-art states**: hood, engine, wheels, lights, smoke and every visible part are separate layers that change with what you install.
+
+![All 12 cars on the dyno](docs/screenshots/fleet.jpg)
+
+| Fire it up and see what breaks | Turn it round in the 360 view |
+|---|---|
+| ![An overheated build failing on the dyno, smoke and fire from the bay](docs/screenshots/engine-failure.jpg) | ![A car turning in the 360 viewer](docs/screenshots/spin-360.gif) |
+
+| Storage hall | Parts shop | Black Market |
+|---|---|---|
+| ![The storage hall, a numbered bay per car](docs/screenshots/storage.jpg) | ![The parts shop, filtered by slot](docs/screenshots/parts-shop.jpg) | ![The Black Market: tier-4 parts, no warranty](docs/screenshots/black-market.jpg) |
 
 ## Stack
 
@@ -28,6 +41,12 @@ Open `http://localhost:5173`
 npm test          # run engine unit tests once
 npm run test:watch  # watch mode
 npm run build     # production build
+```
+
+For itch.io, build one self-contained `index.html` (every sprite inlined, so it stays under itch's 1,000-file limit for HTML5 games) and zip `build/itch`:
+
+```bash
+BUILD_TARGET=itch npx vite build --outDir build/itch
 ```
 
 ## How It Works
