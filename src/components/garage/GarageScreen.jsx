@@ -4,8 +4,6 @@ import { DiagnosticPanel } from '../diagnostic/DiagnosticPanel.jsx'
 import { GarageBay } from './GarageBay.jsx'
 import { ObjectivePanel } from './ObjectivePanel.jsx'
 import { IgnitionButton } from '../ignition/IgnitionButton.jsx'
-import { IgnitionSequence } from '../ignition/IgnitionSequence.jsx'
-import { BenchmarkResultCard } from '../ignition/BenchmarkResultCard.jsx'
 import { PartsShop } from '../shop/PartsShop.jsx'
 import { BlackMarketShop } from '../shop/BlackMarketShop.jsx'
 import { InventoryModal } from '../shop/InventoryModal.jsx'
@@ -25,7 +23,6 @@ export function GarageScreen() {
   const [inventoryOpen, setInventory]     = useState(false)
   const [blackMarketOpen, setBlackMarket] = useState(false)
 
-  const ignitionResult  = useGameStore(s => s.ignitionResult)
   const missionComplete = useGameStore(s => s.missionCompleteData)
   const getObjective    = useGameStore(s => s.getActiveObjective)
   const objective       = getObjective()
@@ -49,8 +46,6 @@ export function GarageScreen() {
   // Overlays are scoped to the workspace on desktop so diagnostics stay visible
   const overlays = (
     <>
-      <IgnitionSequence />
-      {ignitionResult  && <BenchmarkResultCard />}
       {shopOpen && (
         <PartsShop
           filterSlot={shopSlot}
@@ -95,7 +90,7 @@ export function GarageScreen() {
       <div className="flex-1 flex overflow-hidden min-h-0">
 
         {/* Left — Diagnostic panel (never covered by overlays) */}
-        <aside className="w-[18vw] min-w-[256px] shrink-0 border-r border-[var(--panel-border)] overflow-y-auto p-4 bg-[var(--panel-bg)]/80 backdrop-blur-sm z-10 panel-scanline">
+        <aside className="w-[22vw] min-w-[280px] max-w-[340px] shrink-0 border-r border-[var(--panel-border)] overflow-hidden p-3 bg-[var(--panel-bg)]/80 backdrop-blur-sm z-10 panel-scanline">
           <DiagnosticPanel onSlotClick={handleSlotClick} />
         </aside>
 
@@ -108,7 +103,7 @@ export function GarageScreen() {
           </div>
 
           {/* Right — Objective & stats panel */}
-          <aside className="w-[20vw] min-w-[272px] shrink-0 border-l border-[var(--panel-border)] bg-[var(--panel-bg)]/80 backdrop-blur-sm overflow-hidden panel-scanline">
+          <aside className="w-[22vw] min-w-[290px] max-w-[340px] shrink-0 border-l border-[var(--panel-border)] bg-[var(--panel-bg)]/80 backdrop-blur-sm overflow-hidden panel-scanline">
             <ObjectivePanel />
           </aside>
 

@@ -6,7 +6,10 @@ import { CAR_SPRITES, CAR_ROTATION_KEYS, garage_bg } from '../../assets/spriteMa
 import { ExhaustFlames } from '../effects/ExhaustFlames.jsx'
 import { IgnitionFlash } from '../effects/IgnitionFlash.jsx'
 import { FailureEffects } from '../effects/FailureEffects.jsx'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
+import { statePack, lidName } from '../../assets/carStates.js'
+import { CarStage, SpinViewer } from './CarStage.jsx'
+import { StorageHall } from './StorageHall.jsx'
 
 // garage_bg.png and every car sprite share the same 256×256 pixel grid; each car
 // is drawn parked on the lift mat (center X 127.5, bottom Y 173). The room itself
@@ -48,7 +51,18 @@ export function GarageBay() {
   const ignitionSuccess = ignitionResult?.outcome !== 'catastrophic_failure' && !!ignitionResult
   const showFlames      = ignitionSuccess || engineRunning
   const [flashDone, setFlashDone] = useState(false)
+  // Cars rendered from Blender as layered states get the dyno stage and its controls
+  const pack = statePack(activeCar)
+  const [hoodOpen, setHoodOpen]   = useState(true)    // open by default: the engine is the point
+  const [lightsPref, setLights]   = useState(null)   // null = follow the engine
+  const [spinOpen, setSpinOpen]   = useState(false)
+  const [storageOpen, setStorage] = useState(false)
+  useEffect(() => { setHoodOpen(true); setLights(null) }, [activeCar])
+  const computed = useGameStore(s => s.computed)
+  const hasPower = !(computed?.activeTags ?? []).some(t => t.id === 'wont_turn_over')
+  useEffect(() => { if (!hasPower) setLights(null) }, [hasPower])
   const blewUp = ignitionResult?.outcome === 'catastrophic_failure' && !ignitionResult.isTestFit
+    && !ignitionResult.noPower && !['wont_turn_over', 'no_spark', 'no_compression', 'fuel_starved'].includes(ignitionResult.tag)
   const shake  = ignitionState === 'animating' ? 'crank'
     : blewUp ? 'blowup'
     : ignitionSuccess && !ignitionResult.isTestFit ? 'catch'
@@ -78,17 +92,27 @@ export function GarageBay() {
   }
 
   return (
-    <div className="absolute inset-0 bg-black overflow-hidden" style={{ containerType: 'size' }}>
+    <div className="absolute inset-0 bg-black overflow-hidden flex flex-col">
 
-      {/* Navigation arrows — always visible since all cars are browsable */}
-      <button
-        onClick={handlePrev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 text-[var(--accent-yellow)] hover:bg-black/80 hover:scale-110 rounded-full flex items-center justify-center text-xl z-20 transition-all cursor-pointer border border-[var(--panel-border)]"
-      >◀</button>
-      <button
-        onClick={handleNext}
-        className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 text-[var(--accent-yellow)] hover:bg-black/80 hover:scale-110 rounded-full flex items-center justify-center text-xl z-20 transition-all cursor-pointer border border-[var(--panel-border)]"
-      >▶</button>
+      {/* Top bar: which car, and switching between them. Nothing sits on the car itself. */}
+      <div className="shrink-0 flex items-center gap-2 px-2 py-1.5 bg-[var(--panel-bg)] border-b border-[var(--panel-border)] z-20">
+        <button onClick={handlePrev} aria-label="Previous car"
+          className="w-8 h-8 shrink-0 rounded-full border border-[var(--panel-border)] text-[var(--accent-yellow)] hover:bg-[var(--panel-border)] cursor-pointer">◀</button>
+        <div className="flex-1 min-w-0 text-center">
+          <p className="text-[var(--text-primary)] font-bold text-sm leading-tight truncate">{car?.name}</p>
+          <p className="text-[var(--text-muted)] text-[11px] leading-tight truncate">
+            {isLocked
+              ? (car?.black_market_price ? '🔒 Sold on the Black Market' : '🔒 Locked — clear missions to unlock')
+              : `${car?.driveline} · Tier ${car?.tier} · ${car?.starting_condition}`}
+            <span className="ml-2 opacity-70">{currentIndex + 1}/{browsableCars.length}</span>
+          </p>
+        </div>
+        <button onClick={handleNext} aria-label="Next car"
+          className="w-8 h-8 shrink-0 rounded-full border border-[var(--panel-border)] text-[var(--accent-yellow)] hover:bg-[var(--panel-border)] cursor-pointer">▶</button>
+      </div>
+
+      {/* The scene */}
+      <div className="relative flex-1 min-h-0 overflow-hidden" style={{ containerType: 'size' }}>
 
       {/* Backdrop: blurred garage so wide or tall bays never show black bars */}
       <img
@@ -105,7 +129,10 @@ export function GarageBay() {
         animate={SHAKES[shake].animate}
         transition={SHAKES[shake].transition}
       >
-      {/* Stage: square, centered on the car-and-lift band, shared by background, car and effects */}
+      {pack ? (
+        <CarStage pack={pack} hoodOpen={hoodOpen} lightsOn={lightsPref ?? undefined} locked={isLocked} />
+      ) : (
+      /* Stage: square, centered on the car-and-lift band, shared by background, car and effects */
       <div
         className="absolute pointer-events-none"
         style={{
@@ -170,21 +197,62 @@ export function GarageBay() {
 
         {blewUp && <FailureEffects fire={FIRE_TAGS.has(ignitionResult.tag)} />}
       </div>
+      )}
+      {pack && ignitionSuccess && (
+        <IgnitionFlash active={!flashDone && ignitionSuccess} onDone={() => setFlashDone(true)} />
+      )}
       </motion.div>
 
-      {/* Car label */}
-      {car && (
-        <div className="absolute top-4 left-4 z-10">
-          <p className="text-[var(--text-primary)] font-bold text-base tracking-wide drop-shadow-lg">
-            {car.name}
-          </p>
-          <p className="text-[var(--text-muted)] text-sm drop-shadow-lg">
-            {isLocked
-              ? '🔒 Locked — complete prior missions to unlock'
-              : `${car.driveline} · Tier ${car.tier} · ${car.starting_condition}`}
-          </p>
-        </div>
-      )}
+      </div>
+
+      {/* Bottom bar: storage, the view controls, and what the engine is doing */}
+      <div className="shrink-0 flex items-center gap-1.5 px-2 py-1.5 bg-[var(--panel-bg)] border-t border-[var(--panel-border)] z-20">
+        <button onClick={() => { play('cursor'); setStorage(true) }}
+          className="px-3 h-8 rounded-full text-[11px] font-bold tracking-widest uppercase border cursor-pointer bg-black/40 text-[var(--accent-yellow)] border-[var(--panel-border)] hover:bg-[var(--panel-border)]">
+          ▦ Storage
+        </button>
+        <EngineChip state={ignitionState} running={engineRunning} noPower={!hasPower}
+          failed={ignitionResult?.outcome === 'catastrophic_failure' && !ignitionResult?.isTestFit} />
+        {pack && !isLocked && (
+          <div className="ml-auto flex rounded-full border border-[var(--panel-border)] overflow-hidden">
+            {[
+              { label: lidName(pack) === 'hood' ? 'Hood' : 'Engine lid', on: hoodOpen, act: () => setHoodOpen(v => !v) },
+              { label: 'Lights', on: hasPower && (lightsPref ?? engineRunning), act: () => setLights(v => !(v ?? engineRunning)),
+                disabled: !hasPower, why: 'No power: fit a battery first' },
+              { label: '360°', on: false, act: () => setSpinOpen(true) },
+            ].map((b, i) => (
+              <button key={b.label} onClick={() => { if (b.disabled) return; play('cursor'); b.act() }} aria-pressed={b.on}
+                disabled={b.disabled} title={b.disabled ? b.why : undefined}
+                className={`px-3 h-8 text-[11px] font-bold tracking-widest uppercase cursor-pointer transition-colors ${i ? 'border-l border-[var(--panel-border)]' : ''} ${
+                  b.disabled ? 'bg-black/40 text-[var(--text-muted)] opacity-40 cursor-not-allowed line-through'
+                  : b.on ? 'bg-[var(--accent-yellow)] text-black' : 'bg-black/40 text-[var(--accent-yellow)] hover:bg-[var(--panel-border)]'}`}>
+                {b.label}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <AnimatePresence>
+        {pack && spinOpen && <SpinViewer pack={pack} onClose={() => setSpinOpen(false)} />}
+        {storageOpen && <StorageHall onClose={() => setStorage(false)} />}
+      </AnimatePresence>
+
     </div>
+  )
+}
+
+// What the engine is doing, in one word, beside the controls
+function EngineChip({ state, running, failed, noPower }) {
+  const [label, color] = state === 'animating' ? ['Cranking', '#ffb020']
+    : noPower && !running ? ['No power', '#ff3b30']
+    : failed ? ['Failed', '#ff3b30']
+    : running ? ['Running', '#34c759']
+    : ['Engine off', '#8e8e93']
+  return (
+    <span className="flex items-center gap-1.5 px-2.5 h-8 rounded-full bg-black/40 border border-[var(--panel-border)] text-[11px] font-bold uppercase tracking-widest" style={{ color }}>
+      <span className="w-2 h-2 rounded-full" style={{ background: color, boxShadow: running || state === 'animating' ? `0 0 6px ${color}` : 'none' }} />
+      {label}
+    </span>
   )
 }

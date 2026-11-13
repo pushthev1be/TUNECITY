@@ -5,7 +5,7 @@ import spinner03 from '../../assets/ui/spinner03.png'
 
 // 6-phase startup sequence. Each phase shows at the given delay (ms).
 // Labels adapt based on the predicted outcome state.
-function buildPhases(predictionState) {
+export function buildPhases(predictionState) {
   const failing = predictionState === 'dead' || predictionState === 'catastrophic'
   const risky   = predictionState === 'detonation_risk' || predictionState === 'unstable'
 

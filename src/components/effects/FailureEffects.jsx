@@ -7,7 +7,7 @@ const FIRE_FRAMES = Object.keys(FIRE_RAW)
   .map(k => FIRE_RAW[k].default)
 
 // One looping fire column; x/y = stage % of its bottom-center, width = stage %
-function FireColumn({ x, y, width, delay = 0 }) {
+export function FireColumn({ x, y, width, delay = 0 }) {
   const [frame, setFrame] = useState(0)
 
   useEffect(() => {

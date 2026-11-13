@@ -43,6 +43,12 @@ body {
 }
 
 /* Engine idle: the car body shivers a pixel while it runs */
+/* Dash warning light: a fault blinks */
+@keyframes warn-blink {
+  0%   { opacity: 1; }
+  70%  { opacity: 0.35; }
+}
+
 @keyframes idle-rumble {
   0%   { transform: translate(0, 0); }
   50%  { transform: translate(0, -0.15%); }

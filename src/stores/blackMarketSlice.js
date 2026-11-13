@@ -1,4 +1,8 @@
 import blackMarketData from '../data/blackMarket.json'
+import carsData from '../data/cars.json'
+
+// Cars no mission hands out: the only way to get them is the Black Market
+export const BM_CARS = carsData.filter(c => c.black_market_price)
 
 const STOCK_SIZE = 3
 const LISTING_FEE_PCT = 0.05
@@ -47,6 +51,18 @@ export function createBlackMarketSlice(set, get) {
         bmStock: bmStock.filter(p => p.id !== partId),
       })
       get().addPart(partId)
+    },
+
+    // Buy one of the off-the-books cars: it joins the garage with its factory parts
+    buyBMCar(carId) {
+      const { bmUnlocked, currency, ownedCars } = get()
+      const car = BM_CARS.find(c => c.id === carId)
+      if (!bmUnlocked || !car) return false
+      if (ownedCars.some(c => c.car_id === carId)) return false
+      if (currency < car.black_market_price) return false
+      set({ currency: currency - car.black_market_price })
+      get().addCar(carId)
+      return true
     },
 
     listPartForSale(partId, askPrice) {

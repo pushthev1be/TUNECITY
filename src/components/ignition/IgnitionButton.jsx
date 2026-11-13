@@ -21,6 +21,7 @@ export function IgnitionButton({ onIgnite, compact = false }) {
   const showComplete    = useGameStore(s => s.showMissionComplete)
   const activeObjId     = useGameStore(s => s.activeObjectiveId)
   const installedParts  = useGameStore(s => s.installedParts)
+  const rev             = useGameStore(s => s.rev)
 
   const prediction    = computed?.prediction ?? { state: 'dead', label: "No Build", confidence: 0, color: '#6b7280' }
   const willFail      = FAILING_STATES.has(prediction.state)
@@ -32,6 +33,14 @@ export function IgnitionButton({ onIgnite, compact = false }) {
 
   function handleIgnite() {
     if (ignitionState !== 'idle') return
+    // No power (no battery, dead electrics): the key clicks and nothing turns.
+    if ((computed?.activeTags ?? []).some(t => t.id === 'wont_turn_over')) {
+      play('cursor')
+      const car = getActiveCar()
+      const build = { car_id: car?.id, installed_parts: installedParts, computed }
+      setResult({ ...resolveIgnition(build, car, getObjective()), noPower: true })
+      return
+    }
     play('ignite')
     startLoop('crank')
     startAnimation()
@@ -50,7 +59,7 @@ export function IgnitionButton({ onIgnite, compact = false }) {
         // No-start failures: the starter winds down; mechanical ones blow up
         play(NO_START_TAGS.has(result.tag) ? 'ignition_fail' : hasTurbo ? 'turbo_fail' : 'engine_fail',
           NO_START_TAGS.has(result.tag) ? { offset: 1.0 } : undefined)
-        destroyParts(result.destroyed_slots)
+        destroyParts(result.destroyed_slots, { tag: result.tag, label: result.tag_label })
       } else if (result.outcome === 'success' && result.objective_met && activeObjId) {
         play('car_start')
         setTimeout(() => play('mission_complete'), 900)
@@ -79,6 +88,7 @@ export function IgnitionButton({ onIgnite, compact = false }) {
 
   function handleRev() {
     play('rev')
+    rev()
   }
 
   const disabled = ignitionState !== 'idle'

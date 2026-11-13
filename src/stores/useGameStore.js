@@ -13,6 +13,7 @@ export const SAVE_FIELDS = [
   'activeCar',
   'installedParts',
   'installedPartsByCar',
+  'damageByCar',
   'completedObjectives',
   'activeObjectiveId',
   'bmUnlocked',

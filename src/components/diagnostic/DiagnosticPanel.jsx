@@ -4,126 +4,80 @@ import { StatBars } from './StatBars.jsx'
 import { IssuesList } from './IssuesList.jsx'
 import { PartsList } from './PartsList.jsx'
 import { ContributionBreakdown } from './ContributionBreakdown.jsx'
-import { RotatingSprite } from '../shared/RotatingSprite.jsx'
-import { CAR_ROTATION_KEYS } from '../../assets/spriteMap.js'
-import carsData from '../../data/cars.json'
-import { Money } from '../shared/Money.jsx'
+import { Section, CountBadge } from '../shared/Section.jsx'
+import { Gauge } from '../gauges/Gauge.jsx'
+import { WarningLights } from '../gauges/WarningLights.jsx'
 
 const SMOKE_LABEL = {
-  white: { text: 'White Smoke',  sub: 'Coolant burning — overheating',  color: 'text-gray-200' },
-  blue:  { text: 'Blue Smoke',   sub: 'Oil burning — heat stress',       color: 'text-blue-400' },
-  black: { text: 'Black Smoke',  sub: 'Rich mix / drivetrain stress',    color: 'text-gray-400' },
-  grey:  { text: 'Grey Smoke',   sub: 'Incomplete combustion',           color: 'text-gray-500' },
+  white: { text: 'White smoke', sub: 'coolant burning — overheating', color: 'text-gray-200' },
+  blue:  { text: 'Blue smoke',  sub: 'oil burning — heat stress',      color: 'text-blue-400' },
+  black: { text: 'Black smoke', sub: 'rich mix / drivetrain stress',   color: 'text-gray-400' },
+  grey:  { text: 'Grey smoke',  sub: 'incomplete combustion',          color: 'text-gray-500' },
 }
 
-const CONDITION_COLOR = {
-  'Running':         'text-[var(--tag-positive)]',
-  'Good':            'text-[var(--tag-positive)]',
-  'Worn':            'text-[var(--accent-yellow)]',
-  'Fair':            'text-[var(--accent-yellow)]',
-  'Poor':            'text-[var(--accent-red)]',
-  'Project Car':     'text-[var(--tag-character)]',
-  'Rough':           'text-[var(--accent-red)]',
-}
-
+// Left panel: the car's health. Most urgent first: will it start, the dash,
+// what to fix, then the parts to fix it with. The rest folds away under Details.
 export function DiagnosticPanel({ onSlotClick }) {
-  const computed   = useGameStore(s => s.computed)
-  const currency   = useGameStore(s => s.currency)
-  const activeCar  = useGameStore(s => s.activeCar)
-
-  const prediction  = computed?.prediction
-  const smokeColor  = computed?.smokeColor
-  const car         = carsData.find(c => c.id === activeCar)
+  const computed  = useGameStore(s => s.computed)
+  const prediction = computed?.prediction
+  const smokeColor = computed?.smokeColor
+  const stats      = computed?.stats ?? {}
+  const issues     = computed?.issues ?? []
+  const tags       = computed?.activeTags ?? []
+  const heatRatio  = (stats.heat_output ?? 0) / Math.max(1, stats.cooling_capacity ?? 1)
+  const critical   = issues.filter(i => i.severity === 'critical' || i.severity === 'severe').length
 
   return (
-    <div className="flex flex-col gap-4 h-full overflow-y-auto">
+    <div className="flex flex-col gap-3 h-full overflow-y-auto pr-0.5">
 
-      {/* Active Vehicle card */}
-      {car && (
-        <div className="flex items-center gap-3 px-2 py-2 rounded bg-[var(--garage-bg)] border border-[var(--panel-border)]">
-          <div className="shrink-0 -my-3">
-            {CAR_ROTATION_KEYS[activeCar]
-              ? <RotatingSprite spriteKey={CAR_ROTATION_KEYS[activeCar]} size={76} fps={4} />
-              : <div className="w-[76px] h-[76px] bg-[var(--panel-border)] rounded opacity-30" />
-            }
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="text-[var(--text-primary)] font-bold text-xs truncate leading-tight">{car.name}</p>
-            <p className="text-[var(--text-muted)] text-xs mt-0.5">{car.driveline} · Tier {car.tier}</p>
-            <p className={`text-xs mt-0.5 font-semibold ${CONDITION_COLOR[car.starting_condition] ?? 'text-[var(--text-muted)]'}`}>
-              {car.starting_condition}
-            </p>
-          </div>
-        </div>
-      )}
-
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <h2 className="text-[var(--accent-yellow)] font-bold tracking-widest uppercase text-sm">
-          Diagnostic
-        </h2>
-        <Money amount={currency} className="text-[var(--tag-positive)] text-sm" />
-      </div>
-
-      {/* Ignition prediction */}
+      {/* Will it start? */}
       {prediction && (
-        <div
-          className="flex items-center justify-between px-2 py-1.5 rounded text-xs font-bold"
-          style={{
-            backgroundColor: prediction.color + '18',
-            borderLeft: `3px solid ${prediction.color}`,
-            color: prediction.color,
-          }}
-        >
-          <span className="uppercase tracking-wide">{prediction.label}</span>
-          <span className="font-normal text-[var(--text-muted)]">
-            {Math.round((prediction.confidence ?? 0) * 100)}% confidence
-          </span>
-        </div>
+        <section className="rounded-lg p-3 border" style={{ borderColor: prediction.color + '66', background: prediction.color + '14' }}>
+          <p className="text-[10px] tracking-[0.18em] uppercase text-[var(--text-muted)]">Will it start?</p>
+          <p className="font-bold text-base leading-tight mt-0.5" style={{ color: prediction.color }}>{prediction.label}</p>
+          <div className="flex items-center gap-2 mt-2">
+            <div className="flex-1 h-1.5 rounded-full bg-black/50 overflow-hidden">
+              <div className="h-full rounded-full transition-all duration-500"
+                style={{ width: `${Math.round((prediction.confidence ?? 0) * 100)}%`, background: prediction.color }} />
+            </div>
+            <span className="text-[10px] text-[var(--text-muted)] tabular-nums">{Math.round((prediction.confidence ?? 0) * 100)}% sure</span>
+          </div>
+          {smokeColor && SMOKE_LABEL[smokeColor] && (
+            <p className="text-xs mt-2">
+              <span className={`font-bold ${SMOKE_LABEL[smokeColor].color}`}>{SMOKE_LABEL[smokeColor].text}</span>
+              <span className="text-[var(--text-muted)]"> — {SMOKE_LABEL[smokeColor].sub}</span>
+            </p>
+          )}
+        </section>
       )}
 
-      {/* Smoke color indicator */}
-      {smokeColor && SMOKE_LABEL[smokeColor] && (
-        <div className="flex items-center gap-2 px-2 py-1 rounded bg-[var(--panel-bg)] border border-[var(--panel-border)] text-xs">
-          <span className="text-base">🌫</span>
-          <span>
-            <span className={`font-bold ${SMOKE_LABEL[smokeColor].color}`}>
-              {SMOKE_LABEL[smokeColor].text}
-            </span>
-            <span className="text-[var(--text-muted)] ml-1">— {SMOKE_LABEL[smokeColor].sub}</span>
-          </span>
+      {/* The dash: warning lights and the two health gauges */}
+      <Section title="Dash" accent="#7CFFB2">
+        <WarningLights activeTags={tags} smokeColor={smokeColor} />
+        <div className="flex justify-around mt-2 -mb-1">
+          <Gauge label="TEMP" faceText="C        H" value={Math.min(heatRatio, 1.6)} min={0} max={1.6} majors={4}
+            scaleLabel={() => ''} red={[1.0, 1.6]} readout={`${Math.round(heatRatio * 100)}%`} size={112} accent="#ff8a1f" />
+          <Gauge label="RELIAB" faceText="%" value={stats.reliability ?? null} min={0} max={100} majors={5}
+            red={[0, 40]} unit="%" size={112} accent="#7CFFB2" />
         </div>
-      )}
+      </Section>
 
-      {/* Tags */}
-      <section>
-        <p className="text-[var(--text-muted)] text-xs uppercase mb-1">Build Identity</p>
-        <TagBadges activeTags={computed?.activeTags ?? []} />
-      </section>
+      <Section title="Problems to fix" accent="var(--accent-red)" badge={<CountBadge n={issues.length} color={critical ? 'var(--accent-red)' : 'var(--accent-yellow)'} />}>
+        {issues.length ? <IssuesList issues={issues} /> : <p className="text-xs text-[var(--text-muted)]">Nothing wrong with this build.</p>}
+      </Section>
 
-      {/* Issues */}
-      <section>
-        <p className="text-[var(--text-muted)] text-xs uppercase mb-1">Issues</p>
-        <IssuesList issues={computed?.issues ?? []} />
-      </section>
-
-      {/* Stats */}
-      <section>
-        <p className="text-[var(--text-muted)] text-xs uppercase mb-1">Stats</p>
-        <StatBars stats={computed?.stats ?? {}} />
-      </section>
-
-      {/* Contribution Breakdown */}
-      <section>
-        <p className="text-[var(--text-muted)] text-xs uppercase mb-1">Part Contributions</p>
-        <ContributionBreakdown />
-      </section>
-
-      {/* Parts */}
-      <section>
-        <p className="text-[var(--text-muted)] text-xs uppercase mb-2">Installed Parts</p>
+      <Section title="Installed parts" accent="var(--accent-yellow)" badge={<span className="text-[10px] text-[var(--text-muted)]">tap a slot to shop</span>}>
         <PartsList onSlotClick={onSlotClick} />
-      </section>
+      </Section>
+
+      <Section title="Details" accent="var(--text-muted)" collapsible defaultOpen={false}>
+        <p className="text-[10px] uppercase tracking-widest text-[var(--text-muted)] mb-1">Build identity</p>
+        <TagBadges activeTags={tags} />
+        <p className="text-[10px] uppercase tracking-widest text-[var(--text-muted)] mt-3 mb-1">All stats</p>
+        <StatBars stats={stats} />
+        <p className="text-[10px] uppercase tracking-widest text-[var(--text-muted)] mt-3 mb-1">Part contributions</p>
+        <ContributionBreakdown />
+      </Section>
     </div>
   )
 }

@@ -5,6 +5,8 @@ import { PART_SPRITES, underground_sign } from '../../assets/spriteMap.js'
 import { Button } from '../shared/Button.jsx'
 import { Money, Price } from '../shared/Money.jsx'
 import { play } from '../../utils/sfx.js'
+import { BM_CARS } from '../../stores/blackMarketSlice.js'
+import { CAR_SPRITES } from '../../assets/spriteMap.js'
 
 const TIER_COLORS = ['', 'text-gray-400', 'text-[var(--tag-character)]', 'text-[var(--accent-yellow)]', 'text-[var(--accent-red)]']
 const TIER_LABELS = ['', 'Stock', 'Street', 'Performance', 'Legend']
@@ -83,6 +85,30 @@ function SellRow({ part, qty, onSell, onScrap }) {
   )
 }
 
+// A car under a sheet: a black silhouette until it's yours
+function BMCarCard({ car, owned, canAfford, onBuy, onDrive }) {
+  return (
+    <div className={`flex flex-col items-center gap-1.5 p-2.5 rounded-lg border ${
+      owned ? 'border-[var(--tag-positive)]/50 bg-[var(--tag-positive)]/5'
+        : canAfford ? 'border-[var(--accent-red)]/60 bg-[var(--accent-red)]/5' : 'border-[var(--panel-border)] bg-[var(--panel-bg)]/40'}`}>
+      <img src={CAR_SPRITES[car.id]} alt={owned ? car.name : 'Unknown car'} className="w-24 h-24 object-contain"
+        style={{ imageRendering: 'pixelated', filter: owned ? 'none' : 'brightness(0) drop-shadow(0 0 6px rgba(255,59,48,0.45))' }} />
+      <p className="text-[var(--text-primary)] text-xs font-bold text-center leading-tight">{owned ? car.name : '???'}</p>
+      <p className="text-[var(--text-muted)] text-[10px] text-center">{car.driveline} · Tier {car.tier} · {car.starting_condition}</p>
+      {owned ? (
+        <Button variant="default" className="text-xs px-3 py-1 w-full" onClick={onDrive}>In your garage →</Button>
+      ) : (
+        <>
+          <Price amount={car.black_market_price} className="text-[var(--accent-yellow)] text-sm font-bold" />
+          <Button variant="danger" className="text-xs px-3 py-1 w-full" disabled={!canAfford} onClick={onBuy}>
+            {canAfford ? 'Buy blind' : 'Need $' + car.black_market_price.toLocaleString()}
+          </Button>
+        </>
+      )}
+    </div>
+  )
+}
+
 export function BlackMarketShop({ onClose }) {
   const [tab, setTab] = useState('buy')
 
@@ -94,6 +120,9 @@ export function BlackMarketShop({ onClose }) {
   const sellPart    = useGameStore(s => s.sellPart)
   const scrapPart   = useGameStore(s => s.scrapPart)
   const refreshBM   = useGameStore(s => s.refreshBMStock)
+  const buyBMCar    = useGameStore(s => s.buyBMCar)
+  const ownedCars   = useGameStore(s => s.ownedCars)
+  const setActiveCar = useGameStore(s => s.setActiveCar)
 
   // Sellable inventory: all parts with qty > 0
   const allSellable = allParts.filter(p => (ownedParts[p.id] ?? 0) > 0)
@@ -138,6 +167,22 @@ export function BlackMarketShop({ onClose }) {
         <div className="flex-1 overflow-y-auto p-4">
           {tab === 'buy' && (
             <div className="space-y-3">
+              {bmUnlocked && (
+                <section className="pb-3 mb-1 border-b border-[var(--accent-red)]/30">
+                  <p className="text-[var(--accent-red)] text-xs font-bold uppercase tracking-widest">Off the books</p>
+                  <p className="text-[var(--text-muted)] text-xs mb-2">Cars no mission will hand you. Sold under a sheet: you see it when you've paid.</p>
+                  <div className="grid grid-cols-3 gap-2">
+                    {BM_CARS.map(car => {
+                      const owned = ownedCars.some(c => c.car_id === car.id)
+                      return (
+                        <BMCarCard key={car.id} car={car} owned={owned} canAfford={currency >= car.black_market_price}
+                          onBuy={() => { if (buyBMCar(car.id)) play('buy') }}
+                          onDrive={() => { play('cursor'); setActiveCar(car.id); onClose() }} />
+                      )
+                    })}
+                  </div>
+                </section>
+              )}
               <div className="flex justify-between items-center mb-1">
                 <p className="text-[var(--text-muted)] text-xs">Today's supply — {bmStock.length} item{bmStock.length !== 1 ? 's' : ''} available</p>
                 <button
